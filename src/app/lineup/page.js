@@ -1,10 +1,11 @@
 import { getBands } from "@/app/lib/api";
 import ArtistCard from "../components/ArtistCard";
 import Image from "next/image";
+import { getLogoUrl } from "@/app/lib/utils";
 
-const ImageLoader = ({ src, width, quality }) => {
-  return `https://localhost:8080/${src}?w${width}&q=${quality || 75}`;
-};
+// const ImageLoader = ({ src, width, quality }) => {
+//   return `https://localhost:8080/${src}?w${width}&q=${quality || 75}`;
+// };
 
 export default async function Home() {
   const bands = await getBands();
@@ -22,11 +23,10 @@ export default async function Home() {
             <li key={band.slug}>
               <p>{band.name}</p>
               <Image
-                loader={ImageLoader}
-                src="logos"
+                src={getLogoUrl(band.logo)}
+                alt={`Billede af ${band.name}`}
                 width={500}
                 height={250}
-                alt="billede af bandet"
               />
             </li>
           ))}
