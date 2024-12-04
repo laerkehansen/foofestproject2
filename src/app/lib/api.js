@@ -9,9 +9,11 @@ const headersList = {
 
 export async function getBands() {
   const response = await fetch(`${url}/bands`);
+
   const data = await response.json();
   return data;
 }
+
 // skal i bruges signel for det er for det enklte
 // export async function getSingleBands() {
 //   const response = await fetch(`${url}/bands/tool`, {
@@ -37,7 +39,7 @@ export async function getSchedule() {
   const response = await fetch(`${url}/schedule`, {
     method: "GET",
     headers: headersList,
-    // body: JSON.stringify(),
+    body: JSON.stringify(),
   });
 
   const data = await response.json();
