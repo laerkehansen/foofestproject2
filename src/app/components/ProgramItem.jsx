@@ -10,7 +10,12 @@ const ProgramItem = ({ band }) => {
         href={`/lineup/${slug}`}
         className="flex border border-black w-svw items-center"
       >
-        <Image src={getLogoUrl(logo)} height={100} width={150}></Image>
+        <Image
+          src={getLogoUrl(logo)}
+          height={100}
+          width={150}
+          alt={name}
+        ></Image>
         <h1 className="text-8xl">{name}</h1>
       </Link>
     </li>
