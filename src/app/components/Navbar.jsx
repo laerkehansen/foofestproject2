@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed w-full h-24 shadow-xl bg-white">
+    <nav className="fixed w-full h-24 shadow-xl bg-white z-20">
       <div className="flex justify-between items-center h-full w-full px-10">
         <Link href="/">
           <div>Left side</div>
@@ -26,7 +26,7 @@ const Navbar = () => {
             <Link href="/">
               <li className="Hover:border-b">Lineup</li>
             </Link>
-            <Link href="/">
+            <Link href="/program">
               <li className="Hover:border-b">Program</li>
             </Link>
           </ul>
@@ -59,7 +59,7 @@ const Navbar = () => {
                 Kontakt
               </li>
             </Link>
-            <Link href="/">
+            <Link href="/lineup">
               <li
                 onClick={() => setMenuOpen(false)}
                 className="Hover:border-b text-3xl"
