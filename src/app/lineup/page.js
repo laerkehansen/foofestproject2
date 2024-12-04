@@ -1,6 +1,7 @@
 import { getBands } from "@/app/lib/api";
 import ArtistCard from "../components/ArtistCard";
 import Image from "next/image";
+import ArtisList from "../components/ArtistList";
 import { getLogoUrl } from "@/app/lib/utils";
 
 // const ImageLoader = ({ src, width, quality }) => {
@@ -12,26 +13,21 @@ export default async function Home() {
   console.log(bands);
 
   return (
-    <div className="grid justify-items-center items-center h-svh w-svw">
-      <div>
+    <div>
+      <ArtisList bands={bands} />
+      {/* <div>
         <h1 className="text-4xl font-bold text-center sm:text-left">bands</h1>
-        <ArtistCard />
       </div>
       <div className="bg-gray-800 self-start p-4 rounded">
         <ul className="flex flex-wrap gap-3 max-w-sm">
           {bands.map((band) => (
             <li key={band.slug}>
-              <p>{band.name}</p>
-              <Image
-                src={getLogoUrl(band.logo)}
-                alt={`Billede af ${band.name}`}
-                width={500}
-                height={250}
-              />
+              <ArtistCard band={band} />
+    
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 }
