@@ -23,7 +23,7 @@ const Navbar = () => {
             <Link href="/">
               <li className="Hover:border-b">Kontakt</li>
             </Link>
-            <Link href="/">
+            <Link href="/lineup">
               <li className="Hover:border-b">Lineup</li>
             </Link>
             <Link href="/program">
