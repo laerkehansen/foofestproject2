@@ -1,11 +1,20 @@
-// next.config.mjs
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      "localhost", // Tillader billeder fra localhost
-      "placeimg.com", // Eksterne billeder
-      "picsum.photos", // Eksterne billeder
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "picsum.photos",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "8080",
+      },
+      {
+        protocol: "https",
+        hostname: "cerulean-abrupt-sunshine.glitch.me",
+      },
     ],
   },
 };
