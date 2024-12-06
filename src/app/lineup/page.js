@@ -3,7 +3,8 @@ import ArtistCard from "../components/ArtistCard";
 import Image from "next/image";
 import ArtisList from "../components/ArtistList";
 import { getLogoUrl } from "@/app/lib/utils";
-import FilterLineup from "../components/FilterLineup";
+import FilterLineup from "../components/SearchFilterLineup";
+import ArtistApp from "../components/ArtistApp";
 
 // const ImageLoader = ({ src, width, quality }) => {
 //   return `https://localhost:8080/${src}?w${width}&q=${quality || 75}`;
@@ -15,8 +16,9 @@ export default async function Home() {
 
   return (
     <div>
-      <FilterLineup></FilterLineup>
-      <ArtisList bands={bands} />
+      <ArtistApp bands={bands} />
+      {/* <FilterLineup></FilterLineup>
+      <ArtisList bands={bands} /> */}
       {/* <div>
         <h1 className="text-4xl font-bold text-center sm:text-left">bands</h1>
       </div>
