@@ -1,5 +1,11 @@
+import Button from "./components/BtnFilter";
 import Navbar from "./components/navbar";
+<Button></Button>;
 
 export default function Home() {
-  return <Navbar />;
+  return (
+    <div>
+      <Button></Button>
+    </div>
+  );
 }
