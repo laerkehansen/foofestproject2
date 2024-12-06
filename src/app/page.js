@@ -1,11 +1,11 @@
-import Button from "./components/BtnFilter";
-import Navbar from "./components/navbar";
-<Button></Button>;
+import FrontHeroSection from "./components/FrontHeroSection";
+import NowPlaying from "./components/NowPlaying";
 
 export default function Home() {
   return (
     <div>
-      <Button></Button>
+      <FrontHeroSection />
+      <NowPlaying />
     </div>
   );
 }

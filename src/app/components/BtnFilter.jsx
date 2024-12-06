@@ -1,4 +1,4 @@
-const Button = () => {
+const SkewButton = () => {
   return (
     <div className="skew-x-12  skew-y-12 h-9 w-10   bg-black m-10 asp">
       Rock
@@ -6,4 +6,4 @@ const Button = () => {
   );
 };
 
-export default Button;
+export default SkewButton;

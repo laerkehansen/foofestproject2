@@ -21,6 +21,13 @@ module.exports = {
         darkblue: "#022859",
         pink: "#F20FCC",
         peach: "#F25E86",
+        green: "#00FF1A",
+      },
+      fontSize: {
+        heroText: "200px",
+      },
+      lineHeight: {
+        heroLeading: "8.9rem",
       },
     },
   },

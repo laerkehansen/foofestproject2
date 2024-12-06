@@ -22,7 +22,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="bg-white">
-        <header>{/* <Navbar></Navbar> */}</header>
+        <header>
+          <Navbar></Navbar>
+        </header>
         {children}
       </body>
     </html>

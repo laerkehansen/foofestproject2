@@ -25,6 +25,16 @@ export async function getBands() {
 //   return data;
 // }
 
+export async function getHeroImg() {
+  const response = await fetch(`${url}/bands/refused`, {
+    method: "GET",
+    headers: headersList,
+  });
+
+  const data = await response.json();
+  return data;
+}
+
 export async function getSingleBands(slug) {
   const response = await fetch(`${url}/bands/${slug}`, {
     method: "GET",

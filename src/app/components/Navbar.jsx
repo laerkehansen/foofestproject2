@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import Logo from "@/app/img/logo.svg";
 import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
 import { useState } from "react";
 
@@ -13,10 +15,10 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed w-full h-24 shadow-xl bg-white z-20">
+    <nav className="fixed w-full bg-transparent z-20 pt-6">
       <div className="flex justify-between items-center h-full w-full px-10">
         <Link href="/">
-          <div>Left side</div>
+          <Image src={Logo} width={98} height={38} alt="logo" />
         </Link>
         <div className="hidden">
           <ul className="hidden text-black gap-6 sm:flex">
