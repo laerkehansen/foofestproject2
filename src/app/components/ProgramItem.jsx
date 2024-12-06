@@ -16,7 +16,7 @@ const ProgramItem = ({ band }) => {
           width={150}
           alt={name}
         ></Image>
-        <h1 className="text-8xl">{name}</h1>
+        <h1 className="text-8xl font-Inter">{name}</h1>
       </Link>
     </li>
   );
