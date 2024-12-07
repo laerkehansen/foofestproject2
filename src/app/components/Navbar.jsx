@@ -20,19 +20,6 @@ const Navbar = () => {
         <Link href="/">
           <Image src={Logo} width={98} height={38} alt="logo" />
         </Link>
-        <div className="hidden">
-          <ul className="hidden text-black gap-6 sm:flex">
-            <Link href="/">
-              <li className="Hover:border-b">Kontakt</li>
-            </Link>
-            <Link href="/lineup">
-              <li className="Hover:border-b">Lineup</li>
-            </Link>
-            <Link href="/program">
-              <li className="Hover:border-b">Program</li>
-            </Link>
-          </ul>
-        </div>
         <div onClick={handleNav} className="cursor-pointer">
           <RxHamburgerMenu size={35} className="text-green" />
         </div>
@@ -69,7 +56,7 @@ const Navbar = () => {
                 Lineup
               </li>
             </Link>
-            <Link href="/">
+            <Link href="/program">
               <li
                 onClick={() => setMenuOpen(false)}
                 className="Hover:border-b text-3xl"
