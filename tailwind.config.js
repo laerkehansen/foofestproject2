@@ -22,6 +22,26 @@ module.exports = {
         pink: "#F20FCC",
         peach: "#F25E86",
         green: "#00FF1A",
+        customPink: {
+          DEFAULT: "oklch(67% 0.2901 354.71)", // OKLCH-farven
+          fallback: "#ff009f", // Fallback-farven
+        },
+        customRed: {
+          DEFAULT: "oklch(64.18% 0.2851 16.94)",
+          fallback: "#ff004d",
+        },
+        costumGreen: {
+          DEFAULT: "oklch(77.42% 0.2693 147.49)",
+          fallback: "#00de3d",
+        },
+        secondary: {
+          DEFAULT: "oklch(78.85% 0.2984 147.7)",
+          fallback: "#00e442",
+        },
+        costumOrange: {
+          DEFAULT: "oklch(70.46% 0.2426 38.68)",
+          fallback: "#ff5f19",
+        },
       },
       fontSize: {
         heroText: "200px",
