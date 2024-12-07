@@ -1,3 +1,4 @@
+import Link from "next/link";
 const FrontPageNames = ({ data }) => {
   const { name } = data;
   return (
@@ -15,6 +16,11 @@ const FrontPageNames = ({ data }) => {
           </li>
         ))}
       </ul>
+      <Link href="/lineup">
+        <h3 className="text-center font-Inter font-semibold">
+          Og mange flere...
+        </h3>
+      </Link>
     </div>
   );
 };
