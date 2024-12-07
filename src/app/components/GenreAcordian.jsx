@@ -1,14 +1,3 @@
-// import GenreFilter from "./GenreFilter";
-
-// const GenteAcordian = ({ setFilterGenre, bandData }) => {
-//   return (
-//     <div>
-//       <GenreFilter bandData={bandData} setFilterGenre={setFilterGenre} />
-//     </div>
-//   );
-// };
-
-// export default GenteAcordian;
 import { useState } from "react";
 
 const Accordion = ({ title, children }) => {

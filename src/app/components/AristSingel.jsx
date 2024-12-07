@@ -24,7 +24,6 @@ const ArtistSingel = ({ band }) => {
       <div className="flex flex-row gap-10">
         <div>
           <h2 className="uppercase text-4xl">Medlemer</h2>
-          {/* <p>{members}</p> */}
           {members.map((member, index) => (
             <p key={index}>{member}</p>
           ))}

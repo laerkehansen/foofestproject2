@@ -40,9 +40,3 @@ label:has(input[type="checkbox"]:checked) {
   background: black;
   color: #fff;
 }
-
-/* Styling til checked state med Tailwind */
-/* label:has(input[type="checkbox"]:checked) {
-  background: #000; 
-  color: white;
-} */

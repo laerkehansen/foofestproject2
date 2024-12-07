@@ -14,17 +14,6 @@ export async function getBands() {
   return data;
 }
 
-// skal i bruges signel for det er for det enklte
-// export async function getSingleBands() {
-//   const response = await fetch(`${url}/bands/tool`, {
-//     method: "GET",
-//     headers: headersList,
-//   });
-
-//   const data = await response.json();
-//   return data;
-// }
-
 export async function getHeroImg() {
   const response = await fetch(`${url}/bands/refused`, {
     method: "GET",

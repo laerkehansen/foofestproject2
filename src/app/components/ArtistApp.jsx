@@ -1,5 +1,4 @@
 "use client";
-import SearchFilterLineup from "./SearchFilterLineup";
 import ArtisList from "../components/ArtistList";
 import FilterMenuLineup from "./FilterMenuLineUp";
 import { useState } from "react";
@@ -14,9 +13,6 @@ const ArtistApp = ({ bands }) => {
     const matchesGenre =
       genreFilter.length === 0 || genreFilter.includes(band.genre);
     return matchesName && matchesGenre;
-
-    // const matchesGenre = genreFilter === "" || band.genre === genreFilter;
-    // return matchesName && matchesGenre;
   });
 
   return (
@@ -26,7 +22,6 @@ const ArtistApp = ({ bands }) => {
         setFilterGenre={setGenreFilter}
         bandData={bands}
       />
-      {/* <SearchFilterLineup setFilter={setSearchFilter} /> */}
 
       <ArtisList bandData={filteredBands}></ArtisList>
     </div>

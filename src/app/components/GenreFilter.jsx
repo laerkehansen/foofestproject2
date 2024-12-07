@@ -1,54 +1,3 @@
-// const GenreFilter = ({ setFilterGenre, bandData }) => {
-
-//   const genres = Array.from(new Set(bandData.map((band) => band.genre)));
-//   return (
-//     <select className="p-2" onChange={(e) => setFilterGenre(e.target.value)}>
-//       <option value="">Vis alle</option>
-//       {genres.map((genre) => (
-//         <option key={genre} value={genre}>
-//           {genre}
-//         </option>
-//       ))}
-//     </select>
-//   );
-// };
-
-// export default GenreFilter;
-// const GenreFilter = ({ setFilterGenre, bandData }) => {
-
-//   const genres = Array.from(new Set(bandData.map((band) => band.genre)));
-
-//   const handleCheckboxChange = (e) => {
-//     const genre = e.target.value;
-//     setFilterGenre((prevGenres) => {
-
-//       return prevGenres.includes(genre)
-//         ? prevGenres.filter((g) => g !== genre)
-//         : [...prevGenres, genre];
-//     });
-//   };
-
-//   return (
-//     <div>
-//       <h3>Filter efter genre:</h3>
-//       {genres.map((genre) => (
-//         <div key={genre}>
-//           <label>
-//             <input
-//               type="checkbox"
-//               value={genre}
-//               onChange={handleCheckboxChange}
-//             />
-//             {genre}
-//           </label>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default GenreFilter;
-
 const GenreFilter = ({ setFilterGenre, bandData }) => {
   // Find unikke genrer i dataen
   const genres = Array.from(new Set(bandData.map((band) => band.genre)));
@@ -92,14 +41,8 @@ const GenreFilter = ({ setFilterGenre, bandData }) => {
           </label>
         ))}
       </div>
-
-      {/* <div className="mt-2">
-          <h4>Valgte genrer:</h4>
-          <p>{genres.length > 0 ? genres.join(", ") : "Ingen genrer valgt"}</p>
-        </div> */}
     </div>
   );
 };
 
-// Eksportér komponenten
 export default GenreFilter;
