@@ -34,7 +34,7 @@ const Navbar = () => {
           </ul>
         </div>
         <div onClick={handleNav} className="cursor-pointer">
-          <RxHamburgerMenu size={35} />
+          <RxHamburgerMenu size={35} className="text-green" />
         </div>
       </div>
       <div
