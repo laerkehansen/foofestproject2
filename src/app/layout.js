@@ -1,5 +1,6 @@
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import Header from "./components/Header";
 
 export const metadata = {
   title: "Create Next App",
@@ -11,7 +12,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="bg-background">
         <header>
-          <Navbar></Navbar>
+          <Header />
+          {/* <Navbar></Navbar> */}
         </header>
         {children}
       </body>
