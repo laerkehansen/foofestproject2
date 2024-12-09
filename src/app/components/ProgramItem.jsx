@@ -5,7 +5,7 @@ import { getLogoUrl } from "../lib/utils";
 const ProgramItem = ({ band }) => {
   const { name, logo, slug, genre } = band;
   return (
-    <li key={band.slug} className=" flex col-start-1 col-end-2 w-fit">
+    <li key={band.slug} className=" flex w-fit">
       <Link
         href={`/lineup/${slug}`}
         className="flex border border-black w-svw items-center"
