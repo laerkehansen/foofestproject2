@@ -1,7 +1,7 @@
 import Link from "next/link";
 const MenuList = () => {
   return (
-    <nav>
+    <nav className="justify-self-center">
       <ul>
         <li>
           <Link href="/lineup"> lineup</Link>

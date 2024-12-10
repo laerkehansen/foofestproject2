@@ -15,11 +15,11 @@ const MenuBtn = ({ toggle }) => {
     >
       <motion.button
         onClick={toggle}
-        className="relative h-20 w-20 rounded-full bg-white/0 transition-colors hover:bg-white/20"
+        className="justify-self-end relative h-20 w-20 rounded-full bg-white/0 transition-colors hover:bg-white/20"
         //   animate={active ? "open " : "closed"}
       >
         <motion.span
-          className="absolute h-1 w-10 bg-white"
+          className="absolute h-1 w-10 bg-white left-1/2 top-[35%]"
           style={{ left: "50%", top: "35%", x: "-50%", y: "-50%" }}
           variants={{
             open: {
