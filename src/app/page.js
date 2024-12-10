@@ -11,13 +11,13 @@ export default async function Home() {
   const bands = await getBands();
   return (
     <div>
-      {/* <FrontHeroSection />
+      <FrontHeroSection />
       <NowPlaying />
       <FrontPageNames data={bands} />
       <ImageSectionFront />
       <OptionSectionFront />
       <FontSectionFront />
-      <Footer /> */}
+      <Footer />
     </div>
   );
 }

@@ -39,15 +39,14 @@ const Menu = () => {
     <motion.div
       className={`grid bg-customPink ${
         isOpen
-          ? "absolute w-full h-screen z-50 inset-0 p-4 "
-          : "rounded-full h-20 w-20"
+          ? "absolute w-full h-screen  inset-0 z-50 p-4  "
+          : "rounded-full  h-[3.75rem] w-[3.75rem]"
       }`}
       initial={false}
       animate={isOpen ? "open" : "closed"}
-      //   variants={menuVariants}
     >
       <MenuBtn toggle={toggleMenu} />
-      {isOpen && <MenuList />}
+      {isOpen && <MenuList toggle={toggleMenu} />}
     </motion.div>
   );
 };

@@ -1,10 +1,15 @@
 import Link from "next/link";
-const MenuList = () => {
+const MenuList = ({ toggle }) => {
+  const handleClick = () => {
+    toggle(); // Lukker menuen
+  };
   return (
     <nav className="justify-self-center">
       <ul>
         <li>
-          <Link href="/lineup"> lineup</Link>
+          <Link href="/lineup" onClick={handleClick}>
+            lineup
+          </Link>
         </li>
         <li>
           <Link href="/program"> lineup</Link>

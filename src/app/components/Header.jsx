@@ -2,8 +2,10 @@ import Menu from "./Menu";
 
 const Header = () => {
   return (
-    <header className="flex justify-between items-center w-full p-4 fixed top-0">
-      <h1>hey</h1>
+    <header className="flex justify-between items-center w-full  p-4  fixed z-50 top-0">
+      <h1 className="uppercase text-green italic font-Inter font-bold sm:text-xl sm:leading-[0.7] lg:leading-[0.7] lg:text-3xl ">
+        foo <br /> fest
+      </h1>
       {/* <BurgerMenuOpen /> */}
       {/* <MenuBtn /> */}
       <Menu />

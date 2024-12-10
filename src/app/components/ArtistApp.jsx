@@ -17,6 +17,9 @@ const ArtistApp = ({ bands }) => {
 
   return (
     <div className="grid grid-col-auto gap-4">
+      <h1 className="uppercase font-Inter text-7xl italic py-20 text-center">
+        Atrister
+      </h1>
       <FilterMenuLineup
         setFilter={setSearchFilter}
         setFilterGenre={setGenreFilter}
