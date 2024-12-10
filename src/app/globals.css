@@ -31,10 +31,9 @@ body {
 }
 
 /* skal nok være mere spesifikt */
-input[type="checkbox"] {
-  appearance: none;
-  -webkit-appearance: none;
-}
+/* input[type="checkbox"] {
+  /* appearance: none; */
+/* -webkit-appearance: none; */
 
 label:has(input[type="checkbox"]:checked) {
   background: black;
