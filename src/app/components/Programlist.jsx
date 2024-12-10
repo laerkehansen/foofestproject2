@@ -6,21 +6,6 @@ import TopSectionProgram from "./TopSectionProgram";
 import ProgramItemPt2 from "./ProgramItemPt2";
 
 const Programlist = ({ schedule }) => {
-  const [days, setDays] = useState(schedule);
-  const [filter, setFilter] = useState("all");
-
-  useEffect(() => {
-    if (filter !== "all") {
-      fetchFilteredDays(filter);
-    } else {
-      setDays(schedule);
-    }
-  }, [filter, schedule]);
-
-  async function fetchFilteredDays(day) {
-    const respons = await fetch;
-  }
-
   console.log("ProgramList schedule:", schedule);
   return (
     <>
