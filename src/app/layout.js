@@ -1,6 +1,7 @@
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
+import Head from "next/head";
 
 export const metadata = {
   title: "Create Next App",
@@ -10,11 +11,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <Head>
+        <link rel="icon" href="/favicon.svg" />
+      </Head>
       <body className="bg-background">
-        <header>
-          <Header />
-          {/* <Navbar></Navbar> */}
-        </header>
+        <Header />
+        {/* <Navbar></Navbar> */}
+
         {children}
       </body>
     </html>

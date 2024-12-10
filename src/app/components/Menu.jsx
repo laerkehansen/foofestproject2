@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import MenuBtn from "./MenuBtn";
+
 import MenuList from "./MenuList";
 const Menu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,13 +37,16 @@ const Menu = () => {
   //   };
   return (
     <motion.div
-      className="h-20 w-20 rounded-full bg-customPink"
+      className={`grid bg-customPink ${
+        isOpen
+          ? "absolute w-full h-screen  inset-0 z-50 p-4  "
+          : "rounded-full  h-[3.75rem] w-[3.75rem]"
+      }`}
       initial={false}
       animate={isOpen ? "open" : "closed"}
-      //   variants={menuVariants}
     >
       <MenuBtn toggle={toggleMenu} />
-      {isOpen && <MenuList />}
+      {isOpen && <MenuList toggle={toggleMenu} />}
     </motion.div>
   );
 };

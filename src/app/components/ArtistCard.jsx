@@ -4,27 +4,30 @@ import Link from "next/link";
 const ArtistCard = ({ band }) => {
   const { name, logo, slug, genre } = band;
   return (
-    <li key={band.slug} className="bg-black">
+    <li key={band.slug} className="h-80 grid grid-rows-1 grid-cols-1">
       <Link
         href={`/lineup/${slug}`}
-        className="grid grid-cols-[0.1fr_1fr_auto_0.1fr] grid-rows-[0.1fr_0.1fr_0.7fr_auto] "
+        className="grid h-full w-full grid-rows-[1fr] grid-cols-[1fr]"
       >
-        <div className="grid col-span-full row-span-full grid-rows-subgrid grid-cols-subgrid object-cover">
+        <div className="h-full w-full row-start-1 col-start-1 relative">
           <Image
             src={getLogoUrl(logo)}
             alt={`Billede af ${name}`}
-            width={504}
-            height={304}
+            // width={504}
+            // height={304}
+            fill
+            sizes="(min-width: 808px) 50vw, 100vw"
+            quality={100}
             // fill={true}
-            className="grayscale object-cover w-full h-fit row-span-full col-span-full"
+            className="grayscale object-cover "
           />
-          <h2 className="text-green row-start-4 col-start-2 col-end-5 z-10 font-Inter italic font-extrabold text-7xl self-end">
-            {name}
-          </h2>
-          <h3 className="text-green row-start-2 z-10 col-start-3 col-end-4 font-Inter border-2 border-green p-2">
-            {genre}
-          </h3>
         </div>
+        <h2 className="text-costumOrange row-start-1 col-start-1 z-10 m-3  font-Inter italic font-bold text-4xl self-end justify-self-start ">
+          {name}
+        </h2>
+        <h3 className=" row-start-1 col-start-1  z-10 m-2 p-1 font-Inter text-black bg-costumOrange self-start justify-self-end ">
+          {genre}
+        </h3>
       </Link>
     </li>
   );
