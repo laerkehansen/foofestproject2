@@ -8,12 +8,13 @@ const ArtistSingel = ({ band }) => {
     <div>
       <div className="relative w-full mx-auto h-[500px] grid grid-cols-1 grid-rows-[1fr_0.2fr]">
         <div className="flex flex-row z-10 items-start h-fit gap-3 pt-28 pl-8 sticky top-0">
-          <Image
+          {/* <Image
             src={Arrow}
             height={20}
             width={20}
             className="rotate-180 self-center"
-          />
+          /> */}
+          <Arrow className="rotate-180 self-center" />
           <Link href="/lineup">
             <h2 className="text-green">Tilbage</h2>
           </Link>

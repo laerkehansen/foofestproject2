@@ -18,7 +18,8 @@ const Navbar = () => {
     <nav className="fixed w-full bg-transparent z-20 pt-6">
       <div className="flex justify-between items-center h-full w-full px-10">
         <Link href="/">
-          <Image src={Logo} width={98} height={38} alt="logo" />
+          <Logo />
+          {/* <Image src={Logo} width={98} height={38} alt="logo" /> */}
         </Link>
         <div onClick={handleNav} className="cursor-pointer">
           <RxHamburgerMenu size={35} className="text-green" />

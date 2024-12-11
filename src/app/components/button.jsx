@@ -9,7 +9,8 @@ const Button = ({ text }) => {
         <p className="text-green font-Inter text-2xl font-medium hover:text-black">
           {text}
         </p>
-        <Image src={Arrow} alt="pil" className="" />
+        <Arrow />
+        {/* <Image src={Arrow} alt="pil" className="" /> */}
       </div>
     </Link>
   );

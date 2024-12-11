@@ -37,13 +37,48 @@ const Menu = () => {
   //   };
   return (
     <motion.div
-      className={`grid bg-customPink ${
-        isOpen
-          ? "absolute w-full h-screen  inset-0 z-50 p-4  "
-          : "rounded-full  h-[3.75rem] w-[3.75rem]"
-      }`}
+      //   className={`grid bg-customPink ${
+      //     isOpen
+      //       ? "absolute w-full h-screen  inset-0 z-50 p-4  "
+      //       : "rounded-full  h-[3.75rem] w-[3.75rem]"
+      //   }`}
+      className=" bg-customPink absolute h-[3.75rem] w-[3.75rem] rounded-full z-30 "
       initial={false}
       animate={isOpen ? "open" : "closed"}
+      style={{
+        width: "3,75rem",
+        height: "3,75rem",
+        borderRadius: "50%",
+        top: "2rem",
+        right: "2rem",
+        x: "3,75rem",
+        y: "3,75rem",
+
+        // position: "absolute",
+      }}
+      variants={{
+        open: {
+          width: ["3,75rem", "3,75rem", "100svh"],
+          height: ["3,75rem", "3,75rem", "100svh"],
+          borderRadius: ["50%", "50%", "0"],
+          position: ["absolute"],
+          x: ["3,75rem", "3,75rem", "100svh"],
+          y: ["3,75rem", "3,75rem", "100svh"],
+          top: ["2rem", "2rem", "0"],
+          right: ["2rem", "2rem", "0"],
+        },
+        closed: {
+          width: ["100svh", "3,75rem", "3,75rem"],
+          height: ["100svh", "3,75rem", "3,75rem"],
+          borderRadius: ["0", "50%", "50%"],
+          top: ["0", "2rem", "2rem"],
+          right: ["0", "2rem", "2rem"],
+        },
+      }}
+      transition={{
+        duration: "5",
+        ease: "easeInOut",
+      }}
     >
       <MenuBtn toggle={toggleMenu} />
       {isOpen && <MenuList toggle={toggleMenu} />}

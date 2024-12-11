@@ -17,6 +17,21 @@ const nextConfig = {
       },
     ],
   },
+
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/, // Matcher SVG-filer
+      use: [
+        {
+          loader: "@svgr/webpack", // Brug @svgr/webpack til at håndtere SVG'er
+          options: {
+            icon: true, // Valgfrit: gør SVG'er tilpassede til brug som ikoner
+          },
+        },
+      ],
+    });
+    return config;
+  },
 };
 
 export default nextConfig;

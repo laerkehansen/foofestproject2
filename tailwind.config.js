@@ -9,6 +9,16 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      sm: "376px",
+      // => @media (min-width: 576px) { ... }
+
+      md: "760px",
+      // => @media (min-width: 960px) { ... }
+
+      lg: "1000px",
+      // => @media (min-width: 1440px) { ... }
+    },
     extend: {
       fontFamily: {
         Inter: ["Inter", ...defaultTheme.fontFamily.sans],
