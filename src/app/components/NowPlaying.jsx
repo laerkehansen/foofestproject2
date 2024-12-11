@@ -9,7 +9,8 @@ const NowPlaying = () => {
         <h2 className="font-Inter text-7xl italic font-black text-black">
           Now Playing
         </h2>
-        <Image src={Swirl} alt="cirkel" />
+        <Swirl />
+        {/* <Image src={Swirl} alt="cirkel" /> */}
       </div>
       <NowPlayingImg className="row-start-2" />
     </div>
