@@ -3,7 +3,7 @@ import ArtisList from "./ArtistList";
 import FilterMenuLineup from "./FilterMenuLineup";
 import { useState } from "react";
 
-const ArtistApp = ({ bands, scheduleBand }) => {
+const ArtistApp = ({ scheduleBand }) => {
   const [searchFilter, setSearchFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState([]);
 
