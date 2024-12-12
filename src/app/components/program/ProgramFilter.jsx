@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 // Din mapping for dagene
 const dayNames = {
@@ -12,32 +12,20 @@ const dayNames = {
   sun: "Søndag",
 };
 
-const Filter = ({ days, scenesByDay, onFilterChange }) => {
-  const [selectedDay, setSelectedDay] = useState(null);
+const Filter = ({ days, scenesByDay, onFilterChange, currentDay }) => {
+  const [selectedDay, setSelectedDay] = useState(currentDay);
   const [selectedScene, setSelectedScene] = useState(null);
-  const [isClient, setIsClient] = useState(false); // For at tjekke om vi er på klienten
 
-  // Brug useEffect til kun at aktivere client-side logik
-  useEffect(() => {
-    setIsClient(true); // Sæt isClient til true når komponenten renderes på klienten
-  }, []);
-
-  // Håndtering af dagvalg
   const handleDayChange = (day) => {
     setSelectedDay(day);
-    setSelectedScene(null); // Nulstil scenevalg, når en ny dag vælges
-    onFilterChange(day, null); // Informér om det nye filtervalg
+    setSelectedScene(null); // Nulstil scenevalg
+    onFilterChange(day, null); // Opdater valget i det overordnede komponent
   };
 
-  // Håndtering af scenevalg
   const handleSceneChange = (scene) => {
     setSelectedScene(scene);
-    onFilterChange(selectedDay, scene); // Informér om det nye filtervalg
+    onFilterChange(selectedDay, scene); // Opdater valget i det overordnede komponent
   };
-
-  if (!isClient) {
-    return null; // Returner ingenting på serveren, indtil vi er på klienten
-  }
 
   return (
     <div>
@@ -47,14 +35,9 @@ const Filter = ({ days, scenesByDay, onFilterChange }) => {
           <button
             key={day}
             onClick={() => handleDayChange(day)}
-            style={{
-              margin: "0.5rem",
-              backgroundColor: selectedDay === day ? "#007bff" : "#ccc",
-              color: "#fff",
-              border: "none",
-              padding: "0.5rem 1rem",
-              cursor: "pointer",
-            }}
+            className={`m-2 ${
+              selectedDay === day ? "bg-customPink" : "bg-costumOrange"
+            } text-white border-none px-4 py-2 cursor-pointer`}
           >
             {dayNames[day]} {/* Brug danske navne */}
           </button>

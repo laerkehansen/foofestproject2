@@ -19,7 +19,7 @@ export function getLogoUrl(logo) {
 // utils.js
 
 export function getToday() {
-  const days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
-  const today = new Date().getDay(); // Get current day (0 = Sunday, 6 = Saturday)
-  return days[today === 0 ? 6 : today - 1]; // Adjust for the days of the week, where 0 = Sunday
+  const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+  const today = new Date().getDay(); // Returnerer dagens index (0 = søndag, 1 = mandag osv.)
+  return days[today];
 }

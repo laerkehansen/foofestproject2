@@ -1,17 +1,20 @@
 import Link from "next/link";
-const ProgramItem = ({ key, item }) => {
+const ProgramItem = ({ item }) => {
   const { start, end, act, cancelled, location, day } = item;
   return (
-    <li>
+    <li className="border-2 border-black p-2 flex flex-row justify-between">
       <h2>{act}</h2>
-      <p>{day}</p>
-      <p>
-        {start} - {end}:
-        {cancelled && (
-          //skal om styles
-          <span style={{ color: "red" }}>(Cancelled)</span>
-        )}
-      </p>
+      <div className="flex flex-col gap-2 justify-end">
+        <p>{day}</p>
+        <p>
+          {start} - {end}:
+          <br />
+          {cancelled && (
+            //skal om styles
+            <span style={{ color: "red" }}>(Cancelled)</span>
+          )}
+        </p>
+      </div>
     </li>
   );
 };

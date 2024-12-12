@@ -1,8 +1,8 @@
 import "./globals.css";
-import Navbar from "./components/Navbar";
-import Header from "./components/Header";
+
+import Header from "./components/navigation/Header";
 import Head from "next/head";
-import Menu from "./components/Menu";
+import Menu from "./components/navigation/Menu";
 
 export const metadata = {
   title: "Create Next App",

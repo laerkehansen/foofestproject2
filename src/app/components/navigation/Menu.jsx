@@ -1,6 +1,6 @@
 "use client";
 // import Styles from "../style/menu.css";
-import "../style/menu.css"; // Importer global CSS
+import "../../style/menu.css"; // Importer global CSS
 import { useState } from "react";
 import { motion } from "motion/react";
 import MenuBtn from "./MenuBtn";

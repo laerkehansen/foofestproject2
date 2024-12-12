@@ -7,14 +7,14 @@ const MenuList = ({ setIsOpen }) => {
 
   const perspetiv = {
     open: {
-      opacity: 0,
+      opacity: 1,
       transtion: {
         delay: 0.5,
       },
     },
 
     closed: {
-      opacity: 1,
+      opacity: 0,
       transtion: {
         delay: 0.5,
       },

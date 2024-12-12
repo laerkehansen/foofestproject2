@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { getHeroImg } from "@/app/lib/api";
-import { getLogoUrl } from "../lib/utils";
+import { getLogoUrl } from "../../lib/utils";
 import Button from "./button";
 
 export default async function FrontHeroImg() {
