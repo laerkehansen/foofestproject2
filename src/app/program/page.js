@@ -6,6 +6,7 @@ import ProgramApp from "../components/program/ProgramApp";
 
 export default async function Program() {
   const schedule = await getSchedule(); // Hent programdata fra API
+  // console.log(schedule);
   return (
     <div className="py-11">
       <ProgramApp schedule={schedule} />

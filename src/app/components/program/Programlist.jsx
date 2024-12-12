@@ -16,8 +16,7 @@ const ProgramList = ({ schedule }) => {
           <h3 className="text-5xl ">{location}</h3>
           <ul className="mt-10">
             {events
-              // Filtrer events for at fjerne "break" events
-              .filter((event) => event.act !== "break")
+
               // Sortér events efter starttidspunkt
               .sort((a, b) => a.start.localeCompare(b.start))
               .map((event, index) => (

@@ -54,18 +54,44 @@ export async function getSchedule() {
 
   const data = await response.json();
 
-  // Fladgør data
+  // Fladgør data og filtrer "break"-events
   const flattened = Object.entries(data).flatMap(([location, days]) =>
     Object.entries(days).flatMap(([day, events]) =>
-      events.map((event) => ({
-        location, // "Midgard", "Asgard", etc.
-        day, // "mon", "tue", etc.
-        ...event, // Resten af event-dataen
-      }))
+      events
+        .filter((event) => event.act.toLowerCase() !== "break") // Fjern events hvor act er 'break'
+        .map((event) => ({
+          location, // "Midgard", "Asgard", etc.
+          day, // "mon", "tue", etc.
+          ...event, // Resten af event-dataen
+        }))
     )
   );
 
   return flattened;
+}
+export async function getScheduleWithBands() {
+  // Hent band-data og schedule-data
+  const bandsData = await getBands();
+  const flattenedSchedule = await getSchedule();
+
+  // For hvert band, tilføj eventoplysninger (hvis der er et match)
+  const scheduleWithBands = bandsData.map((band) => {
+    // Find de events, hvor bandet optræder
+    const matchingEvents = flattenedSchedule.filter(
+      (event) => event.act === band.name
+    );
+
+    // Returner eventoplysninger, hvis der er et match
+    return matchingEvents.length > 0
+      ? matchingEvents.map((event) => ({
+          ...event,
+          band: { ...band },
+        }))
+      : [{ band: { ...band }, event: null }]; // Ingen event, kun bandoplysninger
+  });
+
+  // Fladgør listen, så vi kun får én liste med events og bands
+  return [].concat(...scheduleWithBands);
 }
 
 export async function getEvent() {

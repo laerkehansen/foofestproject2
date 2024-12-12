@@ -14,6 +14,10 @@ const ProgramItem = ({ item }) => {
             <span style={{ color: "red" }}>(Cancelled)</span>
           )}
         </p>
+        {/* linker til linup slug*/}
+        <Link href={`/lineup/${act.toLowerCase().replace(/\s+/g, "-")}`}>
+          link
+        </Link>
       </div>
     </li>
   );

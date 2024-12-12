@@ -7,7 +7,7 @@ const ArtisList = ({ bandData }) => {
   return (
     <ul className="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3   ">
       {bandData.map((band) => (
-        <ArtistCard band={band} key={band.slug} />
+        <ArtistCard band={band.band} key={band.band.slug} events={band.event} />
       ))}
     </ul>
   );

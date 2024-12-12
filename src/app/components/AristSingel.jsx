@@ -1,24 +1,14 @@
 import Image from "next/image";
-import Link from "next/link";
-import Arrow from "@/app/img/arrow.svg";
+import TilbageBtn from "./navigation/TilbageBtn";
 import { getLogoUrl } from "../lib/utils";
-const ArtistSingel = ({ band }) => {
+const ArtistSingel = ({ band, events }) => {
   const { name, logo, members, genre, logoCredits, bio } = band;
+
   return (
     <div>
+      <div className="flex flex-row z-10 items-start h-fit gap-3 pt-28 pl-8 sticky top-0"></div>
+      {/* <TilbageBtn /> */}
       <div className="relative w-full mx-auto h-[500px] grid grid-cols-1 grid-rows-[1fr_0.2fr]">
-        <div className="flex flex-row z-10 items-start h-fit gap-3 pt-28 pl-8 sticky top-0">
-          {/* <Image
-            src={Arrow}
-            height={20}
-            width={20}
-            className="rotate-180 self-center"
-          /> */}
-          <Arrow className="rotate-180 self-center" />
-          <Link href="/lineup">
-            <h2 className="text-green">Tilbage</h2>
-          </Link>
-        </div>
         <Image
           src={getLogoUrl(logo)}
           alt={`Billede af ${name}`}
@@ -50,6 +40,38 @@ const ArtistSingel = ({ band }) => {
           </p>
         </div>
       </section>
+      {/* Hvis der er events, vis eventoplysninger */}
+      {events.length > 0 ? (
+        <section className="py-16">
+          <h3 className="uppercase text-6xl font-Inter italic font-extrabold pb-4">
+            Events
+          </h3>
+          <ul>
+            {events.map((event, index) => (
+              <li key={index} className="font-Inter text-2xl py-2">
+                <p>
+                  <strong>Location:</strong> {event.location}
+                </p>
+                <p>
+                  <strong>Day:</strong> {event.day}
+                </p>
+                <p>
+                  <strong>Start:</strong> {event.start}
+                </p>
+                <p>
+                  <strong>End:</strong> {event.end}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : (
+        <section className="py-16">
+          <p className="font-Inter text-2xl text-gray-400">
+            Ingen events planlagt for dette band.
+          </p>
+        </section>
+      )}
     </div>
   );
 };

@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { getLogoUrl } from "../../lib/utils";
 import Link from "next/link";
-const ArtistCard = ({ band }) => {
+const ArtistCard = ({ band, events }) => {
   const { name, logo, slug, genre } = band;
+  // Hvis der er events, vis første event (kan ændres til at vise flere events)
+
   return (
     <li key={band.slug} className="h-80 grid grid-rows-1 grid-cols-1">
       <Link

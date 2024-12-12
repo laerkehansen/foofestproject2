@@ -12,9 +12,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <Head>
+      {/* <Head>
         <link rel="icon" href="/favicon.svg" />
-      </Head>
+      </Head> */}
       <body className="bg-background">
         <Header />
         {/* <Menu /> */}
