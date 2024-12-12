@@ -1,6 +1,6 @@
 import GenreAcordian from "./GenreAcordian";
 import GenreFilter from "./GenreFilter";
-import SearchFilterLineup from "./SearchFilterLineup";
+import SearchFilterLineup from "../SearchFilterLineup";
 import { useState } from "react";
 const FilterMenuLineup = ({ setFilter, bandData, setFilterGenre }) => {
   return (

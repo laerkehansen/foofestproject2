@@ -1,8 +1,10 @@
 import { getSchedule } from "../lib/api";
-import ProgramList from "../components/ProgramList";
-
-export default async function Home() {
+import { getToday } from "../lib/utils"; // Hent funktionen til at få dagens ugedag
+import ProgramList from "../components/program/Programlist";
+import Filter from "../components/program/ProgramFilter";
+export default async function Program() {
   const schedule = await getSchedule();
+
   console.log(schedule);
 
   return (

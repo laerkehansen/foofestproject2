@@ -34,16 +34,38 @@ export async function getSingleBands(slug) {
   return data;
 }
 
+// export async function getSchedule() {
+//   const response = await fetch(`${url}/schedule`, {
+//     method: "GET",
+//     headers: headersList,
+//     body: JSON.stringify(),
+//   });
+
+//   const data = await response.json();
+
+//   return data;
+// }
+
 export async function getSchedule() {
   const response = await fetch(`${url}/schedule`, {
     method: "GET",
     headers: headersList,
-    body: JSON.stringify(),
   });
 
   const data = await response.json();
-  //   console.log(data);
-  return data;
+
+  // Fladgør data
+  const flattened = Object.entries(data).flatMap(([location, days]) =>
+    Object.entries(days).flatMap(([day, events]) =>
+      events.map((event) => ({
+        location, // "Midgard", "Asgard", etc.
+        day, // "mon", "tue", etc.
+        ...event, // Resten af event-dataen
+      }))
+    )
+  );
+
+  return flattened;
 }
 
 export async function getEvent() {

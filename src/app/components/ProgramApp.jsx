@@ -1,6 +1,6 @@
 "use client";
-import ProgramList from "../components/ProgramList";
-import FilterMenuLineup from "./FilterMenuLineUp";
+import ProgramList from "./program/Programlist";
+import FilterMenuLineup from "./lineup/FilterMenuLineup";
 import { useState } from "react";
 const ProgramApp = ({ bands }) => {
   const [dayFilter, setDayFilter] = useState([]);

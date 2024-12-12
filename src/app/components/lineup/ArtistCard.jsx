@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getLogoUrl } from "../lib/utils";
+import { getLogoUrl } from "../../lib/utils";
 import Link from "next/link";
 const ArtistCard = ({ band }) => {
   const { name, logo, slug, genre } = band;

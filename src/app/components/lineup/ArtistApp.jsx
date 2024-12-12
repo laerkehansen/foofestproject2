@@ -1,6 +1,6 @@
 "use client";
-import ArtisList from "../components/ArtistList";
-import FilterMenuLineup from "./FilterMenuLineUp";
+import ArtisList from "./ArtistList";
+import FilterMenuLineup from "./FilterMenuLineup";
 import { useState } from "react";
 const ArtistApp = ({ bands }) => {
   const [searchFilter, setSearchFilter] = useState("");
