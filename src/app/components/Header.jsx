@@ -2,23 +2,12 @@ import Menu from "./Menu";
 
 const Header = () => {
   return (
-    <header className="flex justify-between items-center w-full   fixed z-50 top-0">
-      <h1 className="uppercase text-green italic font-Inter font-bold sm:text-xl sm:leading-[0.7] lg:leading-[0.7] lg:text-3xl ">
+    <header className="   fixed z-50 top-0 right-0  w-auto h-auto">
+      <h1 className="uppercase text-green italic font-Inter font-bold sm:text-xl sm:leading-[0.7] lg:leading-[0.7] lg:text-3xl fixed left-[25px] top-[25px]">
         foo <br /> fest
       </h1>
-      {/* <BurgerMenuOpen /> */}
-      {/* <MenuBtn /> */}
-      <Menu />
 
-      {/* <BurgerMenu /> */}
-      {/* <nav className="p-10 bg-white absolute w-full h-screen z-50 inset-0">
-        <ul>
-          <li>test</li>
-          <li>test</li>
-          <li>test</li>
-          <li>test</li>
-        </ul>
-      </nav> */}
+      <Menu />
     </header>
   );
 };

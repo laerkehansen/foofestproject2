@@ -1,5 +1,18 @@
 .menu {
-  height: 200px;
-  width: 100px;
-  background: pink;
+  height: 100svh;
+  width: 100svw;
+  background: oklch(67% 0.2901 354.71);
+  border-radius: 50%;
+  position: relative;
+}
+.hey {
+  font-size: xx-small;
+  color: lawngreen;
+}
+.menuBtn {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+
+  z-index: 500;
 }

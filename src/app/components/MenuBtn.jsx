@@ -1,10 +1,8 @@
 "use client";
 import { motion, MotionConfig } from "motion/react";
 import { useState } from "react";
-const MenuBtn = ({ toggle }) => {
-  //   const [active, setActive] = useState(false);
-  //   console.log(active);
 
+const MenuBtn = ({ isOpen, setIsOpen }) => {
   return (
     <MotionConfig
       transition={{
@@ -14,35 +12,39 @@ const MenuBtn = ({ toggle }) => {
       // er en spimle context provider som er fra motion som skupper værdier ned til dens børn her fx transition
     >
       <motion.button
-        onClick={toggle}
-        className="justify-self-end relative h-[3.75rem] w-[3.75rem] rounded-full bg-pink transition-colors hover:bg-pink/20 "
-        //   animate={active ? "open " : "closed"}
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
+        animate={isOpen ? "open" : "closed"}
+        className="justify-self-end relative h-[3.75rem] w-[3.75rem] rounded-full bg-customPink "
       >
         <motion.span
           className="absolute h-1 w-7 bg-white  "
           style={{ left: "50%", top: "35%", x: "-50%", y: "-50%" }}
           variants={{
             open: {
-              rotate: ["0deg", "0deg", "45deg"],
+              rotate: ["0deg", "45deg"],
               top: ["35%", "50%", "50%"],
             },
             closed: {
-              rotate: [, "45deg", "0deg", "0deg"],
+              rotate: ["45deg", "0deg"],
               top: ["50%", "50%", "35%"],
             },
           }}
+          initial={{ rotate: "0deg" }}
         />
         <motion.span
           className="absolute h-1 w-7 bg-white"
           style={{ left: "50%", top: "50%", x: "-50%", y: "-50%" }}
           variants={{
             open: {
-              rotate: ["0deg", "0deg", "-45deg"],
+              rotate: ["0deg", "-45deg"],
             },
             closed: {
-              rotate: [, "-45deg", "0deg", "0deg"],
+              rotate: ["-45deg", "0deg"],
             },
           }}
+          initial={{ rotate: "0deg" }}
         />
         <motion.span
           className="absolute h-1 w-4 bg-white"
@@ -54,16 +56,17 @@ const MenuBtn = ({ toggle }) => {
           }}
           variants={{
             open: {
-              rotate: ["0deg", "0deg", "45deg"],
+              rotate: ["0deg", "45deg"],
               left: "50%",
-              bottom: ["35%", "50%", "50%"],
+              bottom: ["35%", "50%"],
             },
             closed: {
-              rotate: [, "45deg", "0deg", "0deg"],
+              rotate: ["45deg", "0deg"],
               left: "calc(50% + 6px)",
-              bottom: ["50%", "50%", "35%"],
+              bottom: ["50%", "35%"],
             },
           }}
+          initial={{ rotate: "0deg" }}
         />
       </motion.button>
     </MotionConfig>
