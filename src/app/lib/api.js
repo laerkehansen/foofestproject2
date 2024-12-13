@@ -3,7 +3,7 @@ const url = process.env.NEXT_PUBLIC_URL;
 const headersList = {
   Accept: "application/json",
   "Content-Type": "application/json",
-  prefer: "return=representation",
+  // prefer: "return=representation",
   // apikey: key,
 };
 

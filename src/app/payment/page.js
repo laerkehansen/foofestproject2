@@ -20,7 +20,13 @@ const Payment = () => {
   return (
     <div className="grid grid-cols-1 justify-items-center items-center py-20">
       {step === 1 && <TicketSelectionForm onNext={nextStep} />}
-      {step === 2 && <CampingOptionsForm onBack={prevStep} onNext={nextStep} />}
+      {step === 2 && (
+        <CampingOptionsForm
+          onBack={prevStep}
+          onNext={nextStep}
+          formData={formData}
+        />
+      )}
       {step === 3 && <PersonalInfoForm onBack={prevStep} onNext={nextStep} />}
       {step === 4 && (
         <ReviewStep formData={formData} onBack={prevStep} onNext={nextStep} />
