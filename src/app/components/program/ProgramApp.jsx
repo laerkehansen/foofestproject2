@@ -36,7 +36,7 @@ const ProgramApp = ({ schedule }) => {
   );
 
   return (
-    <div>
+    <div className="col-start-2 col-end-4">
       <Filter
         days={Object.keys(dayNames)}
         scenesByDay={scenesByDay}

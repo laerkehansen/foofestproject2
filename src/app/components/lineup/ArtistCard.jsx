@@ -25,7 +25,7 @@ const ArtistCard = ({ band, events }) => {
             className="grayscale object-cover "
           />
         </div>
-        <h2 className="text-costumOrange row-start-1 col-start-1 z-10 m-3  font-Inter italic font-bold text-4xl self-end justify-self-start ">
+        <h2 className="text-costumOrange row-start-1 col-start-1 z-10 m-3  font-Inter italic font-bold text-5xl self-end justify-self-start ">
           {name}
         </h2>
         <h3 className=" row-start-1 col-start-1  z-10 m-2 p-1 font-Inter text-black bg-costumOrange self-start justify-self-end ">
