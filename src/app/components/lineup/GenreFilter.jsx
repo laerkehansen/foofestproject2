@@ -1,4 +1,6 @@
-const GenreFilter = ({ setFilterGenre, bandData }) => {
+import SearchFilterLineup from "./SearchFilterLineup";
+
+const GenreFilter = ({ setFilterGenre, bandData, setFilter }) => {
   // Find unikke genrer i dataen
   const genres = Array.from(new Set(bandData.map((band) => band.band.genre)));
 
@@ -18,28 +20,34 @@ const GenreFilter = ({ setFilterGenre, bandData }) => {
   };
 
   return (
-    <div className="">
-      <h3>Filter efter genre:</h3>
-      <button
-        onClick={resetGenres}
-        className="p-2 bg-lime-500 text-white rounded mb-2"
-      >
-        Nulstil genrer
-      </button>
-      <div className="flex gap-2 flex-wrap ">
+    <div className="pt-10">
+      <div className="flex gap-4">
+        <h3 className="font-Inter text-xl font-extrabold italic pb-4">
+          Filter efter genre:
+        </h3>
+        <SearchFilterLineup setFilter={setFilter} />
+      </div>
+      <div className="flex gap-2 flex-wrap justify-center">
         {genres.map((genre) => (
           <label
             key={genre}
-            className="border-4 border-black p-2 text-center w-fit"
+            className="border-2 text-xl font-Inter font-semibold border-black p-2 text-center w-fit"
           >
             <input
               type="checkbox"
               value={genre}
               onChange={handleCheckboxChange}
+              className="sr-only"
             />
             {genre}
           </label>
         ))}
+        <button
+          onClick={resetGenres}
+          className="p-2 bg-green border-black border-2 font-Inter font-semibold text-black text-xl"
+        >
+          Nulstil genrer
+        </button>
       </div>
     </div>
   );

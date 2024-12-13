@@ -1,13 +1,13 @@
 const SearchFilterLineup = ({ setFilter }) => {
   return (
-    <div>
+    <div className="pb-6">
       <label htmlFor="søg"></label>
       <input
         type="text"
         name="søg"
         id="søg"
-        placeholder="Søg Sfter Artister"
-        className=" border-2 border-gray-100"
+        placeholder="Søg efter artister"
+        className=" border-2 border-black text-xl p-1"
         onChange={(e) => setFilter(e.target.value)}
       />
     </div>
