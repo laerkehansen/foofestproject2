@@ -1,6 +1,6 @@
 const GenreFilter = ({ setFilterGenre, bandData }) => {
   // Find unikke genrer i dataen
-  const genres = Array.from(new Set(bandData.map((band) => band.genre)));
+  const genres = Array.from(new Set(bandData.map((band) => band.band.genre)));
 
   // Håndter ændringer i checkbox
   const handleCheckboxChange = (e) => {

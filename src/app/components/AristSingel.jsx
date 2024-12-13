@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import TilbageBtn from "./navigation/TilbageBtn";
 import { getLogoUrl } from "../lib/utils";
