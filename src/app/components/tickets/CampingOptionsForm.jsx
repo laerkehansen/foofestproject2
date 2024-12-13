@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { getAvailableSpots } from "@/app/lib/api";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { validering } from "@/app/lib/validation";
+
 const CampingOptionsForm = ({ onNext, onBack, formData }) => {
   const {
     register,
@@ -15,32 +15,34 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
   } = useForm({
     resolver: zodResolver(validering),
     defaultValues: {
-      campingSelected: formData.campingSelected || false, // Sørg for at vi holder styr på om camping er valgt
+      campingSelected: formData.campingSelected || false,
     },
   });
 
-  // State til at holde styr på de tilgængelige pladser og loading-status
-  const [availableSpots, setAvailableSpots] = useState([]);
+  const [availableSpots, setAvailableSpots] = useState([]); // Tilgængelige områder
+  const [selectedArea, setSelectedArea] = useState(null); // Valgt campingområde
   const [loading, setLoading] = useState(true);
 
-  // Funktion til at hente de tilgængelige pladser
   const fetchData = async () => {
     const data = await getAvailableSpots();
-    setAvailableSpots(data); // Opdaterer tilstanden med data
-    setLoading(false); // Når data er hentet, stop loading
+    setAvailableSpots(data);
+    setLoading(false);
   };
 
-  // Brug useEffect til at hente data første gang komponenten renderes
   useEffect(() => {
-    fetchData(); // Hent data første gang
-
-    // Opdater data hvert 10. sekund
-    // er itivl om der er for meget skal jo henrws
-    const interval = setInterval(fetchData, 10000);
-
-    // Ryd intervallet, når komponenten ik er aktivt
+    fetchData();
+    const interval = setInterval(fetchData, 2000); // Tjek hver 2. sekund
     return () => clearInterval(interval);
-  }, []); // Tom afhængigheds-array gør at det kun kører én gang ved første render
+  }, []);
+
+  const handleAreaSelection = (area) => {
+    setSelectedArea(area);
+  };
+
+  const onSubmit = (data) => {
+    console.log("Form submitted:", data);
+    onNext(data);
+  };
 
   return (
     <div>
@@ -53,25 +55,61 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
           </ul>
         </div>
 
-        <div>
-          <h2>Ledige Camping Pladser</h2>
-          {loading ? (
-            <div>Data hentes...</div>
-          ) : (
-            <ul>
-              {availableSpots.map((spot, index) => (
-                <li key={index}>
-                  {spot.area} - Tilgængelige pladser: {spot.available}
-                  <p>{spot.spots}</p>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            {availableSpots.map((spot, index) => (
+              <div key={index}>
+                <label htmlFor={spot.area}>
+                  Tilgængelige pladser: {spot.available}
+                  {spot.area} <p>{spot.spots}</p>
+                </label>
+                <input
+                  type="radio"
+                  id={spot.area}
+                  value={spot.area}
+                  {...register("area")}
+                  onChange={() => handleAreaSelection(spot.area)}
+                />
+              </div>
+            ))}
+          </div>
 
-        <button type="button" onClick={onBack}>
-          Tilbage
-        </button>
+          {/* Grøn camping */}
+          <div>
+            <input
+              type="checkbox"
+              id="greenCamping"
+              {...register("greenCamping")}
+            />
+            <label htmlFor="greenCamping">Grøn camping (+249,-)</label>
+          </div>
+
+          {/* Telte */}
+          <div>
+            <label htmlFor="tent2p">2-personers telt (+299,-):</label>
+            <input
+              type="number"
+              id="tent2p"
+              min="0"
+              {...register("tent2p", { valueAsNumber: true })}
+            />
+
+            <label htmlFor="tent3p">3-personers telt (+399,-):</label>
+            <input
+              type="number"
+              id="tent3p"
+              min="0"
+              {...register("tent3p", { valueAsNumber: true })}
+            />
+          </div>
+
+          <div>
+            <button type="button" onClick={onBack}>
+              Tilbage
+            </button>
+            <button type="submit">Fortsæt</button>
+          </div>
+        </form>
       </div>
     </div>
   );
