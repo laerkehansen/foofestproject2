@@ -2,7 +2,6 @@
 import { useForm } from "react-hook-form";
 import { validering } from "@/app/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-// For at bruge Zod i react-hook-form
 
 const TicketSelectionForm = ({ onNext }) => {
   const {
@@ -20,9 +19,16 @@ const TicketSelectionForm = ({ onNext }) => {
     },
   });
 
+  // Definer priserne for billetterne
+  const vipPrice = 1299;
+  const regularPrice = 799;
+
   // Få værdien af vipCount og regularCount fra formularen
   const vipCount = watch("vipCount", 0); // Standardværdi 0
   const regularCount = watch("regularCount", 0); // Standardværdi 0
+
+  // Beregn den samlede pris
+  const totalPrice = vipCount * vipPrice + regularCount * regularPrice;
 
   const plusKnap = (field) => {
     const currentValue = getValues(field); // Hent den aktuelle værdi
@@ -35,18 +41,18 @@ const TicketSelectionForm = ({ onNext }) => {
   };
 
   const onSubmit = (data) => {
-    console.log("Form data:", data);
-    onNext(data);
+    // Send både de eksisterende data og den samlede pris
+    onNext({ ...data, totalPrice });
     // Du kan sende data videre til backend her
   };
 
   return (
     <div className="grid grid-cols-2 justify-items-center items-center">
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/*  */}
-        <h2> vælg biletter type og antal </h2>
+        <h2>Vælg billetter type og antal</h2>
+
         <div className="grid grid-cols-2">
-          <label> altal vip 1299,-</label>
+          <label>Antal VIP 1299,-</label>
           <div className="grid grid-cols-3 gap-2">
             <button
               type="button"
@@ -63,7 +69,7 @@ const TicketSelectionForm = ({ onNext }) => {
               min="0"
               value={vipCount} // Bruger den værdi, der er gemt i state
               disabled={false} // Deaktiverer standardpilene for input
-            ></input>
+            />
             <button
               type="button"
               onClick={() => minusKnap("vipCount")}
@@ -78,7 +84,7 @@ const TicketSelectionForm = ({ onNext }) => {
         </div>
 
         <div className="grid grid-cols-2">
-          <label> antal normla 799,- </label>
+          <label>Antal normal 799,-</label>
           <div className="grid grid-cols-3 gap-2">
             <button
               type="button"
@@ -95,7 +101,7 @@ const TicketSelectionForm = ({ onNext }) => {
               min="0"
               value={regularCount} // Bruger den værdi, der er gemt i state
               disabled={false} // Deaktiverer standardpilene for input
-            ></input>
+            />
             <button
               type="button"
               onClick={() => minusKnap("regularCount")}
@@ -109,9 +115,13 @@ const TicketSelectionForm = ({ onNext }) => {
           )}
         </div>
 
+        {/* Vis den samlede pris */}
+        <div className="mt-4">
+          <h3>Samlet pris: {totalPrice} kr.</h3>
+        </div>
+
         <button type="submit" className="bg-lime-500">
-          {" "}
-          hey
+          Gå videre
         </button>
       </form>
     </div>
