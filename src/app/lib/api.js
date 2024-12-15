@@ -1,4 +1,5 @@
-const url = process.env.NEXT_PUBLIC_URL;
+const url =
+  process.env.NEXT_PUBLIC_URL || "https://cerulean-abrupt-sunshine.glitch.me";
 
 const headersList = {
   Accept: "application/json",
@@ -8,9 +9,20 @@ const headersList = {
 };
 
 export async function getBands() {
-  const response = await fetch(`${url}/bands`);
+  const response = await fetch(`${url}/bands`, {
+    method: "GET",
+    headers: headersList,
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch data. Status code: ${response.status}`);
+  }
 
   const data = await response.json();
+
+  if (!data) {
+    throw new Error("No data received from the API");
+  }
   return data;
 }
 

@@ -16,7 +16,7 @@ export default async function Home() {
   return (
     <div>
       <FrontHeroSection />
-      <NowPlaying />
+      {/* <NowPlaying /> */}
       <TodaysActs schedule={schedule} />
       {/* <FrontPageNames data={bands} /> */}
       <ImageSectionFront />

@@ -1,16 +1,14 @@
 import Link from "next/link";
 import Arrow from "@/app/img/arrow.svg";
-import Image from "next/image";
 
-const Button = ({ text }) => {
+const Button = ({ text, link }) => {
   return (
-    <Link href={`/`}>
-      <div className="border-green border-4 py-2 px-6 w-44 text-center flex items-center gap-4 justify-center hover:bg-green ">
+    <Link href={link}>
+      <div className="border-green border-4 py-2 px-6 w-44 text-center flex items-center gap-4 justify-center hover:bg-green hover:text-black">
         <p className="text-green font-Inter text-2xl font-medium hover:text-black">
           {text}
         </p>
-        <Arrow />
-        {/* <Image src={Arrow} alt="pil" className="" /> */}
+        <Arrow className="" />
       </div>
     </Link>
   );

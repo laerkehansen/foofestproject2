@@ -46,16 +46,16 @@ const MenuList = ({ setIsOpen }) => {
         </li>
         <li>
           <Link
-            href="/program"
+            href="/payment"
             onClick={handleClick}
             className="text-5xl uppercase text-white font-Inter font-bold  hover:italic  duration-400 ease-in-out"
           >
-            biletter
+            billetter
           </Link>
         </li>
         <li>
           <Link
-            href="/program"
+            href="/"
             onClick={handleClick}
             className="text-5xl uppercase text-white font-Inter font-bold  hover:italic  duration-400 ease-in-out"
           >
