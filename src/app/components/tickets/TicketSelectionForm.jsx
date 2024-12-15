@@ -48,7 +48,10 @@ const TicketSelectionForm = ({ onNext }) => {
 
   return (
     <div className="grid grid-cols-2 justify-items-center items-center">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="p-10  bg-white border-2 border-black"
+      >
         <h2>Vælg billetter type og antal</h2>
 
         <div className="grid grid-cols-2">

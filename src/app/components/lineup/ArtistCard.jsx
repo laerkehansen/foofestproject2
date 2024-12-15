@@ -9,11 +9,11 @@ const ArtistCard = ({ band, events }) => {
   return (
     <li
       key={band.slug}
-      className="h-80 grid grid-rows-1 grid-cols-1 text-black"
+      className="h-80 grid grid-rows-1 grid-cols-1 group   text-black "
     >
       <Link
         href={`/lineup/${slug}`}
-        className="grid h-full w-full grid-rows-[1fr] grid-cols-[1fr]"
+        className="grid h-full w-full grid-rows-[1fr] group grid-cols-[1fr]"
       >
         <div className="h-full w-full row-start-1 col-start-1 relative">
           <Image
@@ -37,14 +37,19 @@ const ArtistCard = ({ band, events }) => {
 
         {/* Check if there is an event and display its information */}
         {/* man kan ik se det men msåke er det noget med styilg  */}
-        {firstEvent && (
-          <div className="  row-start-1 col-start-1  z-10 m-2 p-10 font-Inter text-black bg-customPink self-start justify-self-start ">
-            <p>Date: {firstEvent.day}</p>
-            <p>
-              Time: {firstEvent.start} - {firstEvent.end}
-            </p>
-          </div>
-        )}
+        {/* Event-info kun synlig på hover */}
+
+        {/* <div className=" z-50 flex flex-col items-start justify-center bg-customPink bg-opacity-90 text-black p-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ">
+          {firstEvent && (
+            <div>
+              <p className="text-lg">Date: {firstEvent.day}</p>
+              <p className="text-lg">
+                Time: {firstEvent.start} - {firstEvent.end}
+              </p>
+              <p>hey</p>
+            </div>
+          )}
+        </div> */}
       </Link>
     </li>
   );
