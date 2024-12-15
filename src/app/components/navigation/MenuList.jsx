@@ -9,19 +9,19 @@ const MenuList = ({ setIsOpen }) => {
     open: {
       opacity: 1,
       transtion: {
-        delay: 0.5,
+        delay: 0.2,
       },
     },
 
     closed: {
       opacity: 0,
       transtion: {
-        delay: 0.5,
+        delay: 0.3,
       },
     },
   };
   return (
-    <nav className="h-full  z-50">
+    <nav className="h-full grid items-center">
       <motion.ul
         variants={perspetiv}
         className=" flex flex-col justify-self-center  align-middle gap-7 "
@@ -30,7 +30,7 @@ const MenuList = ({ setIsOpen }) => {
           <Link
             href="/lineup"
             onClick={handleClick}
-            className="text-5xl uppercase text-white font-Inter font-bold  hover:italic  duration-400 ease-in-out"
+            className="text-5xl uppercase text-black font-Inter font-bold  hover:italic  duration-400 ease-in-out"
           >
             Lineup
           </Link>
@@ -39,7 +39,7 @@ const MenuList = ({ setIsOpen }) => {
           <Link
             href="/program"
             onClick={handleClick}
-            className="text-5xl uppercase text-white font-Inter font-bold  hover:italic  duration-400 ease-in-out"
+            className="text-5xl uppercase text-black font-Inter font-bold  hover:italic  duration-400 ease-in-out"
           >
             program
           </Link>
@@ -48,7 +48,7 @@ const MenuList = ({ setIsOpen }) => {
           <Link
             href="/payment"
             onClick={handleClick}
-            className="text-5xl uppercase text-white font-Inter font-bold  hover:italic  duration-400 ease-in-out"
+            className="text-5xl uppercase text-black font-Inter font-bold  hover:italic  duration-400 ease-in-out"
           >
             billetter
           </Link>
@@ -57,7 +57,7 @@ const MenuList = ({ setIsOpen }) => {
           <Link
             href="/"
             onClick={handleClick}
-            className="text-5xl uppercase text-white font-Inter font-bold  hover:italic  duration-400 ease-in-out"
+            className="text-5xl uppercase text-black font-Inter font-bold  hover:italic  duration-400 ease-in-out"
           >
             mere
           </Link>

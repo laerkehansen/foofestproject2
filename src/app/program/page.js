@@ -9,7 +9,7 @@ export default async function Program() {
   // console.log(schedule);
   return (
     <div className="grid grid-cols-[0.1fr_0.3fr_1.5fr_0.1fr]">
-      <h1 className="font-Inter text-8xl col-start-2  col-end-4 uppercase font-extrabold pt-28 italic">
+      <h1 className="font-Inter text-8xl col-start-2  col-end-4 uppercase font-extrabold pt-28 italic text-black">
         Foo Program
       </h1>
       <ProgramApp schedule={schedule} />

@@ -56,6 +56,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
 
   const onSubmit = (data) => {
     console.log("Form submitted:", data);
+    onNext({ ...data });
     onNext({ ...data, totalPrice });
   };
   console.log(errors);
