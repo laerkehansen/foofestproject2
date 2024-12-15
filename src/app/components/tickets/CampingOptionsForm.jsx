@@ -20,7 +20,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
   });
 
   const [availableSpots, setAvailableSpots] = useState([]); // Tilgængelige områder
-  const [selectedArea, setSelectedArea] = useState(null); // Valgt campingområde
+  const [selectedArea, setSelectedArea] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
@@ -53,6 +53,20 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
             <li>VIP Billetter: {formData.vipCount}</li>
             <li>Regular Billetter: {formData.regularCount}</li>
           </ul>
+
+          <form action="">
+            <label htmlFor="">
+              tilkøb camping <input type="radio" />
+            </label>
+            <label htmlFor="">
+              fortset uden camping
+              <input type="radio" />
+            </label>
+            {/* når man klikker subit så afænign af om man har valgt camping eller ej 
+            hvis campinh er valt så åbner formularen neden under 
+            hvis camping ikke er valt så går åbner neste step i flowet og sender daten med vidre i begge tilfælde */}
+            <button>subit</button>
+          </form>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -70,8 +84,12 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
                   {...register("area")}
                   onChange={() => handleAreaSelection(spot.area)}
                 />
+                {/* ( efter knap er trykket på så reseveres
+                  camping spot i 5 min hved at sende en put recrest så den skal
+                  kalde en funktion) */}
               </div>
             ))}
+            <button className="bg-red-900">okay</button>
           </div>
 
           {/* Grøn camping */}
@@ -85,24 +103,54 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
           </div>
 
           {/* Telte */}
+
+          {/* Tilkøb teltopsætning */}
+          {/* her skal man klikke på chek hvis ja og hvis ik man klikker så går man bare vidre hvis man klikker ja 
+          så neden under så åbner de to telt options som   */}
+
           <div>
-            <label htmlFor="tent2p">2-personers telt (+299,-):</label>
             <input
-              type="number"
-              id="tent2p"
-              min="0"
-              {...register("tent2p", { valueAsNumber: true })}
+              type="checkbox"
+              id="addTentSetup"
+              {...register("addTentSetup")}
+              onChange={(e) => setTentSetupVisible(e.target.checked)}
             />
-
-            <label htmlFor="tent3p">3-personers telt (+399,-):</label>
-            <input
-              type="number"
-              id="tent3p"
-              min="0"
-              {...register("tent3p", { valueAsNumber: true })}
-            />
+            <label htmlFor="addTentSetup">
+              Pay to have the crew set up tents
+            </label>
           </div>
-
+          {watch("addTentSetup") && (
+            <div>
+              <div className="flex flex-row ">
+                <label htmlFor="tent2p">2-personers telt (+299,-):</label>
+                <div className="flex flex-row gap-3">
+                  <button className="p-2 bg-slate-300">-</button>
+                  <input
+                    className="w-8"
+                    type="number"
+                    id="tent2p"
+                    min="0"
+                    {...register("tent2p", { valueAsNumber: true })}
+                  />
+                  <button className=" p-2 bg-slate-300">+</button>
+                </div>
+              </div>
+              <div className="flex flex-row">
+                <label htmlFor="tent3p">3-personers telt (+399,-):</label>
+                <div className="flex flex-row gap-3">
+                  <button className="p-2 bg-slate-300">-</button>
+                  <input
+                    className="w-8"
+                    type="number"
+                    id="tent3p"
+                    min="0"
+                    {...register("tent3p", { valueAsNumber: true })}
+                  />
+                  <button className="p-2 bg-slate-300">+</button>
+                </div>
+              </div>
+            </div>
+          )}
           <div>
             <button type="button" onClick={onBack}>
               Tilbage
