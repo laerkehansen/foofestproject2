@@ -34,6 +34,8 @@ module.exports = {
         green: "#00FF1A",
         customPink: {
           DEFAULT: "oklch(67% 0.2901 354.71)", // OKLCH-farven
+          600: "oklch(70% 0.2901 354.71)",
+          700: "oklch(80% 0.2901 354.71)",
           fallback: "#ff009f", // Fallback-farven
         },
         customRed: {

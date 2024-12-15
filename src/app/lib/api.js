@@ -8,7 +8,10 @@ const headersList = {
 };
 
 export async function getBands() {
-  const response = await fetch(`${url}/bands`);
+  const response = await fetch(`${url}/bands`, {
+    method: "GET",
+    headers: headersList,
+  });
 
   const data = await response.json();
   return data;
