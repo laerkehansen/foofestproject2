@@ -15,60 +15,33 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
   } = useForm({
     resolver: zodResolver(validering),
     defaultValues: {
-      campingSelected: formData.campingSelected || false, // Sørg for at vi holder styr på om camping er valgt
-      tentType: formData.tentType || "",
+      campingSelected: formData.campingSelected || false,
     },
   });
 
-  // State til at holde styr på de tilgængelige pladser og loading-status
-  const [availableSpots, setAvailableSpots] = useState([]);
+  const [availableSpots, setAvailableSpots] = useState([]); // Tilgængelige områder
+  const [selectedArea, setSelectedArea] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Funktion til at hente de tilgængelige pladser
   const fetchData = async () => {
     const data = await getAvailableSpots();
-    setAvailableSpots(data); // Opdaterer tilstanden med data
-    setLoading(false); // Når data er hentet, stop loading
+    setAvailableSpots(data);
+    setLoading(false);
   };
 
-  // Brug useEffect til at hente data første gang komponenten renderes
   useEffect(() => {
-    fetchData(); // Hent data første gang
-
-    // Opdater data hvert 10. sekund
-    const interval = setInterval(fetchData, 10000);
-
-    // Ryd intervallet, når komponenten ikke længere er aktiv
+    fetchData();
+    const interval = setInterval(fetchData, 2000); // Tjek hver 2. sekund
     return () => clearInterval(interval);
-  }, []); // Tom afhængigheds-array gør at det kun kører én gang ved første render
+  }, []);
 
-  // Beregn den samlede pris
-  const calculateTotalPrice = () => {
-    const vipPrice = 1299;
-    const regularPrice = 799;
-    const tent2PersonPrice = 299;
-    const tent3PersonPrice = 399;
-    const fee = 99;
-
-    //beregner billetpris
-    const vipTotal = formData.vipCount * vipPrice;
-    const regularTotal = formData.regularCount * regularPrice;
-
-    //bereng den ssamlede pris
-    let tentTotal = 0;
-    if (formData.tentType === "2") {
-      tentTotal = formData.vipCount * tent2PersonPrice; //to personer pr telt
-    } else if (formData.tentType === "3") {
-      tentTotal = formData.regularCount * tent3PersonPrice; //tre persiner
-    }
-
-    return vipTotal + regularTotal + tentTotal + fee;
+  const handleAreaSelection = (area) => {
+    setSelectedArea(area);
   };
 
-  // Funktion der håndterer submit og sender data videre
   const onSubmit = (data) => {
-    // vi sender pris og teltvalg til formdata
-    onNext({ ...formData, ...data, totalPrice });
+    console.log("Form submitted:", data);
+    onNext(data);
   };
 
   return (
@@ -80,104 +53,110 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
             <li>VIP Billetter: {formData.vipCount}</li>
             <li>Regular Billetter: {formData.regularCount}</li>
           </ul>
-        </div>
-        {/* Vis teltvalg */}
-        <div className="mb-4">
-          <p>Vælg telt:</p>
-          <div>
-            <label>
-              <input
-                type="radio"
-                value="2"
-                {...register("tentType")}
-                className="mr-2"
-              />
-              2-personers telt (299 kr.)
+
+          <form action="">
+            <label htmlFor="">
+              tilkøb camping <input type="radio" />
             </label>
-            <br />
-            <label>
-              <input
-                type="radio"
-                value="3"
-                {...register("tentType")}
-                className="mr-2"
-              />
-              3-personers telt (399 kr.)
+            <label htmlFor="">
+              fortset uden camping
+              <input type="radio" />
             </label>
-          </div>
-          {errors.tentType && (
-            <span className="text-red-500">{errors.tentType.message}</span>
-          )}
-        </div>
-
-        {/* Vis den samlede pris */}
-        <div>
-          <h3 className="text-red-500">
-            Samlet pris: {formData.totalPrice} kr.
-          </h3>
-        </div>
-
-        {/* Vis gebyr og den samlede pris */}
-        <div>
-          <h3>Samlet pris:</h3>
-          <ul>
-            <li>VIP Billetter: {formData.vipCount * 1299} kr.</li>
-            <li>Regular Billetter: {formData.regularCount * 799} kr.</li>
-            <li>
-              Telt (valgt):{" "}
-              {formData.tentType === "2"
-                ? "2-personers telt"
-                : "3-personers telt"}{" "}
-              -{" "}
-              {formData.tentType === "2"
-                ? formData.vipCount * 299
-                : formData.regularCount * 399}{" "}
-              kr.
-            </li>
-            <li>Gebyr: 99 kr.</li>
-            <li>
-              <strong>Samlet: {calculateTotalPrice()} kr.</strong>
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h2>Ledige Camping Pladser</h2>
-          {loading ? (
-            <div>Data hentes...</div>
-          ) : (
-            <ul>
-              {availableSpots.map((spot, index) => (
-                <li key={index}>
-                  {spot.area} - Tilgængelige pladser: {spot.available}
-                  <p>{spot.spots}</p>
-                </li>
-              ))}
-            </ul>
-          )}
+            {/* når man klikker subit så afænign af om man har valgt camping eller ej 
+            hvis campinh er valt så åbner formularen neden under 
+            hvis camping ikke er valt så går åbner neste step i flowet og sender daten med vidre i begge tilfælde */}
+            <button>subit</button>
+          </form>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4">
-            <label>
-              Vælg campingplads
-              <input
-                type="checkbox"
-                {...register("campingSelected")}
-                className="ml-2"
-              />
-            </label>
-            {errors.campingSelected && (
-              <span className="text-red-500">
-                {errors.campingSelected.message}
-              </span>
-            )}
+          <div>
+            {availableSpots.map((spot, index) => (
+              <div key={index}>
+                <label htmlFor={spot.area}>
+                  Tilgængelige pladser: {spot.available}
+                  {spot.area} <p>{spot.spots}</p>
+                </label>
+                <input
+                  type="radio"
+                  id={spot.area}
+                  value={spot.area}
+                  {...register("area")}
+                  onChange={() => handleAreaSelection(spot.area)}
+                />
+                {/* ( efter knap er trykket på så reseveres
+                  camping spot i 5 min hved at sende en put recrest så den skal
+                  kalde en funktion) */}
+              </div>
+            ))}
+            <button className="bg-red-900">okay</button>
           </div>
 
-          <button type="button" onClick={onBack}>
-            Tilbage
-          </button>
-          <button type="submit">Gå videre</button>
+          {/* Grøn camping */}
+          <div>
+            <input
+              type="checkbox"
+              id="greenCamping"
+              {...register("greenCamping")}
+            />
+            <label htmlFor="greenCamping">Grøn camping (+249,-)</label>
+          </div>
+
+          {/* Telte */}
+
+          {/* Tilkøb teltopsætning */}
+          {/* her skal man klikke på chek hvis ja og hvis ik man klikker så går man bare vidre hvis man klikker ja 
+          så neden under så åbner de to telt options som   */}
+
+          <div>
+            <input
+              type="checkbox"
+              id="addTentSetup"
+              {...register("addTentSetup")}
+              onChange={(e) => setTentSetupVisible(e.target.checked)}
+            />
+            <label htmlFor="addTentSetup">
+              Pay to have the crew set up tents
+            </label>
+          </div>
+          {watch("addTentSetup") && (
+            <div>
+              <div className="flex flex-row ">
+                <label htmlFor="tent2p">2-personers telt (+299,-):</label>
+                <div className="flex flex-row gap-3">
+                  <button className="p-2 bg-slate-300">-</button>
+                  <input
+                    className="w-8"
+                    type="number"
+                    id="tent2p"
+                    min="0"
+                    {...register("tent2p", { valueAsNumber: true })}
+                  />
+                  <button className=" p-2 bg-slate-300">+</button>
+                </div>
+              </div>
+              <div className="flex flex-row">
+                <label htmlFor="tent3p">3-personers telt (+399,-):</label>
+                <div className="flex flex-row gap-3">
+                  <button className="p-2 bg-slate-300">-</button>
+                  <input
+                    className="w-8"
+                    type="number"
+                    id="tent3p"
+                    min="0"
+                    {...register("tent3p", { valueAsNumber: true })}
+                  />
+                  <button className="p-2 bg-slate-300">+</button>
+                </div>
+              </div>
+            </div>
+          )}
+          <div>
+            <button type="button" onClick={onBack}>
+              Tilbage
+            </button>
+            <button type="submit">Fortsæt</button>
+          </div>
         </form>
       </div>
     </div>
