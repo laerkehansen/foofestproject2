@@ -22,7 +22,6 @@ export default async function Home() {
       <ImageSectionFront />
       <OptionSectionFront />
       <FontSectionFront />
-      <Footer />
     </div>
   );
 }

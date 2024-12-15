@@ -18,16 +18,16 @@ const TodaysActs = ({ schedule }) => {
   // Filtrer aktiviteterne, så vi kun ser dem, der matcher den aktuelle dag
   const todaysActs = schedule.filter((act) => act.day === currentDay);
   return (
-    <div className="grid grid-cols-[0.1fr_1fr_0.1fr] gap-10 py-28">
-      <h2 className="font-Inter font-black text-7xl italic text-center col-start-2">
+    <div className="grid grid-cols-[0.1fr_1fr_0.1fr] gap-10 py-28 text-black">
+      <h2 className="font-Inter font-black text-7xl italic text-center col-start-2 text-black">
         Dagens Aktiviteter - {dayNames[currentDay]}
       </h2>
       {todaysActs.length > 0 && (
-        <ul className="flex flex-wrap col-start-2 justify-center gap-2 text-2xl">
+        <ul className="flex flex-wrap col-start-2 justify-center gap-2 text-2xl text-black">
           {todaysActs.map((act, index) => (
             <li
               key={index}
-              className="font-Inter border-black border-2 p-2 w-fit"
+              className="font-Inter border-black border-2 p-2 w-fit text-black"
             >
               <strong>{act.act}</strong>
               {/* - {dayNames[act.day]}: {act.start} -{" "}
