@@ -27,7 +27,13 @@ const Payment = () => {
           formData={formData}
         />
       )}
-      {step === 3 && <PersonalInfoForm onBack={prevStep} onNext={nextStep} />}
+      {step === 3 && (
+        <PersonalInfoForm
+          formData={formData}
+          onBack={prevStep}
+          onNext={nextStep}
+        />
+      )}
       {step === 4 && (
         <ReviewStep formData={formData} onBack={prevStep} onNext={nextStep} />
       )}

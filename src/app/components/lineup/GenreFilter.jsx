@@ -22,7 +22,7 @@ const GenreFilter = ({ setFilterGenre, bandData, setFilter }) => {
   return (
     <div className="pt-10">
       <div className="flex gap-4">
-        <h3 className="font-Inter text-xl font-extrabold italic pb-4">
+        <h3 className="font-Inter text-xl font-extrabold italic pb-4 text-black">
           Filter efter genre:
         </h3>
         <SearchFilterLineup setFilter={setFilter} />
@@ -31,7 +31,7 @@ const GenreFilter = ({ setFilterGenre, bandData, setFilter }) => {
         {genres.map((genre) => (
           <label
             key={genre}
-            className="border-2 text-xl font-Inter font-semibold border-black p-2 text-center w-fit"
+            className="border-2 text-xl font-Inter font-semibold border-black p-2 text-center w-fit text-black"
           >
             <input
               type="checkbox"
@@ -44,7 +44,7 @@ const GenreFilter = ({ setFilterGenre, bandData, setFilter }) => {
         ))}
         <button
           onClick={resetGenres}
-          className="p-2 bg-green border-black border-2 font-Inter font-semibold text-black text-xl"
+          className="p-2 bg-green border-black border-2 font-Inter font-semibold text-black text-xl "
         >
           Nulstil genrer
         </button>

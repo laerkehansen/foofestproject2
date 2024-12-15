@@ -29,7 +29,9 @@ const Filter = ({ days, scenesByDay, onFilterChange, currentDay }) => {
 
   return (
     <div className="pt-16">
-      <h3 className="text-xl font-Inter font-semibold italic">Vælg dag:</h3>
+      <h3 className="text-xl font-Inter font-semibold italic text-black">
+        Vælg dag:
+      </h3>
       <div>
         {days.map((day) => (
           <button
@@ -46,7 +48,7 @@ const Filter = ({ days, scenesByDay, onFilterChange, currentDay }) => {
 
       {selectedDay && (
         <>
-          <h4 className="text-xl font-Inter font-semibold italic">
+          <h4 className="text-xl font-Inter font-semibold italic text-black">
             Vælg scene:
           </h4>
           <div>

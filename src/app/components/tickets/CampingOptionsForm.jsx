@@ -41,7 +41,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
 
   const onSubmit = (data) => {
     console.log("Form submitted:", data);
-    onNext(data);
+    onNext({ ...data });
   };
 
   return (
@@ -65,7 +65,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
             {/* når man klikker subit så afænign af om man har valgt camping eller ej 
             hvis campinh er valt så åbner formularen neden under 
             hvis camping ikke er valt så går åbner neste step i flowet og sender daten med vidre i begge tilfælde */}
-            <button>subit</button>
+            <button>submit</button>
           </form>
         </div>
 
@@ -155,7 +155,9 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
             <button type="button" onClick={onBack}>
               Tilbage
             </button>
-            <button type="submit">Fortsæt</button>
+            <button type="submit" onClick={onNext}>
+              Fortsæt
+            </button>
           </div>
         </form>
       </div>

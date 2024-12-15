@@ -19,7 +19,7 @@ const MenuBtn = ({ isOpen, setIsOpen }) => {
         className="justify-self-end relative h-[3.75rem] w-[3.75rem] rounded-full bg-customPink text-black"
       >
         <motion.span
-          className="absolute h-1 w-7 bg-white  text-black"
+          className="absolute h-1 w-7 bg-black  text-black"
           style={{ left: "50%", top: "35%", x: "-50%", y: "-50%" }}
           variants={{
             open: {
@@ -34,7 +34,7 @@ const MenuBtn = ({ isOpen, setIsOpen }) => {
           initial={{ rotate: "0deg" }}
         />
         <motion.span
-          className="absolute h-1 w-7 bg-white"
+          className="absolute h-1 w-7 bg-black"
           style={{ left: "50%", top: "50%", x: "-50%", y: "-50%" }}
           variants={{
             open: {
@@ -47,7 +47,7 @@ const MenuBtn = ({ isOpen, setIsOpen }) => {
           initial={{ rotate: "0deg" }}
         />
         <motion.span
-          className="absolute h-1 w-4 bg-white"
+          className="absolute h-1 w-4 bg-black"
           style={{
             left: "calc(50% + 6px)",
             bottom: "35%",
