@@ -31,6 +31,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
   const [availableSpots, setAvailableSpots] = useState([]); // Tilgængelige områder
   const [selectedArea, setSelectedArea] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [formError, setFormError] = useState("");
 
   const fetchData = async () => {
     const data = await getAvailableSpots();
@@ -62,15 +63,15 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
   };
 
   const onSubmit = (data) => {
-    console.log("Submitting data:", data); // Debug
     if (!data.area) {
-      console.error("Campingområde ikke valgt");
-      return; // Stop formularindsendelsen
+      setFormError("Du skal vælge et campingområde!"); // Sæt fejlmeddelelse
+      return;
     }
-    console.log("Form submitted:", data);
+
+    // Hvis ingen fejl
+    setFormError(""); // Ryd fejl
     onNext({
       ...data,
-      // totalPrice,
     });
   };
 
@@ -122,6 +123,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
             <p className="text-red-500 text-sm">{errors.area.message}</p>
           )}
         </div>
+        {formError && <p className="text-red-500 text-sm mb-4">{formError}</p>}
         {selectedArea && <p>Du har valgt campingområde: {selectedArea}</p>}
 
         {/* Grøn camping */}

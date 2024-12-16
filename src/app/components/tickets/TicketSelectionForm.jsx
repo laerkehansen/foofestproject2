@@ -73,8 +73,8 @@ const TicketSelectionForm = ({ onNext }) => {
               type="number"
               className="w-14"
               min="0"
-              value={regularCount} // Bruger den værdi, der er gemt i state
-              disabled={false} // Deaktiverer standardpilene for input
+              // value={regularCount} // Bruger den værdi, der er gemt i state
+              // disabled={false} // Deaktiverer standardpilene for input
             />
             <button
               type="button"
