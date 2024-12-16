@@ -18,7 +18,7 @@ const Payment = () => {
 
   const prevStep = () => setStep((prev) => prev - 1);
   return (
-    <div className="grid grid-cols-1 justify-items-center items-center py-20 px-20 text-black h-svh bg-slate-400 ">
+    <div className="grid py-20 text-black">
       {step === 1 && <TicketSelectionForm onNext={nextStep} />}
       {step === 2 && (
         <CampingOptionsForm
