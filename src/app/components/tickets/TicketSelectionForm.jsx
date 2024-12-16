@@ -2,6 +2,10 @@
 import { useForm } from "react-hook-form";
 import { validering } from "@/app/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Kvitering from "./Kvitering";
+import StepBar from "./StepBar";
+import { HiOutlineMinus } from "react-icons/hi";
+import { HiOutlinePlus } from "react-icons/hi";
 
 const TicketSelectionForm = ({ onNext }) => {
   const {
@@ -30,6 +34,8 @@ const TicketSelectionForm = ({ onNext }) => {
   // Beregn den samlede pris
   const totalPrice = vipCount * vipPrice + regularCount * regularPrice;
 
+  const totalTick = vipCount + regularCount;
+
   // Håndterer plus og minus for telte
   const handleTentChange = (type, operation) => {
     const currentValue = watch(type);
@@ -50,84 +56,94 @@ const TicketSelectionForm = ({ onNext }) => {
   };
 
   return (
-    <div className="grid grid-cols-2 justify-items-center items-center">
+    <div className=" grid grid-cols-[1fr_auto] gap-4  w-full h-full bg-white px-20 py-10">
+      <StepBar />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="p-10  bg-white border-2 border-black"
+        className=" col-start-1 grid gird-cols-1 row-auto "
       >
-        <h2>Vælg billetter type og antal</h2>
-
-        <div className="grid grid-cols-2">
-          <label>Antal VIP 1299,-</label>
-          <div className="grid grid-cols-3 gap-2">
-            <button
-              type="button"
-              onClick={() => handleTentChange("vipCount", "increment")}
-              // onClick={() => plusKnap("vipCount")}
-              className="bg-slate-300"
-            >
-              +
-            </button>
-            <input
-              {...register("vipCount", { valueAsNumber: true })}
-              type="number"
-              className="w-14"
-              min="0"
-              // value={regularCount} // Bruger den værdi, der er gemt i state
-              // disabled={false} // Deaktiverer standardpilene for input
-            />
-            <button
-              type="button"
-              onClick={() => handleTentChange("vipCount", "decrement")}
-              className="bg-slate-300"
-            >
-              -
-            </button>
+        <div className=" w-[400px]  ">
+          <h1 className="text-stor font-medium">Biletter</h1>
+          <div className="flex justify-between py-2 border-b-2 border-black">
+            <h2>Vælg billetter type og antal</h2>
+            <p className="font-medium italic"> ticket ({totalTick})</p>
           </div>
-          {errors.vipCount && (
-            <span className="text-red-500">{errors.vipCount.message}</span>
-          )}
-        </div>
 
-        <div className="grid grid-cols-2">
-          <label>Antal normal 799,-</label>
-          <div className="grid grid-cols-3 gap-2">
-            <button
-              type="button"
-              onClick={() => handleTentChange("regularCount", "increment")}
-              className="bg-slate-300"
-            >
-              +
-            </button>
-            <input
-              {...register("regularCount", { valueAsNumber: true })}
-              type="number"
-              placeholder="0"
-              className="w-14"
-              min="0"
-            />
-            <button
-              type="button"
-              onClick={() => handleTentChange("regularCount", "decrement")}
-              className="bg-slate-300"
-            >
-              -
-            </button>
+          <div className="grid grid-cols-2 py-2 ">
+            <label>Antal VIP 1299,-</label>
+            <div className="grid grid-cols-3  gap-2 place-items-center">
+              <button
+                type="button"
+                onClick={() => handleTentChange("vipCount", "decrement")}
+              >
+                <HiOutlineMinus className="w-6 h-6 " />
+              </button>
+
+              <input
+                {...register("vipCount", { valueAsNumber: true })}
+                type="number"
+                placeholder="0"
+                min="0"
+                className=" w-7 text-center  text-lg"
+                readOnly
+              />
+              <button
+                type="button"
+                onClick={() => handleTentChange("vipCount", "increment")}
+                // onClick={() => plusKnap("vipCount")}
+                // className="bg-slate-300"
+              >
+                <HiOutlinePlus className="w-6 h-6 " />
+              </button>
+            </div>
+            {errors.vipCount && (
+              <span className="text-red-500">{errors.vipCount.message}</span>
+            )}
           </div>
-          {errors.regularCount && (
-            <span className="text-red-500">{errors.regularCount.message}</span>
-          )}
-        </div>
 
-        {/* Vis den samlede pris */}
-        <div className="mt-4">
-          <h3>Samlet pris: {totalPrice} kr.</h3>
-        </div>
+          <div className="grid grid-cols-2">
+            <label>Antal normal 799,-</label>
+            <div className="grid grid-cols-3 gap-2 justify-center place-items-center">
+              <button
+                type="button"
+                onClick={() => handleTentChange("regularCount", "decrement")}
+              >
+                <HiOutlineMinus className="w-6 h-6 " />
+              </button>
+              <input
+                {...register("regularCount", { valueAsNumber: true })}
+                type="number"
+                placeholder="0"
+                min="0"
+                readOnly
+                className=" w-7 text-center  text-lg"
+                // value={regularCount} // Bruger den værdi, der er gemt i state
+              />
+              <button
+                type="button"
+                onClick={() => handleTentChange("regularCount", "increment")}
+              >
+                <HiOutlinePlus className="w-6 h-6 " />
+              </button>
+            </div>
+            {errors.regularCount && (
+              <span className="text-red-500">
+                {errors.regularCount.message}
+              </span>
+            )}
+          </div>
 
-        <button type="submit" className="bg-lime-500">
+          {/* Vis den samlede pris */}
+          <div className="mt-4">
+            <h3>Samlet pris: {totalPrice} kr.</h3>
+          </div>
+        </div>
+        <button type="submit" className="bg-lime-500 self-end place-self-end">
           Gå videre
         </button>
       </form>
+
+      <Kvitering></Kvitering>
     </div>
   );
 };
