@@ -16,7 +16,6 @@ const TicketSelectionForm = ({ onNext }) => {
     defaultValues: {
       vipCount: 0, // Standardværdi for vipCount
       regularCount: 0, // Standardværdi for regularCount
-      area: "",
     },
   });
 
@@ -43,7 +42,11 @@ const TicketSelectionForm = ({ onNext }) => {
 
   const onSubmit = (data) => {
     // Send både de eksisterende data og den samlede pris
-    onNext({ ...data, totalPrice });
+    console.log("Form submitted:", data);
+    onNext({
+      ...data,
+      totalPrice,
+    });
     // Du kan sende data videre til backend her
   };
 

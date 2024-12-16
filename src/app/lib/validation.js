@@ -22,6 +22,16 @@ export const validering = z
       .default(0),
     area: z.string().optional("Du skal vælge et campingområde"), // Campingområdet skal vælges
   })
+  .superRefine((data, ctx) => {
+    console.log("Valgt campingområde:", data.area);
+    // Hvis teltopsætning er valgt, skal campingområdet være udfyldt
+    if (data.addTentSetup && !data.area) {
+      ctx.addIssue({
+        message: "Campingområde skal vælges, når teltopsætning er tilføjet.",
+        path: ["area"], // Placering af fejlen på området
+      });
+    }
+  })
 
   // Tjekker om enten vip eller regular billetter er valgt
   .refine((data) => data.vipCount > 0 || data.regularCount > 0, {
@@ -32,12 +42,17 @@ export const validering = z
   .refine(
     (data) => {
       if (data.addTentSetup) {
+        console.log("Input data:", data);
         // Beregn samlet antal pladser i teltene
+        const totalTickets = data.vipCount + data.regularCount;
+        console.log("det her er tickets", totalTickets);
+
         const totalPeopleInTents =
           (data.tent2p || 0) * 2 + (data.tent3p || 0) * 3;
         // Beregn samlet antal billetter
+        console.log("det her er personer i telte", totalPeopleInTents);
+
         // const totalTickets = (data.vipCount || 0) + (data.regularCount || 0);
-        const totalTickets = data.vipCount + data.regularCount;
 
         console.log("Total people in tents:", totalPeopleInTents);
         console.log("Total tickets:", totalTickets);

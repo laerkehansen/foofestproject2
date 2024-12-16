@@ -20,6 +20,8 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
     defaultValues: {
       campingSelected: formData.campingSelected || false, //bruges ik
       addTentSetup: formData.addTentSetup || false, // Tilføj standardværdi for addTentSetup
+      vipCount: formData.vipCount || 0,
+      regularCount: formData.regularCount || 0,
       tent2p: 0,
       tent3p: 0,
       area: "",
@@ -38,12 +40,14 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(fetchData, 2000); // Tjek hver 2. sekund
-    return () => clearInterval(interval);
+    // const interval = setInterval(fetchData, 2000); // Tjek hver 2. sekund
+    // return () => clearInterval(interval);
   }, []);
 
   const handleAreaSelection = (area) => {
     setSelectedArea(area);
+    setValue("area", area);
+    console.log(setSelectedArea);
   };
 
   // Håndterer plus og minus for telte
@@ -57,15 +61,16 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
 
   const onSubmit = (data) => {
     console.log("Submitting data:", data); // Debug
-    console.log("Valideringsfejl:", errors);
     if (!data.area) {
       console.error("Campingområde ikke valgt");
       return; // Stop formularindsendelsen
     }
     console.log("Form submitted:", data);
-    onNext({ ...data, totalPrice });
+    onNext({
+      ...data,
+      // totalPrice,
+    });
   };
-  console.log(errors);
 
   return (
     <div className="h-svh">
@@ -92,6 +97,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
                   {...register("area")} // Korrekt binding
                   onChange={() => handleAreaSelection(spot.area)}
                 />
+                {errors.area && <p>{errors.area.message}</p>}
                 <label
                   htmlFor={spot.area}
                   className=" rounded-md cursor-pointer bg-slate-400 p-2 text-center font-Inter uppercase text-lg 
@@ -114,6 +120,8 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
             <p className="text-red-500 text-sm">{errors.area.message}</p>
           )}
         </div>
+        {selectedArea && <p>Du har valgt campingområde: {selectedArea}</p>}
+
         {/* Grøn camping */}
         <div className="py-4">
           <div className="flex justify-between items-center">
