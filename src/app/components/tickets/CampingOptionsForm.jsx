@@ -164,7 +164,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
                   onClick={() => handleTentChange("tent2p", "decrement")}
                   className=" bg-slate-300 "
                 >
-                  <CiSquareMinus className="h-10 w-10 text-center self-center  " />
+                  <CiSquareMinus className="h-18 w-18 text-center self-center  " />
                 </button>
                 <input
                   className="w-8"
@@ -179,7 +179,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
                   type="button"
                   onClick={() => handleTentChange("tent2p", "increment")}
                 >
-                  <CiSquarePlus className="h-10 w-10 text-center self-center " />
+                  <CiSquarePlus className="h-18 w-18 text-center self-center" />
                 </button>
               </div>
             </div>
@@ -193,9 +193,8 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
                 <button
                   type="button"
                   onClick={() => handleTentChange("tent3p", "decrement")}
-                  className="bg-slate-400 focus:bg-slate-500"
                 >
-                  <CiSquareMinus className="h-10 w-10 text-center self-center  " />
+                  <CiSquareMinus className="h-18 w-18 text-center self-center" />
                 </button>
                 <input
                   className="w-8"
@@ -209,7 +208,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
                   onClick={() => handleTentChange("tent3p", "increment")}
                   className=" bg-slate-300"
                 >
-                  <CiSquarePlus className="h-10 w-10 text-center self-center " />
+                  <CiSquarePlus className="h-18 w-18 text-center self-center" />
                 </button>
               </div>
               {errors.tent3p && (

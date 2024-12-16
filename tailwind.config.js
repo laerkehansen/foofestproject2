@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-
-const defaultTheme = require("tailwindcss/defaultTheme");
+// const { fontFamily } = require("tailwindcss/defaultTheme"); // Korrekt import af fontFamily
+// const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
   content: [
@@ -21,8 +21,12 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        Inter: ["Inter", ...defaultTheme.fontFamily.sans],
+        sans: ["var(--font-inter)"],
+        // sans: ["var(--font-inter)", ...fontFamily.sans], // Brug Inter som standard sans
       },
+      // fontFamily: {
+      //   Inter: ["Inter", ...defaultTheme.fontFamily.sans],
+      // },
       colors: {
         foreground: "var(--foreground)",
         cary: "#F2B705",
@@ -56,11 +60,30 @@ module.exports = {
         },
       },
       fontSize: {
-        heroText: "200px",
+        // sm: "0.8rem",
+        // base: "1rem",
+        mini: "1.125", //18px
+        mid: "1.25rem", //20px
+        stor: "1.875rem",
+
+        // "2xl": "1.563rem",
+        // "3xl": "1.953rem",
+        // "4xl": "2.441rem",
+        // "5xl": "3.052rem",
       },
-      lineHeight: {
-        heroLeading: "8.9rem",
+      width: {
+        18: "1.125", //px
       },
+      height: {
+        18: "1.125", //px
+      },
+
+      // fontSize: {
+      //   heroText: "200px",
+      // },
+      // lineHeight: {
+      //   heroLeading: "8.9rem",
+      // },
     },
   },
   plugins: [],

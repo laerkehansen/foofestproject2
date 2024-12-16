@@ -74,6 +74,9 @@ export const validering = z
         // Beregn samlet antal billetter
         const totalTickets = (data.vipCount || 0) + (data.regularCount || 0);
 
+        console.log("personer i telte", totalPeopleInTents);
+        console.log("billetter", totalTickets);
+
         // Hvis antallet af personer i teltene ikke matcher billetterne, er der en fejl
         return totalPeopleInTents === totalTickets;
       }
