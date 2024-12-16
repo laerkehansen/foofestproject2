@@ -8,7 +8,6 @@ const TicketSelectionForm = ({ onNext }) => {
     register,
     handleSubmit,
     setValue, // bruges til knapper
-    getValues, // Bruges til at hente aktuelle værdier
     formState: { errors },
     watch, // Brug watch til at få værdierne af formularfelterne
   } = useForm({
@@ -25,20 +24,20 @@ const TicketSelectionForm = ({ onNext }) => {
   const regularPrice = 799;
 
   // Få værdien af vipCount og regularCount fra formularen
+
   const vipCount = watch("vipCount", 0); // Standardværdi 0
   const regularCount = watch("regularCount", 0); // Standardværdi 0
 
   // Beregn den samlede pris
   const totalPrice = vipCount * vipPrice + regularCount * regularPrice;
 
-  const plusKnap = (field) => {
-    const currentValue = getValues(field); // Hent den aktuelle værdi
-    setValue(field, Math.max(0, currentValue + 1)); // Øg værdien, men sørg for, at den ikke bliver negativ
-  };
-
-  const minusKnap = (field) => {
-    const currentValue = getValues(field); // Hent den aktuelle værdi
-    setValue(field, Math.max(0, currentValue - 1)); // Reducer værdien, men sørg for, at den ikke bliver negativ
+  // Håndterer plus og minus for telte
+  const handleTentChange = (type, operation) => {
+    const currentValue = watch(type);
+    let newValue =
+      operation === "increment" ? currentValue + 1 : currentValue - 1;
+    if (newValue < 0) newValue = 0; // Undgå negative værdier
+    setValue(type, newValue);
   };
 
   const onSubmit = (data) => {
@@ -60,7 +59,8 @@ const TicketSelectionForm = ({ onNext }) => {
           <div className="grid grid-cols-3 gap-2">
             <button
               type="button"
-              onClick={() => plusKnap("vipCount")}
+              onClick={() => handleTentChange("vipCount", "increment")}
+              // onClick={() => plusKnap("vipCount")}
               className="bg-slate-300"
             >
               +
@@ -70,11 +70,12 @@ const TicketSelectionForm = ({ onNext }) => {
               type="number"
               className="w-14"
               min="0"
+              value={regularCount} // Bruger den værdi, der er gemt i state
               disabled={false} // Deaktiverer standardpilene for input
             />
             <button
               type="button"
-              onClick={() => minusKnap("vipCount")}
+              onClick={() => handleTentChange("vipCount", "decrement")}
               className="bg-slate-300"
             >
               -
@@ -90,7 +91,7 @@ const TicketSelectionForm = ({ onNext }) => {
           <div className="grid grid-cols-3 gap-2">
             <button
               type="button"
-              onClick={() => plusKnap("regularCount")}
+              onClick={() => handleTentChange("regularCount", "increment")}
               className="bg-slate-300"
             >
               +
@@ -101,11 +102,10 @@ const TicketSelectionForm = ({ onNext }) => {
               placeholder="0"
               className="w-14"
               min="0"
-              disabled={false} // Deaktiverer standardpilene for input
             />
             <button
               type="button"
-              onClick={() => minusKnap("regularCount")}
+              onClick={() => handleTentChange("regularCount", "decrement")}
               className="bg-slate-300"
             >
               -

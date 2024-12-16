@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/router";
 import Arrow from "@/app/img/arrow.svg";
-const TilbageBtn = () => {
+const TilbageBtn = ({ goBack }) => {
   const router = useRouter(); // Brug useRouter for programmatisk navigation
 
   // Funktion til at navigere tilbage

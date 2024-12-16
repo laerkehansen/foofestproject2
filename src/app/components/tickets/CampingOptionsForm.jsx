@@ -36,6 +36,8 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
     setLoading(false);
   };
 
+  //   skal slettes
+
   useEffect(() => {
     fetchData();
     const interval = setInterval(fetchData, 2000); // Tjek hver 2. sekund
