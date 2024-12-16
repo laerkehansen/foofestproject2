@@ -16,6 +16,7 @@ const TicketSelectionForm = ({ onNext }) => {
     defaultValues: {
       vipCount: 0, // Standardværdi for vipCount
       regularCount: 0, // Standardværdi for regularCount
+      area: "",
     },
   });
 
@@ -67,10 +68,8 @@ const TicketSelectionForm = ({ onNext }) => {
             <input
               {...register("vipCount", { valueAsNumber: true })}
               type="number"
-              placeholder="0"
               className="w-14"
               min="0"
-              value={vipCount} // Bruger den værdi, der er gemt i state
               disabled={false} // Deaktiverer standardpilene for input
             />
             <button
@@ -102,7 +101,6 @@ const TicketSelectionForm = ({ onNext }) => {
               placeholder="0"
               className="w-14"
               min="0"
-              value={regularCount} // Bruger den værdi, der er gemt i state
               disabled={false} // Deaktiverer standardpilene for input
             />
             <button

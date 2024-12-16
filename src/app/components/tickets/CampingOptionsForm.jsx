@@ -22,6 +22,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
       addTentSetup: formData.addTentSetup || false, // Tilføj standardværdi for addTentSetup
       tent2p: 0,
       tent3p: 0,
+      area: "",
     },
   });
 
@@ -55,8 +56,13 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
   };
 
   const onSubmit = (data) => {
+    console.log("Submitting data:", data); // Debug
+    console.log("Valideringsfejl:", errors);
+    if (!data.area) {
+      console.error("Campingområde ikke valgt");
+      return; // Stop formularindsendelsen
+    }
     console.log("Form submitted:", data);
-    onNext({ ...data });
     onNext({ ...data, totalPrice });
   };
   console.log(errors);
@@ -78,29 +84,35 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
           <div className="flex flex-row gap-4  ">
             {availableSpots.map((spot, index) => (
               <div key={index}>
-                {/* Tilgængelige pladser: {spot.available}
-                  {spot.area} <p>{spot.spots}</p> */}
-
                 <input
                   className="hidden peer"
-                  placeholder={spot.area}
                   type="radio"
                   id={spot.area}
                   value={spot.area}
-                  {...register("area")}
+                  {...register("area")} // Korrekt binding
                   onChange={() => handleAreaSelection(spot.area)}
                 />
                 <label
                   htmlFor={spot.area}
                   className=" rounded-md cursor-pointer bg-slate-400 p-2 text-center font-Inter uppercase text-lg 
-                            peer-checked:bg-customPink-700 peer-checked:text-white 
-                            hover:bg-gray-200 transition-all duration-200 "
+                  peer-checked:bg-customPink-700 peer-checked:text-white 
+                  hover:bg-gray-200 transition-all duration-200 "
                 >
                   {spot.area}
                 </label>
+                <div className="flex">
+                  <p>Tilgængelige pladser:</p>{" "}
+                  <p>
+                    {spot.available}/{/* {spot.area}  */}
+                    {spot.spots}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
+          {errors.area && (
+            <p className="text-red-500 text-sm">{errors.area.message}</p>
+          )}
         </div>
         {/* Grøn camping */}
         <div className="py-4">
