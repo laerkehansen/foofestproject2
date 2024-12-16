@@ -24,6 +24,7 @@ export const validering = z
   })
   .superRefine((data, ctx) => {
     console.log("Valgt campingområde:", data.area);
+
     // Hvis teltopsætning er valgt, skal campingområdet være udfyldt
     if (data.addTentSetup && !data.area) {
       ctx.addIssue({
@@ -31,46 +32,43 @@ export const validering = z
         path: ["area"], // Placering af fejlen på området
       });
     }
+
+    // Beregn samlet antal billetter
+    const totalTickets = (data.vipCount || 0) + (data.regularCount || 0);
+
+    // Beregn samlet antal pladser i teltene
+    const totalPeopleInTents = (data.tent2p || 0) * 2 + (data.tent3p || 0) * 3;
+
+    console.log("Samlet antal billetter:", totalTickets);
+    console.log("Samlet antal personer i telte:", totalPeopleInTents);
+
+    // Hvis teltopsætning er valgt:
+    if (data.addTentSetup) {
+      // 1. Teltpladser skal være mindst lig med billetter
+      if (totalPeopleInTents < totalTickets) {
+        ctx.addIssue({
+          message:
+            "Du har ikke nok teltpladser til det samlede antal billetter. Tilføj flere telte.",
+          path: ["tent2p"], // Fokusér fejlen på teltfelterne
+        });
+      }
+
+      // 2. Teltpladser må højst være én mere end antallet af billetter
+      if (totalPeopleInTents > totalTickets + 1) {
+        ctx.addIssue({
+          message:
+            "Pladserne i teltene må højst være én mere end det samlede antal billetter.",
+          path: ["tent2p"], // Fokusér fejlen på teltfelterne
+        });
+      }
+    }
   })
 
   // Tjekker om enten vip eller regular billetter er valgt
   .refine((data) => data.vipCount > 0 || data.regularCount > 0, {
     message: "Du skal vælge mindst én billet",
     path: ["vipCount"], // Eller "regularCount" hvis du vil vise fejlen på det ene felt
-  })
-
-  .refine(
-    (data) => {
-      if (data.addTentSetup) {
-        console.log("Input data:", data);
-        // Beregn samlet antal pladser i teltene
-        const totalTickets = data.vipCount + data.regularCount;
-        console.log("det her er tickets", totalTickets);
-
-        const totalPeopleInTents =
-          (data.tent2p || 0) * 2 + (data.tent3p || 0) * 3;
-        // Beregn samlet antal billetter
-        console.log("det her er personer i telte", totalPeopleInTents);
-
-        // const totalTickets = (data.vipCount || 0) + (data.regularCount || 0);
-
-        console.log("Total people in tents:", totalPeopleInTents);
-        console.log("Total tickets:", totalTickets);
-
-        // Tillad højst én ekstra plads i teltene i forhold til billetterne
-        const isValid = totalPeopleInTents <= totalTickets + 1;
-        console.log("Is valid?", isValid);
-
-        return isValid;
-      }
-      return true; // Hvis ingen teltopsætning, er alt ok
-    },
-    {
-      message:
-        "Pladserne i teltene må højst være én mere end det samlede antal billetter.",
-      path: ["tent2p"], // Fokusér fejlen på teltvalget
-    }
-  );
+  });
 
 // Hvis grøn camping er valgt, skal campingSelected være true
 //   .refine(
