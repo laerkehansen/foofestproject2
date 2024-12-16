@@ -1,15 +1,17 @@
 "use client";
+import { useRouter } from "next/navigation";
 
 import Image from "next/image";
-import TilbageBtn from "./navigation/TilbageBtn";
+// import TilbageBtn from "./navigation/TilbageBtn";
 import { getLogoUrl } from "../lib/utils";
 const ArtistSingel = ({ band, events }) => {
   const { name, logo, members, genre, logoCredits, bio } = band;
+  const router = useRouter();
+
+  // Funktion til at navigere tilbage
 
   return (
     <div>
-      {/* <div className="flex flex-row z-10 items-start h-fit gap-3 pt-28 pl-8 sticky top-0 text-black"></div> */}
-      {/* <TilbageBtn /> */}
       <div className="relative w-full mx-auto h-[500px] grid grid-cols-1 grid-rows-[1fr_0.2fr] text-black">
         <Image
           src={getLogoUrl(logo)}
@@ -23,65 +25,75 @@ const ArtistSingel = ({ band, events }) => {
           {name}
         </h1>
       </div>
-      <section className="grid md:grid-cols-[0.1fr_0.5fr_1fr_0.1fr] sm:grid-cols-[0.1fr_1fr_0.1fr] py-16 gap-8">
-        <div className="col-start-2 ">
-          <h2 className="uppercase text-2xl font-Inter italic font-extrabold pb-4 text-black">
-            Medlemer
-          </h2>
-          <ul className="flex lg:flex-col sm:flex-wrap">
-            {members.map((member, index) => (
-              <p
-                key={index}
-                className="font-Inter text-lg font-normal text-black"
-              >
-                {member}
-              </p>
-            ))}
-          </ul>
-        </div>
-        <div className="sm:col-start-2 md:col-start-3 text-black">
-          <h3 className="uppercase text-2xl font-Inter italic font-extrabold pb-4 text-black">
+      <button
+        className="row-start-1 z-10 place-self-start py-7 px-7"
+        onClick={() => router.back()}
+      >
+        tilbage
+      </button>
+      <div className="flex flex-row-reverse px-40  gap-8">
+        {/* <section className="grid md:grid-cols-[0.1fr_0.5fr_1fr_0.1fr] sm:grid-cols-[0.1fr_1fr_0.1fr]  gap-8"> */}
+
+        <div className="sm:col-start-2 md:col-start-3 px-4 text-black">
+          <h2 className="uppercase text-xl font-Inter italic font-extrabold   text-black">
             Om
-          </h3>
-          <p className="font-Inter text-lg font-normal text-black">{bio}</p>
+          </h2>
+          <p className="font-Inter text-base font-normal text-black">{bio}</p>
           <p className="font-Inter text-gray-400 pt-4 ">
             Fotocredits: {logoCredits}
           </p>
         </div>
         {/* Hvis der er events, vis eventoplysninger */}
-
-        {events.length > 0 ? (
-          <section className="py-8 col-start-3 place-self-end ">
-            <h3 className="uppercase text-2xl font-Inter italic font-extrabold pb-4 pr-8 pretty text-black">
-              Spilletidspunkt
+        <div className="flex flex-col gap-32">
+          <div>
+            <h3 className="uppercase text-xl font-Inter italic font-extrabold pb-2 text-black">
+              Medlemer
             </h3>
+            <ul className="flex flex-col ">
+              {members.map((member, index) => (
+                <p
+                  key={index}
+                  className="font-Inter text-sm font-normal text-black"
+                >
+                  {member},
+                </p>
+              ))}
+            </ul>
+          </div>
+          {events.length > 0 ? (
+            <section className=" ">
+              <h4 className="uppercase text-2xl font-Inter italic font-extrabold pb-4 pretty text-black">
+                Spilletidspunkt
+              </h4>
 
-            {events.map((event, index) => (
-              <ul
-                key={index}
-                className="font-Inter text-lg py-2 text-black w-60"
-              >
-                <li className="grid grid-cols-2">
-                  <p className="font-medium">Location</p> {event.location}
-                </li>
-                <li className="grid grid-cols-2 ">
-                  <p className="font-medium ">Day</p> {event.day}
-                </li>
-                <li className="grid grid-cols-2">
-                  <p className="font-medium">time</p>
-                  {event.start} - {event.end}
-                </li>
-              </ul>
-            ))}
-          </section>
-        ) : (
-          <section className="py-16">
-            <p className="font-Inter text-2xl text-gray-400">
-              Ingen events planlagt for dette band.
-            </p>
-          </section>
-        )}
-      </section>
+              {events.map((event, index) => (
+                <ul
+                  key={index}
+                  className="font-Inter text-lg py-2 text-black w-60"
+                >
+                  <li className="grid grid-cols-2">
+                    <p className="font-medium">Location</p> {event.location}
+                  </li>
+                  <li className="grid grid-cols-2 ">
+                    <p className="font-medium ">Day</p> {event.day}
+                  </li>
+                  <li className="grid grid-cols-2">
+                    <p className="font-medium">time</p>
+                    {event.start} - {event.end}
+                  </li>
+                </ul>
+              ))}
+            </section>
+          ) : (
+            <section className="py-16">
+              <p className="font-Inter text-2xl text-gray-400">
+                Ingen events planlagt for dette band.
+              </p>
+            </section>
+          )}
+        </div>
+      </div>
+      {/* </section> */}
     </div>
   );
 };
