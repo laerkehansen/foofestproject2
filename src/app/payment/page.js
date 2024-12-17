@@ -12,32 +12,30 @@ import Kvitering from "../components/tickets/Kvitering";
 const Payment = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
-  const [liveData, setLiveData] = useState({});
+
   // const [ticketData, setTicketData] = useState({
   //   vipCount: 0,
   //   regularCount: 0,
   // });
+
+  // const [liveData, setLiveData] = useState({});
+
+  // Denne funktion modtager data fra formularen og opdaterer liveData
+  // const handleWatchChange = (data) => {
+  //   setLiveData((prev) => ({
+  //     ...prev,
+  //     ...data, // Opdaterer liveData med de nye værdier
+  //   }));
+  // };
 
   const nextStep = (data) => {
     setFormData((prev) => ({ ...prev, ...data }));
     setStep((prev) => prev + 1);
   };
 
-  // sender live data med
   // const handleWatchChange = (data) => {
   //   setLiveData((prev) => ({ ...prev, ...data }));
   // };
-
-  // Funktion til at opdatere liveData, når der er ændringer i formularen
-  const handleWatchChange = (data) => {
-    // Kun opdater, hvis der er forskel i de data, der modtages
-    setLiveData((prev) => {
-      if (JSON.stringify(prev) !== JSON.stringify(data)) {
-        return { ...prev, ...data };
-      }
-      return prev;
-    });
-  };
 
   // Håndter overvågningsdata fra TicketSelectionForm
   // const handleWatchChange = (data) => {
@@ -50,12 +48,7 @@ const Payment = () => {
       <div className="grid lg:grid-cols-[auto_auto] sm:grid-cols-1 md:grid-cols-1 m-20  p-4 gap-4 text-black border-2 border-black bg-white">
         <StepBar step={step} />
         <div className="col-start-1">
-          {step === 1 && (
-            <TicketSelectionForm
-              onNext={nextStep}
-              onWatchChange={handleWatchChange}
-            />
-          )}
+          {step === 1 && <TicketSelectionForm onNext={nextStep} />}
           {step === 2 && (
             <CampingOptionsForm
               onBack={prevStep}
@@ -78,10 +71,7 @@ const Payment = () => {
             />
           )}
         </div>
-        <Kvitering
-          // formData={formData}
-          formData={{ ...formData, ...liveData }}
-        />
+        <Kvitering formData={formData} />
       </div>
     </div>
   );

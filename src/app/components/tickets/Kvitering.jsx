@@ -1,17 +1,21 @@
-const Kvitering = ({ formData }) => {
+import { useForm } from "react-hook-form";
+const Kvitering = ({ formData, liveData }) => {
+  const { watch } = useForm();
+  const vipCount = watch("vipCount", 0);
+  const regularCount = watch("regularCount", 0);
   // const { vipCount, regularCount } = ticketData;
   // const { vipCount, regularCount } = formData;
-  const { vipCount = 0, regularCount = 0 } = formData;
-  const vipPrice = 1299;
-  const regularPrice = 799;
-  const tent2p = 299;
-  const tent3p = 399;
-  const booking = 99;
-  const greenCamping = 249;
+  // const { vipCount = 0, regularCount = 0 } = formData;
+  // const vipPrice = 1299;
+  // const regularPrice = 799;
+  // const tent2p = 299;
+  // const tent3p = 399;
+  // const booking = 99;
+  // const greenCamping = 249;
 
-  const totalPrice = vipCount * vipPrice + regularCount * regularPrice;
+  // const totalPrice = vipCount * vipPrice + regularCount * regularPrice;
 
-  const totalTick = vipCount + regularCount;
+  // const totalTick = vipCount + regularCount;
 
   // vip = 1299
   //reguler = 799
@@ -40,12 +44,12 @@ const Kvitering = ({ formData }) => {
         <p className="font-bold text-mid py-2">ticekts</p>
 
         <div className="flex justify-between">
-          <p>vip({regularCount})</p>
+          <p>vip({formData.vipCount})</p>
           <p className="font-semibold">999,-</p>
         </div>
 
         <div className="flex  justify-between">
-          <p>Regular(0)</p>
+          <p>Regular({formData.regularCount})</p>
           <p className="font-semibold">799,-</p>
         </div>
 

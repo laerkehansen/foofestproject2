@@ -1,12 +1,12 @@
 "use client";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { validering } from "@/app/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Kvitering from "./Kvitering";
 import StepBar from "./StepBar";
+import { useEffect } from "react";
 import { HiOutlineMinus } from "react-icons/hi";
 import { HiOutlinePlus } from "react-icons/hi";
-import { useEffect } from "react";
 
 const TicketSelectionForm = ({ onNext, onWatchChange }) => {
   const {
@@ -32,17 +32,16 @@ const TicketSelectionForm = ({ onNext, onWatchChange }) => {
   const vipCount = watch("vipCount", 0); // Standardværdi 0
   const regularCount = watch("regularCount", 0); // Standardværdi 0
 
-  // Send live-data op til parent, når vipCount eller regularCount ændrer sig
   useEffect(() => {
-    onWatchChange({
-      vipCount,
-      regularCount,
+    const subscribetion = watch((value) => {
+      console.log("se valu", value);
     });
-  }, [vipCount, regularCount, onWatchChange]);
+    return () => subscribetion.unsubscribe();
+  }, [watch]);
 
-  // onWatchChange({ vipCount, regularCount });
   // Beregn den samlede pris
   const totalPrice = vipCount * vipPrice + regularCount * regularPrice;
+
   const totalTick = vipCount + regularCount;
 
   // Håndterer plus og minus for telte
@@ -65,8 +64,7 @@ const TicketSelectionForm = ({ onNext, onWatchChange }) => {
   };
 
   return (
-    <div className=" grid grid-cols-[1fr_auto] gap-4   bg-white px-20 py-10">
-      {/* <StepBar /> */}
+    <div className=" grid grid-cols-[1fr_auto] gap-4  w-full h-full bg-white px-20 py-10">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className=" col-start-1 grid gird-cols-1 row-auto "
@@ -151,8 +149,6 @@ const TicketSelectionForm = ({ onNext, onWatchChange }) => {
           Gå videre
         </button>
       </form>
-
-      {/* <Kvitering></Kvitering> */}
     </div>
   );
 };
