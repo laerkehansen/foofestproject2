@@ -29,7 +29,9 @@ const Filter = ({ days, scenesByDay, onFilterChange, currentDay }) => {
 
   return (
     <div className="pt-16">
-      <h3 className="text-xl  font-semibold italic text-black">Vælg dag:</h3>
+      <h3 className="md:text-xl sm:text-lg  font-semibold italic text-black">
+        Vælg dag:
+      </h3>
       <div>
         {days.map((day) => (
           <button
@@ -37,7 +39,7 @@ const Filter = ({ days, scenesByDay, onFilterChange, currentDay }) => {
             onClick={() => handleDayChange(day)}
             className={`m-2 ${
               selectedDay === day ? "bg-customPink" : "bg-background"
-            } text-black border-black border-2 px-4 py-2 cursor-pointer text-xl  font-semibold`}
+            } text-black border-black border-2 px-4 py-2 cursor-pointer md:text-xl sm:text-base font-semibold`}
           >
             {dayNames[day]} {/* Brug danske navne */}
           </button>
@@ -46,7 +48,7 @@ const Filter = ({ days, scenesByDay, onFilterChange, currentDay }) => {
 
       {selectedDay && (
         <>
-          <h4 className="text-xl  font-semibold italic text-black">
+          <h4 className="md:text-xl sm:text-lg  font-semibold italic text-black">
             Vælg scene:
           </h4>
           <div>
@@ -56,7 +58,7 @@ const Filter = ({ days, scenesByDay, onFilterChange, currentDay }) => {
                 onClick={() => handleSceneChange(scene)}
                 className={`m-2 ${
                   selectedScene === scene ? "!bg-customPink" : "bg-background"
-                } text-black border-black border-2 px-4 py-2 cursor-pointer text-xl  font-semibold`}
+                } text-black border-black border-2 px-4 py-2 cursor-pointer md:text-xl sm:text-base  font-semibold`}
               >
                 {scene}
               </button>
