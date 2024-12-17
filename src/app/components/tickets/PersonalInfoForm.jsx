@@ -1,47 +1,80 @@
-import { useForm, Controller, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
+import { postTicket } from "@/app/lib/supabase";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 //jeg definerer mine værdier til mit skema
 const formular = z.object({
-  name: z.string().min(1, "navn skal mindst være på 1 bogstav"),
-  lastname: z.string().min(1, "efternavn skal mindst være på 1 bogstav"),
-  email: z.string().email("Email skal være gyldig"),
-  phonenumber: z.string().regex(/^\d{8}$/, "Telefonnummer skal være 8 cifre"),
-  cardNumber: z
-    .string()
-    .regex(/^\d{13,19}$/, "Kortnummeret skal være mellem 13 og 19 cifre"),
-  cardName: z.string().min(1, "udfyld venligst navn"),
-  expireYear: z.date("skal udfyldes"),
+  tickets: z.array(
+    z.object({
+      name: z.string().min(1, "navn skal mindst være på 1 bogstav"),
+      lastname: z.string().min(1, "efternavn skal mindst være på 1 bogstav"),
+      email: z.string().email("Email skal være gyldig"),
+      phonenumber: z
+        .string()
+        .regex(/^\d{8}$/, "Telefonnummer skal være 8 cifre"),
+    })
+  ),
+  // cardNumber: z
+  //   .string()
+  //   .regex(/^\d{13,19}$/, "Kortnummeret skal være mellem 13 og 19 cifre"),
+  // cardName: z.string().min(1, "udfyld venligst navn"),
+  // expireYear: z.date("skal udfyldes"),
 });
+
 const PersonalInfoForm = ({ onNext, onBack, formData }) => {
   const {
-    control,
-    handleSubmit,
-    formState: { errors },
+    register,
+    handleSubmit, // Håndterer formularindsendelse
+    formState: { errors, isValid },
+    setValue, // Indeholder fejlmeddelelser
   } = useForm({
-    resolver: zodResolver(formular),
+    resolver: zodResolver(formular), //vi validerer med zod
+    reValidateMode: "onSubmit",
     defaultValues: {
       tickets: Array.from(
-        { length: formData.vipCount + formData.regularCount },
+        { length: formData.vipCount + formData.regularCount }, // Opretter et array af billetter baseret på antal VIP og Regular billetter
         () => ({
           name: "",
           lastname: "",
           email: "",
+          phonenumber: "",
         })
       ),
     },
   });
 
   //opretter et array af billetter. Fields er vores array, som indeni har vores billetter.
-  const { fields } = useFieldArray({
-    control,
-    name: "tickets",
-  });
+  // const { fields } = useFieldArray({
+  //   name: "tickets",
+  // });
 
   const onSubmit = (data) => {
     console.log("Form data:", data);
     onNext(data); // Kalder onNext med udfyldt data
+  };
+
+  // Funktion til at sende data til Supabase
+  const sendToSupabase = async (data) => {
+    try {
+      const response = await postTicket(data); // Dette er din Supabase post funktion
+      if (response?.success) {
+        console.log("Data sendt til Supabase:", response);
+      } else {
+        console.error("Fejl ved afsendelse til Supabase");
+      }
+    } catch (error) {
+      console.error("Fejl ved afsendelse:", error);
+    }
+  };
+
+  // Funktion der håndterer send knappen, der kun aktiveres når data er valideret
+  const handleSendToSupabase = (data) => {
+    if (isValid) {
+      sendToSupabase(data); // Send kun til Supabase hvis data er valid
+    } else {
+      console.log("Formularen er ikke valid. Korriger fejlene.");
+    }
   };
 
   return (
@@ -57,103 +90,125 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
         onSubmit={handleSubmit(onSubmit)}
         className="gap-6 p-4 bg-background grid grid-cols-1 md:grid-cols-2"
       >
-        {fields.map((field, index) => (
-          <div
-            key={field.id}
-            className="border bg-gray-50 border-gray-300 p-4 mb-4"
-          >
-            <h3 className="text-lg font-medium mb-2">Billet {index + 1}</h3>
-            <span className="text-blue-500">
-              {index < formData.vipCount ? "VIP" : "Regular"}
-            </span>
-            {/* Navn */}
-            <div className="flex flex-col">
-              <label
-                htmlFor={`tickets.${index}.name`}
-                className="text-lg font-medium mb-1"
-              >
-                Navn:
-              </label>
-              <Controller
-                control={control}
-                name={`tickets.${index}.name`}
-                render={({ field }) => (
-                  <input
-                    {...field}
-                    id={`tickets.${index}.name`}
-                    type="text"
-                    className="border border-gray-300 rounded-md p-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                )}
-              />
-              {errors.tickets?.[index]?.name && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.tickets[index].name.message}
-                </p>
-              )}
-            </div>
+        {formData?.vipCount + formData?.regularCount &&
+          Array.from({
+            length: formData?.vipCount + formData?.regularCount,
+          }).map((ticket, index) => (
+            <div
+              key={index}
+              className="border bg-gray-50 border-gray-300 p-4 mb-4"
+            >
+              <h3 className="text-lg font-medium mb-2">Billet {index + 1}</h3>
+              <span className="text-blue-500">
+                {index < formData.vipCount ? "VIP" : "Regular"}
+              </span>
 
-            {/* Efternavn */}
-            <div className="flex flex-col">
-              <label
-                htmlFor={`tickets.${index}.lastname`}
-                className="text-lg font-medium mb-1"
-              >
-                Efternavn:
-              </label>
-              <Controller
-                control={control}
-                name={`tickets.${index}.lastname`}
-                render={({ field }) => (
-                  <input
-                    {...field}
-                    id={`tickets.${index}.lastname`}
-                    type="text"
-                    className="border border-gray-300 rounded-md p-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
+              {/* Navn */}
+              <div className="flex flex-col">
+                <label
+                  htmlFor={`tickets.${index}.name`}
+                  className="text-lg font-medium mb-1"
+                >
+                  Navn:
+                </label>
+                <input
+                  {...register(`tickets.${index}.name`, {
+                    required: "Navn er påkrævet",
+                  })}
+                  id={`tickets.${index}.name`}
+                  type="text"
+                  className="border border-gray-300 rounded-md p-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {errors.tickets?.[index]?.name && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.tickets[index].name?.message}
+                  </p>
                 )}
-              />
-              {errors.tickets?.[index]?.lastname && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.tickets[index].lastname.message}
-                </p>
-              )}
-            </div>
+              </div>
 
-            {/* Email */}
-            <div className="flex flex-col">
-              <label
-                htmlFor={`tickets.${index}.email`}
-                className="text-lg font-medium mb-1"
-              >
-                Email:
-              </label>
-              <Controller
-                control={control}
-                name={`tickets.${index}.email`}
-                render={({ field }) => (
-                  <input
-                    {...field}
-                    id={`tickets.${index}.email`}
-                    type="email"
-                    className="border border-gray-300 rounded-md p-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
+              {/* Efternavn */}
+              <div className="flex flex-col">
+                <label
+                  htmlFor={`tickets.${index}.lastname`}
+                  className="text-lg font-medium mb-1"
+                >
+                  Efternavn:
+                </label>
+                <input
+                  {...register(`tickets.${index}.lastname`, {
+                    required: "Efternavn er påkrævet",
+                  })}
+                  id={`tickets.${index}.lastname`}
+                  type="text"
+                  className="border border-gray-300 rounded-md p-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {errors.tickets?.[index]?.lastname && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.tickets[index].lastname?.message}
+                  </p>
                 )}
-              />
-              {errors.tickets?.[index]?.email && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.tickets[index].email.message}
-                </p>
-              )}
+              </div>
+
+              {/* Telefonnummer */}
+              <div className="flex flex-col">
+                <label
+                  htmlFor={`tickets.${index}.phonenumber`}
+                  className="text-lg font-medium mb-1"
+                >
+                  Telefonnummer:
+                </label>
+                <input
+                  {...register(`tickets.${index}.phonenumber`, {
+                    required: "Telefonnummer er påkrævet",
+                  })}
+                  id={`tickets.${index}.phonenumber`}
+                  type="text"
+                  className="border border-gray-300 rounded-md p-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {errors.tickets?.[index]?.phonenumber && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.tickets[index].phonenumber?.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Email */}
+              <div className="flex flex-col">
+                <label
+                  htmlFor={`tickets.${index}.email`}
+                  className="text-lg font-medium mb-1"
+                >
+                  Email:
+                </label>
+                <input
+                  {...register(`tickets.${index}.email`, {
+                    required: "Email er påkrævet",
+                  })}
+                  id={`tickets.${index}.email`}
+                  type="email"
+                  className="border border-gray-300 rounded-md p-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {errors.tickets?.[index]?.email && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.tickets[index].email?.message}
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
 
         <button
           type="submit"
           className="bg-green text-white text-lg font-semibold py-2 px-4  hover:bg-customPink w-fit"
         >
           Send
+        </button>
+        <button
+          type="button"
+          onClick={handleSubmit(handleSendToSupabase)}
+          className="bg-blue-500 text-white text-lg font-semibold py-2 px-4 hover:bg-customPink w-fit mt-4"
+        >
+          Send til Supabase
         </button>
       </form>
     </>
