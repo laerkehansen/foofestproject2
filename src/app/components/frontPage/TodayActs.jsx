@@ -20,12 +20,21 @@ const TodaysActs = ({ schedule }) => {
   // Filtrer aktiviteterne, så vi kun ser dem, der matcher den aktuelle dag
   const todaysActs = schedule.filter((act) => act.day === currentDay);
   return (
-    <div className="grid grid-cols-[0.1fr_1fr_0.1fr] gap-10 py-28 text-black">
-      <h2 className=" font-bold text-6xl italic uppercase  col-start-2 text-black">
-        Spiller idag - {dayNames[currentDay]}
-      </h2>
+    <div className=" flex flex-col py-28 px-20 text-black">
+      <div className=" flex  flex-wrap gap-2 pb-4 ">
+        <h2 className=" font-bold text-6xl italic uppercase  col-start-2 text-black">
+          Spiller idag - {dayNames[currentDay]}
+        </h2>
+        <Link
+          className="bg-customPink p-2 font-medium border-2 uppercase hover:underline decoration-solid border-black place-self-center m-2 transition duration-150 ease-in-out
+              hover:scale-110"
+          href="/program"
+        >
+          se program
+        </Link>
+      </div>
       {todaysActs.length > 0 && (
-        <ul className="flex flex-wrap col-start-2  gap-2 text-xl font-medium text-black">
+        <ul className="flex flex-wrap col-start-2   gap-2 text-xl font-medium text-black">
           {todaysActs.map((act, index) => (
             <li
               key={index}
@@ -44,9 +53,6 @@ const TodaysActs = ({ schedule }) => {
           ))}
         </ul>
       )}
-      <Link className="bg-customPink h-8 w-10 " href="/progam">
-        se program
-      </Link>
     </div>
   );
 };

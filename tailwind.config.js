@@ -10,7 +10,7 @@ module.exports = {
   ],
   theme: {
     screens: {
-      sm: "200px",
+      sm: "400px",
       // => @media (min-width: 576px) { ... }
 
       md: "760px",
