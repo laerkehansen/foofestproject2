@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { validering } from "@/app/lib/validation";
 import { CiSquarePlus } from "react-icons/ci";
 
-const CampingOptionsForm = ({ onNext, onBack, formData }) => {
+const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
   const {
     register,
     handleSubmit,
@@ -25,6 +25,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
       tent2p: 0,
       tent3p: 0,
       area: "",
+      greenCamping: false,
     },
   });
 
@@ -41,6 +42,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
 
   //   skal slettes
 
+  // skla gøre så en anden måde //meget vigitgt
   useEffect(() => {
     fetchData();
     // const interval = setInterval(fetchData, 2000); // Tjek hver 2. sekund
@@ -61,6 +63,10 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
     if (newValue < 0) newValue = 0; // Undgå negative værdier
     setValue(type, newValue);
   };
+
+  // Definér værdier fra formularen
+
+  // Send data til forælderen, hver gang en af værdierne ændres
 
   const onSubmit = (data) => {
     if (!data.area) {
@@ -87,7 +93,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
 
       <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 ">
         <div className="grid grid-rows-2 gap-4">
-          <h2 className=" text-lg pb-2">vælg camping område</h2>
+          <h2 className="font-Inter text-lg pb-2">vælg camping område</h2>
 
           <div className="flex flex-row gap-4  ">
             {availableSpots.map((spot, index) => (
@@ -103,7 +109,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
                 {errors.area && <p>{errors.area.message}</p>}
                 <label
                   htmlFor={spot.area}
-                  className=" rounded-md cursor-pointer bg-slate-400 p-2 text-center uppercase text-lg 
+                  className=" rounded-md cursor-pointer bg-slate-400 p-2 text-center font-Inter uppercase text-lg 
                   peer-checked:bg-customPink-700 peer-checked:text-white 
                   hover:bg-gray-200 transition-all duration-200 "
                 >
@@ -133,6 +139,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
               className="hidden peer" // Skjul standard checkboks
               type="checkbox"
               id="greenCamping"
+              {...register("greenCamping")}
               //   {...register("greenCamping")}
             />
             <span className="">Grøn camping (+249,-) </span>
@@ -152,7 +159,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
         {/* Telte */}
 
         <div className="flex justify-between">
-          <label className="text-lg" htmlFor="addTentSetup">
+          <label className="text-lg font-Inter" htmlFor="addTentSetup">
             Få telte at op af et crew
           </label>
           <input

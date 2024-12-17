@@ -4,10 +4,11 @@ import { validering } from "@/app/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Kvitering from "./Kvitering";
 import StepBar from "./StepBar";
+import { useEffect } from "react";
 import { HiOutlineMinus } from "react-icons/hi";
 import { HiOutlinePlus } from "react-icons/hi";
 
-const TicketSelectionForm = ({ onNext }) => {
+const TicketSelectionForm = ({ onNext, onWatchChange }) => {
   const {
     register,
     handleSubmit,
@@ -30,6 +31,13 @@ const TicketSelectionForm = ({ onNext }) => {
 
   const vipCount = watch("vipCount", 0); // Standardværdi 0
   const regularCount = watch("regularCount", 0); // Standardværdi 0
+
+  useEffect(() => {
+    const subscribetion = watch((value) => {
+      console.log("se valu", value);
+    });
+    return () => subscribetion.unsubscribe();
+  }, [watch]);
 
   // Beregn den samlede pris
   const totalPrice = vipCount * vipPrice + regularCount * regularPrice;
@@ -57,7 +65,6 @@ const TicketSelectionForm = ({ onNext }) => {
 
   return (
     <div className=" grid grid-cols-[1fr_auto] gap-4  w-full h-full bg-white px-20 py-10">
-      <StepBar />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className=" col-start-1 grid gird-cols-1 row-auto "
@@ -142,8 +149,6 @@ const TicketSelectionForm = ({ onNext }) => {
           Gå videre
         </button>
       </form>
-
-      <Kvitering></Kvitering>
     </div>
   );
 };

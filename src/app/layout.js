@@ -22,9 +22,6 @@ const inter = Inter({
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.variable}>
-      {/* <Head>
-        <link rel="icon" href="/favicon.svg" />
-      </Head> */}
       <body className="bg-background font-sans ">
         <Header />
         {/* <Menu /> */}
