@@ -6,9 +6,7 @@ const NowPlaying = () => {
   return (
     <div className="grid grid-cols-[0.1fr_0.2fr_1fr_0.2fr_0.1fr] grid-rows-[0.3fr_0.3fr] justify-center py-20">
       <div className="flex gap-4 items-center col-start-2 col-end-5 justify-center pb-16">
-        <h2 className="font-Inter text-7xl italic font-black text-black">
-          Now Playing
-        </h2>
+        <h2 className=" text-7xl italic font-black text-black">Now Playing</h2>
         <Swirl />
         {/* <Image src={Swirl} alt="cirkel" /> */}
       </div>

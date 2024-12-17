@@ -87,7 +87,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
 
       <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 ">
         <div className="grid grid-rows-2 gap-4">
-          <h2 className="font-Inter text-lg pb-2">vælg camping område</h2>
+          <h2 className=" text-lg pb-2">vælg camping område</h2>
 
           <div className="flex flex-row gap-4  ">
             {availableSpots.map((spot, index) => (
@@ -103,7 +103,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
                 {errors.area && <p>{errors.area.message}</p>}
                 <label
                   htmlFor={spot.area}
-                  className=" rounded-md cursor-pointer bg-slate-400 p-2 text-center font-Inter uppercase text-lg 
+                  className=" rounded-md cursor-pointer bg-slate-400 p-2 text-center uppercase text-lg 
                   peer-checked:bg-customPink-700 peer-checked:text-white 
                   hover:bg-gray-200 transition-all duration-200 "
                 >
@@ -152,7 +152,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
         {/* Telte */}
 
         <div className="flex justify-between">
-          <label className="text-lg font-Inter" htmlFor="addTentSetup">
+          <label className="text-lg" htmlFor="addTentSetup">
             Få telte at op af et crew
           </label>
           <input

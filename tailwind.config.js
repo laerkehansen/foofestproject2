@@ -10,7 +10,7 @@ module.exports = {
   ],
   theme: {
     screens: {
-      sm: "376px",
+      sm: "200px",
       // => @media (min-width: 576px) { ... }
 
       md: "760px",
@@ -78,9 +78,9 @@ module.exports = {
         18: "1.125", //px
       },
 
-      // fontSize: {
-      //   heroText: "200px",
-      // },
+      fontSize: {
+        heroText: "12.5rem",
+      },
       // lineHeight: {
       //   heroLeading: "8.9rem",
       // },
