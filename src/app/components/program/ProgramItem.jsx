@@ -16,9 +16,11 @@ const ProgramItem = ({ item }) => {
         className="hover:bg-green block p-4"
       >
         <div className="flex justify-between pb-2">
-          <h2 className="text-5xl italic font-extrabold text-black">{act}</h2>
+          <h2 className="md:text-5xl sm:text-2xl italic font-extrabold text-black">
+            {act}
+          </h2>
           {/* <p>{day}</p> */}
-          <p className=" font-semibold text-xl self-center text-black">
+          <p className=" font-semibold md:text-xl sm:text-lg self-center text-black text-nowrap">
             {start} - {end}
             <br />
             {cancelled && (
