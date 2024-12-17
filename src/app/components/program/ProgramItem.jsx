@@ -5,7 +5,14 @@ const ProgramItem = ({ item }) => {
     <li className="border-2 border-black mb-4 w-full text-black">
       {/* linker til linup slug*/}
       <Link
-        href={`/lineup/${act.toLowerCase().replace(/\s+/g, "-")}`}
+        href={`/lineup/${
+          act
+            .toLowerCase()
+            .replace(/,\s*/g, "-") // Fjern kommaer og mellemrum efter kommaer
+            .replace(/\s+-\s+/g, "-") // Fjern mellemrum omkring bindestreger
+            .replace(/\s+/g, "-") // Erstat resterende mellemrum med bindestreger
+            .replace(/-+/g, "-") // Saml flere bindestreger til én
+        }`}
         className="hover:bg-green block p-4"
       >
         <div className="flex justify-between pb-2">
@@ -16,7 +23,7 @@ const ProgramItem = ({ item }) => {
             <br />
             {cancelled && (
               //skal om styles
-              <span className="bg-customPink rotate-45 font-extrabold italic text-black">
+              <span className="bg-customPink italic   text-sm p-1 text-black">
                 (Cancelled)
               </span>
             )}
