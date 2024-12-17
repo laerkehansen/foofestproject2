@@ -1,6 +1,37 @@
-const Kvitering = () => {
+const Kvitering = ({ formData }) => {
+  // const { vipCount, regularCount } = ticketData;
+  // const { vipCount, regularCount } = formData;
+  const { vipCount = 0, regularCount = 0 } = formData;
+  const vipPrice = 1299;
+  const regularPrice = 799;
+  const tent2p = 299;
+  const tent3p = 399;
+  const booking = 99;
+  const greenCamping = 249;
+
+  const totalPrice = vipCount * vipPrice + regularCount * regularPrice;
+
+  const totalTick = vipCount + regularCount;
+
+  // vip = 1299
+  //reguler = 799
+
+  // tent2p = 299
+  // tent3p =399
+
+  //bookin fee = 99
+
+  //gren camping = 249
+
   return (
-    <div className="bg-[#E7E7E7] px-4 w-72 col-start-2  py-2  ">
+    <div className="bg-[#E7E7E7] px-4 w-72 lg:col-start-2 md:col-start-1 sm:col-start-1 place-self-center py-2 my-10  lg:row-span-2 lg:row-start-1  ">
+      <div className="">
+        <p>Valgte billetter:</p>
+        <ul>
+          <li>VIP Billetter: {formData.vipCount} </li>
+          <li>Regular Billetter: {formData.regularCount}</li>
+        </ul>
+      </div>
       <p className="uppercase leading-[0.7] font-bold text-2xl text-center italic pt-4 pb-2 ">
         foo <br />
         fest
@@ -9,12 +40,12 @@ const Kvitering = () => {
         <p className="font-bold text-mid py-2">ticekts</p>
 
         <div className="flex justify-between">
-          <p>vip(1)</p>
+          <p>vip({regularCount})</p>
           <p className="font-semibold">999,-</p>
         </div>
 
         <div className="flex  justify-between">
-          <p>Regular(2)</p>
+          <p>Regular(0)</p>
           <p className="font-semibold">799,-</p>
         </div>
 
