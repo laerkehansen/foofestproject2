@@ -9,11 +9,15 @@
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+} */
+
+html {
+  font-size: 16px;
 }
 
 body {
@@ -43,4 +47,9 @@ body {
 label:has(input[type="checkbox"]:checked) {
   background: black;
   color: #fff;
+}
+@media (mix-width: 600px) {
+  html {
+    font-size: 12px;
+  }
 }

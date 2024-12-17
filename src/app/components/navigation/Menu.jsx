@@ -14,7 +14,7 @@ const variants = {
     borderRadius: 0,
     top: "0px",
     right: "0px",
-    transition: { duration: 1, ease: [0.76, 0, 0.24, 1] },
+    transition: { duration: 0.75, ease: [0.76, 0, 0.24, 1] },
   },
   closed: {
     height: 60,
@@ -22,7 +22,7 @@ const variants = {
     borderRadius: "50%",
     top: "25px",
     right: "25px",
-    transition: { duration: 1, ease: [0.76, 0, 0.24, 1] },
+    transition: { duration: 0.75, ease: [0.76, 0, 0.24, 1] },
   },
 };
 const Menu = () => {
@@ -36,7 +36,7 @@ const Menu = () => {
         animate={isOpen ? "open" : "closed"}
         variants={variants}
       >
-        {isOpen && <MenuList setIsOpen={setIsOpen} />}
+        {isOpen && <MenuList setIsOpen={setIsOpen} isOpen={isOpen} />}
       </motion.div>
 
       <div className="menuBtn">

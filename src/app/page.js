@@ -18,9 +18,10 @@ export default async function Home() {
       <FrontHeroSection />
       {/* <NowPlaying /> */}
       <TodaysActs schedule={schedule} />
+
       {/* <FrontPageNames data={bands} /> */}
-      <ImageSectionFront />
-      <OptionSectionFront />
+      {/* <ImageSectionFront /> */}
+      {/* <OptionSectionFront /> */}
       <FontSectionFront />
     </div>
   );

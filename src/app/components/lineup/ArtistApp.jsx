@@ -18,7 +18,7 @@ const ArtistApp = ({ bands, scheduleBand }) => {
 
   return (
     <div className="grid grid-col-[0.1fr_1fr_0.1fr] gap-4">
-      <h1 className="uppercase font-Inter text-8xl italic pt-20 text-center font-extrabold text-black">
+      <h1 className="uppercase  text-6xl italic pt-20 text-center font-extrabold text-black">
         Artister
       </h1>
       <FilterMenuLineup

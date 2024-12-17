@@ -9,7 +9,7 @@ const ArtistCard = ({ band, events }) => {
   return (
     <li
       key={band.slug}
-      className="h-80 grid grid-rows-1 grid-cols-1 group   text-black "
+      className="h-80 grid grid-rows-1 grid-cols-1 group  text-black border-2 border-black "
     >
       <Link
         href={`/lineup/${slug}`}
@@ -28,10 +28,10 @@ const ArtistCard = ({ band, events }) => {
             className="grayscale object-cover "
           />
         </div>
-        <h2 className="text-customPink row-start-1 col-start-1 z-10 m-3  font-Inter italic font-bold text-5xl self-end justify-self-start ">
+        <h2 className="text-customPink row-start-1 col-start-1 z-10 m-3  italic font-bold text-4xl self-end justify-self-start ">
           {name}
         </h2>
-        <h3 className=" row-start-1 col-start-1  z-10 m-2 p-1 font-Inter text-black bg-customPink self-start justify-self-end ">
+        <h3 className=" row-start-1 col-start-1  z-10 m-2 p-1  text-black bg-customPink self-start justify-self-end ">
           {genre}
         </h3>
 

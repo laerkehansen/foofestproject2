@@ -21,7 +21,7 @@ const ArtistSingel = ({ band, events }) => {
           sizes="(min-width: 808px) 50vw, 100vw"
           className="object-cover grayscale"
         />
-        <h1 className="text-green font-Inter text-6xl font-extrabold italic uppercase z-10 row-start-2 pl-12">
+        <h1 className="text-green  text-6xl font-extrabold italic uppercase z-10 row-start-2 pl-12">
           {name}
         </h1>
       </div>
@@ -35,26 +35,21 @@ const ArtistSingel = ({ band, events }) => {
         {/* <section className="grid md:grid-cols-[0.1fr_0.5fr_1fr_0.1fr] sm:grid-cols-[0.1fr_1fr_0.1fr]  gap-8"> */}
 
         <div className="sm:col-start-2 md:col-start-3 px-4 text-black">
-          <h2 className="uppercase text-xl font-Inter italic font-extrabold   text-black">
+          <h2 className="uppercase text-xl  italic font-extrabold   text-black">
             Om
           </h2>
-          <p className="font-Inter text-base font-normal text-black">{bio}</p>
-          <p className="font-Inter text-gray-400 pt-4 ">
-            Fotocredits: {logoCredits}
-          </p>
+          <p className="text-base font-normal text-black">{bio}</p>
+          <p className=" text-gray-400 pt-4 ">Fotocredits: {logoCredits}</p>
         </div>
         {/* Hvis der er events, vis eventoplysninger */}
         <div className="flex flex-col gap-32">
           <div>
-            <h3 className="uppercase text-xl font-Inter italic font-extrabold pb-2 text-black">
+            <h3 className="uppercase text-xl italic font-extrabold pb-2 text-black">
               Medlemer
             </h3>
             <ul className="flex flex-col ">
               {members.map((member, index) => (
-                <p
-                  key={index}
-                  className="font-Inter text-sm font-normal text-black"
-                >
+                <p key={index} className="text-sm font-normal text-black">
                   {member},
                 </p>
               ))}
@@ -62,15 +57,12 @@ const ArtistSingel = ({ band, events }) => {
           </div>
           {events.length > 0 ? (
             <section className=" ">
-              <h4 className="uppercase text-2xl font-Inter italic font-extrabold pb-4 pretty text-black">
+              <h4 className="uppercase text-2xl italic font-extrabold pb-4 pretty text-black">
                 Spilletidspunkt
               </h4>
 
               {events.map((event, index) => (
-                <ul
-                  key={index}
-                  className="font-Inter text-lg py-2 text-black w-60"
-                >
+                <ul key={index} className=" text-lg py-2 text-black w-60">
                   <li className="grid grid-cols-2">
                     <p className="font-medium">Location</p> {event.location}
                   </li>
@@ -86,7 +78,7 @@ const ArtistSingel = ({ band, events }) => {
             </section>
           ) : (
             <section className="py-16">
-              <p className="font-Inter text-2xl text-gray-400">
+              <p className="text-2xl text-gray-400">
                 Ingen events planlagt for dette band.
               </p>
             </section>

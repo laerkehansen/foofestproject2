@@ -9,16 +9,14 @@ const ProgramItem = ({ item }) => {
         className="hover:bg-green block p-4"
       >
         <div className="flex justify-between pb-2">
-          <h2 className="text-5xl italic font-Inter font-extrabold text-black">
-            {act}
-          </h2>
+          <h2 className="text-5xl italic font-extrabold text-black">{act}</h2>
           {/* <p>{day}</p> */}
-          <p className="font-Inter font-semibold text-xl self-center text-black">
+          <p className=" font-semibold text-xl self-center text-black">
             {start} - {end}
             <br />
             {cancelled && (
               //skal om styles
-              <span className="bg-customPink rotate-45 font-Inter font-extrabold italic text-black">
+              <span className="bg-customPink rotate-45 font-extrabold italic text-black">
                 (Cancelled)
               </span>
             )}

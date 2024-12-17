@@ -26,7 +26,7 @@ export default async function FrontHeroImg() {
           alt="hero image"
           priority={true}
         />
-        <h1 className="text-green col-start-2 col-end-2 row-start-2 font-Inter font-black text-heroText leading-heroLeading italic h-fit z-10">
+        <h1 className="text-green col-start-2 col-end-2 row-start-2 text-heroText  leading-[0.7] font-black  italic h-fit z-10">
           FOO FEST
         </h1>
         <div className="flex flex-col gap-6 col-start-4 row-start-3 items-end z-10">

@@ -1,67 +1,55 @@
 import Link from "next/link";
 import { motion } from "motion/react";
-const MenuList = ({ setIsOpen }) => {
+const MenuList = ({ setIsOpen, isOpen }) => {
   const handleClick = () => {
     setIsOpen(false); // Lukker menuen
   };
+  const links = [
+    { href: "/lineup", label: "Lineup" },
+    { href: "/program", label: "Program" },
+    { href: "/ticket", label: "Billetter" },
+    { href: "/", label: "Home" },
+  ];
 
-  const perspetiv = {
+  const itemVariants = {
+    open: { opacity: 1, y: 0, transition: { duration: 1 } },
+    closed: { opacity: 0, y: 50, transition: { duration: 1 } },
+  };
+
+  const ulVariants = {
     open: {
-      opacity: 1,
-      transtion: {
-        delay: 0.2,
-      },
+      transition: { staggerChildren: 0.07, delayChildren: 0.2 },
     },
-
     closed: {
-      opacity: 0,
-      transtion: {
-        delay: 0.3,
-      },
+      transition: { staggerChildren: 0.05, staggerDirection: -1 },
     },
   };
+
   return (
-    <nav className="h-full grid items-center">
+    <nav className="relative ">
       <motion.ul
-        variants={perspetiv}
-        className=" flex flex-col justify-self-center  align-middle gap-7 "
+        variants={ulVariants}
+        initial="closed"
+        animate={isOpen ? "open" : "closed"}
+        className=" left-1/3 top-64 absolute  flex flex-col  justify-self-center align-middle gap-7 "
+        exit="closed"
       >
-        <li>
-          <Link
-            href="/lineup"
-            onClick={handleClick}
-            className="text-5xl uppercase text-black font-Inter font-bold  hover:italic  duration-400 ease-in-out"
+        {links.map((link, index) => (
+          <motion.li
+            key={index} // Unik nøgle for hvert element
+            variants={itemVariants} // Animer hvert element individuelt
+            whileHover={{ scale: 1.1 }} // Hover-effekt
+            whileTap={{ scale: 0.95 }}
           >
-            Lineup
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/program"
-            onClick={handleClick}
-            className="text-5xl uppercase text-black font-Inter font-bold  hover:italic  duration-400 ease-in-out"
-          >
-            program
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/payment"
-            onClick={handleClick}
-            className="text-5xl uppercase text-black font-Inter font-bold  hover:italic  duration-400 ease-in-out"
-          >
-            billetter
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/"
-            onClick={handleClick}
-            className="text-5xl uppercase text-black font-Inter font-bold  hover:italic  duration-400 ease-in-out"
-          >
-            mere
-          </Link>
-        </li>
+            <Link
+              href={link.href}
+              onClick={handleClick}
+              className="text-5xl uppercase text-white font-bold hover:italic duration-400 ease-in-out"
+            >
+              {link.label}
+            </Link>
+          </motion.li>
+        ))}
       </motion.ul>
     </nav>
   );
