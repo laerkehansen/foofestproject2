@@ -12,60 +12,55 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { validering } from "@/app/lib/validation";
 import { CiSquarePlus } from "react-icons/ci";
-import ReservationTimer from "./ReservationTimer";
+import ReservationTimer from "@/app/components/tickets/ReservationTimer";
 import { HiOutlineMinus } from "react-icons/hi";
 import { HiOutlinePlus } from "react-icons/hi";
 import { KviteringContext } from "@/app/lib/KvitteringContext";
 
 const CampingOptionsForm = ({ onNext, onBack, formData }) => {
-  const [reservationId, setReservationId] = useState(null); // For reservation ID
-  const [timeExpired, setTimeExpired] = useState(false); // Håndtering af timeout
+  const [reservationId, setReservationId] = useState(null);
 
-  const handleTimeout = (id) => {
-    setTimeExpired(true); // Markér at tiden er udløbet
-    alert("Tiden for din reservation er udløbet! Du bliver sendt tilbage.");
-    onBack(); // Naviger tilbage til den forrige skærm
-  };
+  const onSubmit = async (data) => {
+    const selectedSpot = availableSpots.find((spot) => spot.area === data.area); // Find det valgte område
 
-  const handleConfirm = async (id) => {
-    try {
-      // Bekræft reservationen
-      await postFullfillReservation(id);
-      alert("Reservationen er bekræftet!");
-      onNext(); // Gå videre i flowet
-    } catch (error) {
-      alert("Der opstod en fejl under bekræftelsen af reservationen.");
+    const totalTickets =
+      (formData.vipCount || 0) + (formData.regularCount || 0); //hvor pladser er der af hver, er der ingen gør vi værdien er 0, så den ikke er undefined og giver os problemer
+
+    if (!data.area) {
+      setFormError("Du skal vælge et campingområde!"); // Sæt fejlmeddelelse
+      return;
     }
+
+    if (totalTickets > selectedSpot.available) {
+      setFormError(
+        `Der er kun ${selectedSpot.available} billetter tilgængelige i ${selectedSpot.area}.`
+      );
+      return;
+    }
+
+    // API-opkald
+    try {
+      const result = await putReserveSpot(
+        data.area,
+        formData.vipCount || 0,
+        formData.regularCount || 0
+      );
+      // Når vi får reservationId fra PUT-requesten, sætter vi det i state
+      setReservationId(result.reservationId);
+
+      alert("Reservationen er gennemført!");
+      onNext(data);
+    } catch (error) {
+      setFormError("Der opstod en fejl ved reservationen. Prøv igen senere.");
+    }
+
+    // Hvis ingen fejl
+    setFormError(""); // Ryd fejl
+    onNext({
+      ...data,
+    });
   };
-
-  useEffect(() => {
-    // Når komponenten mountes, opret en ny reservation
-    const createReservation = async () => {
-      try {
-        const result = await putReserveSpot(
-          formData.area,
-          formData.vipCount || 0,
-          formData.regularCount || 0
-        );
-        console.log("dette er mit result", result);
-        if (result && result.id) {
-          setReservationId(result.id); // Sæt reservation ID
-          console.log("reservationsid", result.id);
-        } else {
-          console.log("jeg får ikke id");
-        }
-      } catch (error) {
-        alert("Kunne ikke oprette reservation. Prøv igen.");
-        onBack();
-      }
-    };
-
-    createReservation();
-  }, [formData, onBack]);
-
-  if (timeExpired) {
-    return <p>Tiden er udløbet. Start forfra.</p>;
-  }
+}
 
   const {
     register,
@@ -168,6 +163,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
 
   const onSubmit = async (data) => {
     const selectedSpot = availableSpots.find((spot) => spot.area === data.area); // Find det valgte område
+
     const totalTickets =
       (formData.vipCount || 0) + (formData.regularCount || 0); //hvor pladser er der af hver, er der ingen gør vi værdien er 0, så den ikke er undefined og giver os problemer
 
@@ -185,9 +181,13 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
 
     // API-opkald
     try {
-      // API-opkald
-      await postFullfillReservation(reservationId); // Brug den eksisterende reservationId
-      onNext(data); // Fortsæt med flowet
+      const result = await putReserveSpot(
+        data.area,
+        formData.vipCount || 0,
+        formData.regularCount || 0
+      );
+      alert("Reservationen er gennemført!");
+      onNext(data);
     } catch (error) {
       setFormError("Der opstod en fejl ved reservationen. Prøv igen senere.");
     }
@@ -200,69 +200,69 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
   };
 
   return (
-    <div className="h-svh">
-      {reservationId && (
-        <ReservationTimer
-          reservationId={reservationId}
-          onTimeout={handleTimeout}
-          onConfirm={handleConfirm}
-        />
-      )}
+    <>
+      <ReservationTimer
+        reservationId="1233" //HER GÅR DET GALT
+        onTimeout={(id) => console.log("Timeout triggered for:", id)}
+        onConfirm={(id) => console.log("Confirmed reservation for:", id)}
+      />
+      <div className="h-svh">
+        <div className="">
+          <p>Valgte billetter:</p>
+          <ul>
+            <li>VIP Billetter: {formData.vipCount}</li>
+            <li>Regular Billetter: {formData.regularCount}</li>
+          </ul>
+        </div>
 
-      <div className="">
-        <p>Valgte billetter:</p>
-        <ul>
-          <li>VIP Billetter: {formData.vipCount}</li>
-          <li>Regular Billetter: {formData.regularCount}</li>
-        </ul>
-      </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 ">
+          <div className="grid grid-rows-2 gap-4">
+            <h2 className="font-Inter text-lg pb-2">vælg camping område</h2>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 ">
-        <div className="grid grid-rows-2 gap-4">
-          <h2 className="font-Inter text-lg pb-2">vælg camping område</h2>
+            <div className="flex flex-row gap-4  ">
+              {availableSpots.map((spot, index) => {
+                const totalTickets =
+                  (formData.vipCount || 0) + (formData.regularCount || 0); //udskriv totalen af billetter, de har begge en fallback værdi på 0, så vi ikke kan få undefinde
+                const isDisabled = totalTickets > spot.available; // Check for for mange billetter
 
-          <div className="flex flex-row gap-4  ">
-            {availableSpots.map((spot, index) => {
-              const totalTickets =
-                (formData.vipCount || 0) + (formData.regularCount || 0); //udskriv totalen af billetter, de har begge en fallback værdi på 0, så vi ikke kan få undefinde
-              const isDisabled = totalTickets > spot.available; // Check for for mange billetter
-
-              return (
-                <div key={index}>
-                  <input
-                    className="hidden peer"
-                    type="radio"
-                    id={spot.area}
-                    value={spot.area}
-                    {...register("area")} // Binding til formular
-                    onChange={() => handleAreaSelection(spot.area)} // Validering
-                    disabled={isDisabled} // Deaktiver området hvis der er for mange billetter
-                  />
-                  <label
-                    htmlFor={spot.area}
-                    className={`rounded-md cursor-pointer bg-slate-400 p-2 text-center font-Inter uppercase text-lg
-            peer-checked:bg-customPink-700 peer-checked:text-white
-            hover:bg-gray-200 transition-all duration-200
-            ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
-                  >
-                    {spot.area}
-                  </label>
-                  <div className="flex">
-                    <p>Tilgængelige pladser:</p>{" "}
-                    <p>
-                      {spot.available}/{spot.spots}
-                    </p>
+                return (
+                  <div key={index}>
+                    <input
+                      className="hidden peer"
+                      type="radio"
+                      id={spot.area}
+                      value={spot.area}
+                      {...register("area")} // Binding til formular
+                      onChange={() => handleAreaSelection(spot.area)} // Validering
+                      disabled={isDisabled} // Deaktiver området hvis der er for mange billetter
+                    />
+                    <label
+                      htmlFor={spot.area}
+                      className={`rounded-md cursor-pointer bg-slate-400 p-2 text-center font-Inter uppercase text-lg
+          peer-checked:bg-customPink-700 peer-checked:text-white
+          hover:bg-gray-200 transition-all duration-200
+          ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
+                    >
+                      {spot.area}
+                    </label>
+                    <div className="flex">
+                      <p>Tilgængelige pladser:</p>{" "}
+                      <p>
+                        {spot.available}/{spot.spots}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+            {formError && (
+              <p className="text-red-500 text-sm mt-2">{formError}</p>
+            )}
           </div>
           {formError && (
-            <p className="text-red-500 text-sm mt-2">{formError}</p>
+            <p className="text-red-500 text-sm mb-4">{formError}</p>
           )}
-        </div>
-        {formError && <p className="text-red-500 text-sm mb-4">{formError}</p>}
-        {selectedArea && <p>Du har valgt campingområde: {selectedArea}</p>}
+          {selectedArea && <p>Du har valgt campingområde: {selectedArea}</p>}
 
         {/* Grøn camping */}
         <div className="py-4">
@@ -271,7 +271,6 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
               className="hidden peer" // Skjul standard checkboks
               type="checkbox"
               id="greenCamping"
-              {...register("greenCamping")}
               //   {...register("greenCamping")}
             />
             <span className="">Grøn camping (+249,-) </span>
@@ -289,9 +288,9 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
           )}
         </div>
         {/* Telte */}
-        <h3 className="text-2xl font-medium">Telt opsætning</h3>
+
         <div className="flex justify-between">
-          <label className="" htmlFor="addTentSetup">
+          <label className="text-lg font-Inter" htmlFor="addTentSetup">
             Få telte at op af et crew
           </label>
           <input
@@ -315,24 +314,24 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
             {errors.tent2p && (
               <p className="text-red-500 text-sm">{errors.tent2p.message}</p>
             )}
-            <div className="grid grid-cols-2 ">
+            <div className="flex flex-row ">
               <label htmlFor="tent2p" name="tent2p">
-                2-personers telt <span className="font-medium">+299,-</span>
+                2-personers telt (+299,-):
               </label>
-              <div className="flex flex-row gap-3 justify-center">
+              <div className="flex flex-row gap-3">
                 <button
                   type="button"
                   onClick={() => handleTentChange("tent2p", "decrement")}
+                  className=" bg-slate-300 "
                 >
-                  <HiOutlineMinus className="w-6 h-6 " />
+                  <CiSquareMinus className="h-10 w-10 text-center self-center  " />
                 </button>
                 <input
-                  className="w-10 text-center"
+                  className="w-8"
                   type="number"
                   id="tent2p"
                   name="tent2p"
                   min="0"
-                  readOnly
                   {...register("tent2p", { valueAsNumber: true })}
                 />
 
@@ -340,7 +339,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
                   type="button"
                   onClick={() => handleTentChange("tent2p", "increment")}
                 >
-                  <HiOutlinePlus className="w-6 h-6 " />
+                  <CiSquarePlus className="h-10 w-10 text-center self-center " />
                 </button>
               </div>
             </div>
@@ -348,30 +347,29 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
               <p className="text-red-500 text-sm">{errors.tent2p.message}</p>
             )}
 
-            <div className="grid grid-cols-2">
-              <label htmlFor="tent3p">3-personers telt +399,-</label>
-              <div className="flex flex-row items-center justify-center gap-3">
+            <div className="flex flex-row">
+              <label htmlFor="tent3p">3-personers telt (+399,-):</label>
+              <div className="flex flex-row gap-3">
                 <button
                   type="button"
                   onClick={() => handleTentChange("tent3p", "decrement")}
                   className="bg-slate-400 focus:bg-slate-500"
                 >
-                  <HiOutlineMinus className="w-6 h-6 " />
+                  <CiSquareMinus className="h-10 w-10 text-center self-center  " />
                 </button>
                 <input
-                  className="w-10 text-center"
+                  className="w-8"
                   type="number"
                   id="tent3p"
                   min="0"
-                  readOnly
                   {...register("tent3p", { valueAsNumber: true })}
                 />
                 <button
                   type="button"
                   onClick={() => handleTentChange("tent3p", "increment")}
-                  className="  active:text-customPink transition duration-75"
+                  className=" bg-slate-300"
                 >
-                  <HiOutlinePlus className="w-6 h-6 " />
+                  <CiSquarePlus className="h-10 w-10 text-center self-center " />
                 </button>
               </div>
               {errors.tent3p && (
@@ -383,49 +381,16 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
           </div>
         )}
 
-        {/* Grøn camping */}
-        <div className="py-4">
-          <div className="flex justify-between items-center ">
-            <input
-              className="hidden peer"
-              type="checkbox"
-              id="greenCamping"
-              {...register("greenCamping")}
-              //   {...register("greenCamping")}
-            />
-            <span className="">Grøn camping (+249,-) </span>
-            {/* <label
-              htmlFor="greenCamping"
-              className="w-6 h-6 border-2 border-black   place-items-center place-content-center  cursor-pointer   peer-checked:bg-green "
-            >
-              <IoCheckmark className="w-4 h-4 opacity-0 peer-checked:opacity-100 transition-opacity duration-200" />
-            </label> */}
+          <div className="flex justify-between ">
+            <button type="button" onClick={onBack}>
+              Tilbage
+            </button>
 
-            <label
-              htmlFor="greenCamping"
-              className="w-6 h-6 border-2 border-black grid place-items-center cursor-pointer
-                peer-checked:bg-green peer-checked:border-pink-500 transition-all duration-200  "
-            >
-              {/* Check-ikonet bliver usynligt/ synligt */}
-              <IoCheckmark className="w-4 h-4 opacity-0 group-checked:opacity-100 transition-opacity duration-200" />
-            </label>
+            <button type="submit">submit</button>
           </div>
-          {errors.greenCamping && (
-            <p className="text-red-500 text-sm">
-              {errors.greenCamping.message}
-            </p> // Fejlmeddelelse for grøn camping
-          )}
-        </div>
-
-        <div className="flex justify-between ">
-          <button type="button" onClick={onBack}>
-            Tilbage
-          </button>
-
-          <button type="submit">submit</button>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </>
   );
 };
 

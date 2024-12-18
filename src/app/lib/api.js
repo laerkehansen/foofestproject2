@@ -174,6 +174,6 @@ export async function putReserveSpot(area, vipCount, regularCount) {
   });
 
   const data = await response.json();
-  console.log("API Response Data: ", data); // Log API responsen
-  return data;
+  console.log("API Response from putReserveSpot:", data);
+  return data.reservationId;
 }
