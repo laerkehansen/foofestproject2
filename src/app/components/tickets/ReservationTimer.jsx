@@ -48,9 +48,16 @@ const ReservationTimer = ({ reservationId, onTimeout, onConfirm }) => {
   }
 
   return (
-    <div className="bg-customPink z-30">
-      <h3>Din reservation udløber om: {formatTime(timeLeft)}</h3>
-      <button onClick={handleConfirm}>Bekræft Reservation</button>
+    <div className="bg-customPink z-30 col-span-full justify-center items-center gap-6 flex">
+      <h3 className="text-center">
+        Din reservation udløber om: {formatTime(timeLeft)}
+      </h3>
+      <button
+        onClick={handleConfirm}
+        className="border-black border-2 text-lg py-1 px-2"
+      >
+        Bekræft Reservation
+      </button>
     </div>
   );
 };

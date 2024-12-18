@@ -93,7 +93,7 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
 
   return (
     <>
-      <div>
+      <div className="flex gap-4 place-self-center">
         <p>Valgte billetter:</p>
         <ul>
           <li>VIP Billetter: {formData.vipCount}</li>
@@ -102,7 +102,7 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="gap-6 p-2 flex flex-wrap"
+        className="gap-6 p-2 flex flex-wrap justify-center"
       >
         {formData?.vipCount + formData?.regularCount &&
           Array.from({

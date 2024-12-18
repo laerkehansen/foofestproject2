@@ -135,7 +135,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
         onTimeout={(id) => console.log("Timeout triggered for:", id)}
         onConfirm={(id) => console.log("Confirmed reservation for:", id)}
       />
-      <div className="h-svh">
+      <div className="h-svh place-self-center">
         <div className="">
           <p>Valgte billetter:</p>
           <ul>
@@ -144,7 +144,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
           </ul>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 ">
+        <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1">
           <div className="grid grid-rows-2 gap-4">
             <h2 className="font-Inter text-lg pb-2">vælg camping område</h2>
 

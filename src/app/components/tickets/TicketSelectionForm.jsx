@@ -76,19 +76,16 @@ const TicketSelectionForm = ({ onNext }) => {
   };
 
   return (
-    <div className=" grid grid-cols-[1fr_auto] gap-4  w-full h-full bg-white px-20 py-10">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className=" col-start-1 grid gird-cols-1 row-auto "
-      >
+    <div className=" grid grid-cols-1 bg-white px-20 py-10 w-fit place-self-center border-black border-2">
+      <form onSubmit={handleSubmit(onSubmit)} className="">
         <div className=" w-[400px]  ">
           <h1 className="text-stor font-medium">Billetter</h1>
-          <div className="flex justify-between py-2 border-b-2 border-black">
+          <div className="flex justify-between">
             <h2>Vælg antal billetter </h2>
             <p className="font-medium italic"> ticket ({totalTick})</p>
           </div>
 
-          <div className="grid grid-cols-2 py-2 ">
+          <div className="grid grid-cols-2 py-2">
             <label>Antal VIP 1299,-</label>
             <div className="grid grid-cols-3  gap-2 place-items-center">
               <button
@@ -159,7 +156,10 @@ const TicketSelectionForm = ({ onNext }) => {
             <h3>Samlet pris: {totalPrice} kr.</h3>
           </div> */}
         </div>
-        <button type="submit" className="bg-lime-500 self-end place-self-end">
+        <button
+          type="submit"
+          className="bg-green py-1 px-3 self-end place-self-end  border-black border-2 mt-4"
+        >
           Gå videre
         </button>
       </form>
