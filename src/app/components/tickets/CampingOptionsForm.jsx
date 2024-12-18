@@ -2,18 +2,18 @@
 import { IoCheckmark } from "react-icons/io5";
 import { CiSquareMinus } from "react-icons/ci";
 import { useState, useEffect } from "react";
-import { getAvailableSpots } from "@/app/lib/api";
+import { getAvailableSpots, putReserveSpot } from "@/app/lib/api";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { validering } from "@/app/lib/validation";
 import { CiSquarePlus } from "react-icons/ci";
 
-const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
+const CampingOptionsForm = ({ onNext, onBack, formData }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue, // bruges til knapper
+    setValue, // bruges til at sætte værdier dynamisk, f.eks. når vi ændrer område på vores knapper
     watch,
   } = useForm({
     resolver: zodResolver(validering),
@@ -25,7 +25,6 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
       tent2p: 0,
       tent3p: 0,
       area: "",
-      greenCamping: false,
     },
   });
 
@@ -36,42 +35,84 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
 
   const fetchData = async () => {
     const data = await getAvailableSpots();
-    setAvailableSpots(data);
+    setAvailableSpots(data); // Sætter de tilgængelige pladser
     setLoading(false);
   };
 
-  //   skal slettes
-
-  // skla gøre så en anden måde //meget vigitgt
+  // Henter data, når komponenten er blevet rendere (kører kun én gang)
   useEffect(() => {
     fetchData();
     // const interval = setInterval(fetchData, 2000); // Tjek hver 2. sekund
     // return () => clearInterval(interval);
   }, []);
 
+  // Håndterer valget af et campingområde
   const handleAreaSelection = (area) => {
-    setSelectedArea(area);
-    setValue("area", area);
-    console.log(setSelectedArea);
+    const selectedSpot = availableSpots.find((spot) => spot.area === area); // Finder det valgte område
+
+    const totalTickets = // Beregn total billetter (VIP + Regular)
+      (formData.vipCount || 0) + (formData.regularCount || 0);
+
+    if (!selectedSpot || totalTickets > selectedSpot.available) {
+      setFormError(
+        `Området "${area}" er ikke tilgængeligt. Vælg et andet område.`
+      );
+      setSelectedArea(null);
+      setValue("area", ""); // Fjern værdien fra formularen
+    } else {
+      setFormError(""); // Fjern fejlmeddelelse
+      setSelectedArea(area);
+      setValue("area", area); // Sæt værdien i formularen
+
+      // Opdater de tilgængelige pladser
+      const updatedSpots = availableSpots.map((spot) => {
+        if (spot.area === area) {
+          spot.available -= totalTickets; // Træk de valgte billetter fra de tilgængelige pladser
+        }
+        return spot;
+      });
+      setAvailableSpots(updatedSpots); // Opdaterer tilstanden med de nye tilgængelige pladser
+    }
   };
 
   // Håndterer plus og minus for telte
   const handleTentChange = (type, operation) => {
-    const currentValue = watch(type);
+    const currentValue = watch(type); // Hent det nuværende antal telte af den pågældende type
     let newValue =
       operation === "increment" ? currentValue + 1 : currentValue - 1;
     if (newValue < 0) newValue = 0; // Undgå negative værdier
-    setValue(type, newValue);
+    setValue(type, newValue); //opdater værdien
   };
 
-  // Definér værdier fra formularen
+  const onSubmit = async (data) => {
+    const selectedSpot = availableSpots.find((spot) => spot.area === data.area); // Find det valgte område
 
-  // Send data til forælderen, hver gang en af værdierne ændres
+    const totalTickets =
+      (formData.vipCount || 0) + (formData.regularCount || 0); //hvor pladser er der af hver, er der ingen gør vi værdien er 0, så den ikke er undefined og giver os problemer
 
-  const onSubmit = (data) => {
     if (!data.area) {
       setFormError("Du skal vælge et campingområde!"); // Sæt fejlmeddelelse
       return;
+    }
+
+    if (totalTickets > selectedSpot.available) {
+      setFormError(
+        `Der er kun ${selectedSpot.available} billetter tilgængelige i ${selectedSpot.area}.`
+      );
+      return;
+    }
+
+    // API-opkald
+    try {
+      const result = await putReserveSpot(
+        data.area,
+        formData.vipCount || 0,
+        formData.regularCount || 0
+      );
+      alert("Reservationen er gennemført!");
+      onNext(data);
+    } catch (error) {
+      setFormError("Der opstod en fejl ved reservationen. Prøv igen senere.");
     }
 
     // Hvis ingen fejl
@@ -96,37 +137,43 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
           <h2 className="font-Inter text-lg pb-2">vælg camping område</h2>
 
           <div className="flex flex-row gap-4  ">
-            {availableSpots.map((spot, index) => (
-              <div key={index}>
-                <input
-                  className="hidden peer"
-                  type="radio"
-                  id={spot.area}
-                  value={spot.area}
-                  {...register("area")} // Korrekt binding
-                  onChange={() => handleAreaSelection(spot.area)}
-                />
-                {errors.area && <p>{errors.area.message}</p>}
-                <label
-                  htmlFor={spot.area}
-                  className=" rounded-md cursor-pointer bg-slate-400 p-2 text-center font-Inter uppercase text-lg 
-                  peer-checked:bg-customPink-700 peer-checked:text-white 
-                  hover:bg-gray-200 transition-all duration-200 "
-                >
-                  {spot.area}
-                </label>
-                <div className="flex">
-                  <p>Tilgængelige pladser:</p>{" "}
-                  <p>
-                    {spot.available}/{/* {spot.area}  */}
-                    {spot.spots}
-                  </p>
+            {availableSpots.map((spot, index) => {
+              const totalTickets =
+                (formData.vipCount || 0) + (formData.regularCount || 0); //udskriv totalen af billetter, de har begge en fallback værdi på 0, så vi ikke kan få undefinde
+              const isDisabled = totalTickets > spot.available; // Check for for mange billetter
+
+              return (
+                <div key={index}>
+                  <input
+                    className="hidden peer"
+                    type="radio"
+                    id={spot.area}
+                    value={spot.area}
+                    {...register("area")} // Binding til formular
+                    onChange={() => handleAreaSelection(spot.area)} // Validering
+                    disabled={isDisabled} // Deaktiver området hvis der er for mange billetter
+                  />
+                  <label
+                    htmlFor={spot.area}
+                    className={`rounded-md cursor-pointer bg-slate-400 p-2 text-center font-Inter uppercase text-lg
+            peer-checked:bg-customPink-700 peer-checked:text-white
+            hover:bg-gray-200 transition-all duration-200
+            ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
+                  >
+                    {spot.area}
+                  </label>
+                  <div className="flex">
+                    <p>Tilgængelige pladser:</p>{" "}
+                    <p>
+                      {spot.available}/{spot.spots}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
-          {errors.area && (
-            <p className="text-red-500 text-sm">{errors.area.message}</p>
+          {formError && (
+            <p className="text-red-500 text-sm mt-2">{formError}</p>
           )}
         </div>
         {formError && <p className="text-red-500 text-sm mb-4">{formError}</p>}
@@ -139,7 +186,6 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
               className="hidden peer" // Skjul standard checkboks
               type="checkbox"
               id="greenCamping"
-              {...register("greenCamping")}
               //   {...register("greenCamping")}
             />
             <span className="">Grøn camping (+249,-) </span>
@@ -193,7 +239,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
                   onClick={() => handleTentChange("tent2p", "decrement")}
                   className=" bg-slate-300 "
                 >
-                  <CiSquareMinus className="h-18 w-18 text-center self-center  " />
+                  <CiSquareMinus className="h-10 w-10 text-center self-center  " />
                 </button>
                 <input
                   className="w-8"
@@ -208,7 +254,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
                   type="button"
                   onClick={() => handleTentChange("tent2p", "increment")}
                 >
-                  <CiSquarePlus className="h-18 w-18 text-center self-center" />
+                  <CiSquarePlus className="h-10 w-10 text-center self-center " />
                 </button>
               </div>
             </div>
@@ -222,8 +268,9 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
                 <button
                   type="button"
                   onClick={() => handleTentChange("tent3p", "decrement")}
+                  className="bg-slate-400 focus:bg-slate-500"
                 >
-                  <CiSquareMinus className="h-18 w-18 text-center self-center" />
+                  <CiSquareMinus className="h-10 w-10 text-center self-center  " />
                 </button>
                 <input
                   className="w-8"
@@ -237,7 +284,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
                   onClick={() => handleTentChange("tent3p", "increment")}
                   className=" bg-slate-300"
                 >
-                  <CiSquarePlus className="h-18 w-18 text-center self-center" />
+                  <CiSquarePlus className="h-10 w-10 text-center self-center " />
                 </button>
               </div>
               {errors.tent3p && (

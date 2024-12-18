@@ -102,7 +102,7 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="gap-6 p-2 bg-background flex"
+        className="gap-6 p-2 flex flex-wrap"
       >
         {formData?.vipCount + formData?.regularCount &&
           Array.from({

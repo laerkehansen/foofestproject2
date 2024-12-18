@@ -158,14 +158,21 @@ export async function postFullfillReservation() {
   return data;
 }
 
-export async function putReserveSpot() {
+export async function putReserveSpot(area, vipCount, regularCount) {
+  //de ting vi skal tage stilling til, altså hvor mange billetter der er valgt og om vi har nok plads på campingpladsen
   const response = await fetch(`${url}/reserve-spot`, {
     method: "PUT",
     headers: headersList,
-    // body: JSON.stringify(),
+    body: JSON.stringify({
+      area,
+      vipCount,
+      regularCount,
+    }),
   });
 
-  const data = await response.json();
-  //   console.log(data);
+  if (!response.ok) {
+    throw new Error("Kunne ikke reservere billetter.");
+  }
+
   return data;
 }
