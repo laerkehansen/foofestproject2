@@ -146,33 +146,34 @@ export async function postSettings() {
   return data;
 }
 
-export async function postFullfillReservation() {
-  const response = await fetch(`${url}/reserve-spot`, {
+export async function postFullfillReservation(reservationId) {
+  const response = await fetch(`${url}/fullfill-reservation`, {
     method: "POST",
     headers: headersList,
-    // body: JSON.stringify(),
+    body: JSON.stringify({ id: reservationId }),
   });
 
   const data = await response.json();
-  //   console.log(data);
-  return data;
+  if (data.success) {
+    alert("Reservation bekræftet!");
+  } else {
+    alert("Der opstod en fejl ved bekræftelsen.");
+  }
 }
 
 export async function putReserveSpot(area, vipCount, regularCount) {
   //de ting vi skal tage stilling til, altså hvor mange billetter der er valgt og om vi har nok plads på campingpladsen
+  const totalTickets = vipCount + regularCount;
+
   const response = await fetch(`${url}/reserve-spot`, {
     method: "PUT",
     headers: headersList,
     body: JSON.stringify({
-      area,
-      vipCount,
-      regularCount,
+      area: area,
+      amount: totalTickets,
     }),
   });
 
-  if (!response.ok) {
-    throw new Error("Kunne ikke reservere billetter.");
-  }
-
+  const data = await response.json();
   return data;
 }

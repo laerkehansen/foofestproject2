@@ -2,13 +2,62 @@
 import { IoCheckmark } from "react-icons/io5";
 import { CiSquareMinus } from "react-icons/ci";
 import { useState, useEffect } from "react";
-import { getAvailableSpots, putReserveSpot } from "@/app/lib/api";
+import {
+  getAvailableSpots,
+  putReserveSpot,
+  // postFullfillReservation,
+} from "@/app/lib/api";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { validering } from "@/app/lib/validation";
 import { CiSquarePlus } from "react-icons/ci";
+import ReservationTimer from "./ReservationTimer";
 
 const CampingOptionsForm = ({ onNext, onBack, formData }) => {
+  const [reservationId, setReservationId] = useState(null); // For reservation ID
+  const [timeExpired, setTimeExpired] = useState(false); // Håndtering af timeout
+
+  const handleTimeout = (id) => {
+    setTimeExpired(true); // Markér at tiden er udløbet
+    alert("Tiden for din reservation er udløbet! Du bliver sendt tilbage.");
+    onBack(); // Naviger tilbage til den forrige skærm
+  };
+
+  const handleConfirm = async (id) => {
+    try {
+      // Bekræft reservationen
+      await postFullfillReservation(id);
+      alert("Reservationen er bekræftet!");
+      onNext(); // Gå videre i flowet
+    } catch (error) {
+      alert("Der opstod en fejl under bekræftelsen af reservationen.");
+    }
+  };
+
+  useEffect(() => {
+    // Når komponenten mountes, opret en ny reservation
+    const createReservation = async () => {
+      try {
+        const result = await putReserveSpot(
+          formData.area,
+          formData.vipCount || 0,
+          formData.regularCount || 0
+        );
+        setReservationId(result.id); // Sæt reservation ID
+        console.log("reservationsid", reservationId);
+      } catch (error) {
+        alert("Kunne ikke oprette reservation. Prøv igen.");
+        onBack();
+      }
+    };
+
+    createReservation();
+  }, []);
+
+  if (timeExpired) {
+    return <p>Tiden er udløbet. Start forfra.</p>;
+  }
+
   const {
     register,
     handleSubmit,
@@ -109,7 +158,14 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
         formData.vipCount || 0,
         formData.regularCount || 0
       );
-      alert("Reservationen er gennemført!");
+      const reservationId = result.id;
+      console.log("dette er mit reservationsid", result);
+
+      // alert("Reservationen er gennemført!");
+
+      // Bekræft reservationen (POST request)
+      await postFullfillReservation(reservationId);
+
       onNext(data);
     } catch (error) {
       setFormError("Der opstod en fejl ved reservationen. Prøv igen senere.");
@@ -124,6 +180,14 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
 
   return (
     <div className="h-svh">
+      {reservationId && (
+        <ReservationTimer
+          reservationId={reservationId}
+          onTimeout={handleTimeout}
+          onConfirm={handleConfirm}
+        />
+      )}
+
       <div className="">
         <p>Valgte billetter:</p>
         <ul>
