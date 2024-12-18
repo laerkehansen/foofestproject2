@@ -27,7 +27,6 @@ const ReservationTimer = ({ reservationId, onTimeout, onConfirm }) => {
     clearInterval(timer); //stop timeren, hvis vi når at bekræfte købet
     onConfirm(reservationId); // Bekræft reservationen
   };
-
   //formatere vores sekunder til minutter
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60); //laver sekunder om til minutter, og math.floor laver det om til hele tal

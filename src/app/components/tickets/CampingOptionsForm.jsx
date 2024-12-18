@@ -3,7 +3,11 @@ import { IoCheckmark } from "react-icons/io5";
 import { CiSquareMinus } from "react-icons/ci";
 import { useState, useEffect } from "react";
 import { useContext } from "react";
-import { getAvailableSpots, putReserveSpot } from "@/app/lib/api";
+import {
+  getAvailableSpots,
+  putReserveSpot,
+  postFullfillReservation,
+} from "@/app/lib/api";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { validering } from "@/app/lib/validation";
@@ -43,8 +47,13 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
           formData.vipCount || 0,
           formData.regularCount || 0
         );
-        setReservationId(result.id); // Sæt reservation ID
-        console.log("reservationsid", reservationId);
+        console.log("dette er mit result", result);
+        if (result && result.id) {
+          setReservationId(result.id); // Sæt reservation ID
+          console.log("reservationsid", result.id);
+        } else {
+          console.log("jeg får ikke id");
+        }
       } catch (error) {
         alert("Kunne ikke oprette reservation. Prøv igen.");
         onBack();
@@ -52,7 +61,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
     };
 
     createReservation();
-  }, []);
+  }, [formData, onBack]);
 
   if (timeExpired) {
     return <p>Tiden er udløbet. Start forfra.</p>;
@@ -159,7 +168,6 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
 
   const onSubmit = async (data) => {
     const selectedSpot = availableSpots.find((spot) => spot.area === data.area); // Find det valgte område
-
     const totalTickets =
       (formData.vipCount || 0) + (formData.regularCount || 0); //hvor pladser er der af hver, er der ingen gør vi værdien er 0, så den ikke er undefined og giver os problemer
 
@@ -177,20 +185,9 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
 
     // API-opkald
     try {
-      const result = await putReserveSpot(
-        data.area,
-        formData.vipCount || 0,
-        formData.regularCount || 0
-      );
-      const reservationId = result.id;
-      console.log("dette er mit reservationsid", result);
-
-      // alert("Reservationen er gennemført!");
-
-      // Bekræft reservationen (POST request)
-      await postFullfillReservation(reservationId);
-
-      onNext(data);
+      // API-opkald
+      await postFullfillReservation(reservationId); // Brug den eksisterende reservationId
+      onNext(data); // Fortsæt med flowet
     } catch (error) {
       setFormError("Der opstod en fejl ved reservationen. Prøv igen senere.");
     }
