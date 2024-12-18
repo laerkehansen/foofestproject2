@@ -164,6 +164,7 @@ export async function postFullfillReservation(reservationId) {
 export async function putReserveSpot(area, vipCount, regularCount) {
   //de ting vi skal tage stilling til, altså hvor mange billetter der er valgt og om vi har nok plads på campingpladsen
   const totalTickets = vipCount + regularCount;
+
   const response = await fetch(`${url}/reserve-spot`, {
     method: "PUT",
     headers: headersList,
