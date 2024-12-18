@@ -212,7 +212,7 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
         <button
           type="button"
           onClick={handleSubmit(handleSendToSupabase)}
-          className="bg-customPink border-black border-2 text-black text-lg py-2 px-4 hover:bg-green hover:text-black w-fit"
+          className="bg-customPink border-black border-2 text-black text-lg py-2 px-4 hover:bg-green hover:text-black h-fit w-fit"
         >
           Send til Supabase
         </button>
@@ -220,7 +220,7 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
         {/* til form  */}
         <button
           type="submit"
-          className="bg-customPink border-black border-2 text-black text-lg py-2 px-4  hover:bg-green w-fit hover:text-black"
+          className="bg-customPink border-black border-2 text-black text-lg py-2 px-4 h-fit  hover:bg-green w-fit hover:text-black"
         >
           Send
         </button>
