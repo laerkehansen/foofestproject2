@@ -26,6 +26,7 @@ const TicketSelectionForm = ({ onNext, onWatchChange }) => {
   // Definer priserne for billetterne
   const vipPrice = 1299;
   const regularPrice = 799;
+  const fee = 99;
 
   // Få værdien af vipCount og regularCount fra formularen
 
@@ -40,7 +41,7 @@ const TicketSelectionForm = ({ onNext, onWatchChange }) => {
   }, [watch]);
 
   // Beregn den samlede pris
-  const totalPrice = vipCount * vipPrice + regularCount * regularPrice;
+  const totalPrice = vipCount * vipPrice + regularCount * regularPrice + fee;
 
   const totalTick = vipCount + regularCount;
 
@@ -149,6 +150,49 @@ const TicketSelectionForm = ({ onNext, onWatchChange }) => {
           Gå videre
         </button>
       </form>
+
+      <div>
+        {totalTick > 0 ? (
+          <div className="bg-[#E7E7E7] w-72 lg:col-start-2 md:col-start-1 sm:col-start-1 place-self-center pt-2 my-10  lg:row-span-2 lg:row-start-1">
+            <p className="uppercase leading-[0.7] font-bold text-2xl text-center italic pt-4 pb-2">
+              foo <br />
+              fest
+            </p>
+            <div className="max-w-72 flex flex-col gap-1 px-4 font-normal text-base">
+              <p className="font-bold text-mid py-2">Billetter</p>
+              {vipCount > 0 && (
+                <div className="flex justify-between">
+                  <p>VIP({vipCount})</p>
+                  <p className="font-semibold">1299,-</p>
+                </div>
+              )}
+              {regularCount > 0 && (
+                <div className="flex justify-between">
+                  <p>Regular({regularCount})</p>
+                  <p className="font-semibold">799,-</p>
+                </div>
+              )}
+              <div className="flex justify-between py-4">
+                <p>Booking fee</p>
+                <p className="font-semibold">99,-</p>
+              </div>
+            </div>
+            <div className="bg-gray-400 px-4 py-5 flex justify-between">
+              <p className="font-bold">Total pris</p>
+              <p className="font-medium">{totalPrice},-</p>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-[#E7E7E7] w-72 text-center p-4 my-10">
+            <p className="uppercase leading-[0.7] font-bold text-2xl text-center italic pt-4 pb-2">
+              foo <br />
+              fest
+            </p>
+            <p className="font-bold text-lg">Din kurv er tom</p>
+            <p>Tilføj billetter for at se kvitteringen.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

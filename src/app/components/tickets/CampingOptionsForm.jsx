@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { validering } from "@/app/lib/validation";
 import { CiSquarePlus } from "react-icons/ci";
+import { HiOutlineMinus } from "react-icons/hi";
+import { HiOutlinePlus } from "react-icons/hi";
 
 const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
   const {
@@ -31,7 +33,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
 
   const [availableSpots, setAvailableSpots] = useState([]); // Tilgængelige områder
   const [selectedArea, setSelectedArea] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); //slet
   const [formError, setFormError] = useState("");
 
   const fetchData = async () => {
@@ -92,74 +94,56 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 ">
-        <div className="grid grid-rows-2 gap-4">
-          <h2 className="font-Inter text-lg pb-2">vælg camping område</h2>
-
-          <div className="flex flex-row gap-4  ">
-            {availableSpots.map((spot, index) => (
-              <div key={index}>
-                <input
-                  className="hidden peer"
-                  type="radio"
-                  id={spot.area}
-                  value={spot.area}
-                  {...register("area")} // Korrekt binding
-                  onChange={() => handleAreaSelection(spot.area)}
-                />
-                {errors.area && <p>{errors.area.message}</p>}
-                <label
-                  htmlFor={spot.area}
-                  className=" rounded-md cursor-pointer bg-slate-400 p-2 text-center font-Inter uppercase text-lg 
-                  peer-checked:bg-customPink-700 peer-checked:text-white 
+        <div className="border-b-2 border-black py-2">
+          <h1 className="text-4xl font-semibold  pb-2">Camping</h1>
+          <h2 className="text-2xl font-medium pb-1 ">Område</h2>
+          <p>vælg et camping område </p>
+          {/* <hr className="bg-black h-1 decoration-black border-0" /> */}
+        </div>
+        <div className="flex flex-wrap gap-2 py-7 ">
+          {availableSpots.map((spot, index) => (
+            <div key={index} className="">
+              <input
+                className="hidden peer"
+                type="radio"
+                id={spot.area}
+                value={spot.area}
+                {...register("area")} // Korrekt binding
+                onChange={() => handleAreaSelection(spot.area)}
+              />
+              {errors.area && <p>{errors.area.message}</p>}
+              <label
+                htmlFor={spot.area}
+                className="  cursor-pointer p-2   text-center  text-lg font-medium  border-2 border-black
+                  peer-checked:bg-gray-400 
                   hover:bg-gray-200 transition-all duration-200 "
-                >
-                  {spot.area}
-                </label>
-                <div className="flex">
+              >
+                {spot.area}{" "}
+                <span className="text-base font-normal italic">
+                  ({spot.available})
+                </span>
+              </label>
+              {/* <div className="flex">
                   <p>Tilgængelige pladser:</p>{" "}
                   <p>
-                    {spot.available}/{/* {spot.area}  */}
+                    {spot.available}/{spot.area}
                     {spot.spots}
                   </p>
-                </div>
-              </div>
-            ))}
-          </div>
-          {errors.area && (
-            <p className="text-red-500 text-sm">{errors.area.message}</p>
-          )}
+                </div> */}
+            </div>
+          ))}
         </div>
+        {errors.area && (
+          <p className="text-red-500 text-sm">{errors.area.message}</p>
+        )}
+
         {formError && <p className="text-red-500 text-sm mb-4">{formError}</p>}
         {selectedArea && <p>Du har valgt campingområde: {selectedArea}</p>}
 
-        {/* Grøn camping */}
-        <div className="py-4">
-          <div className="flex justify-between items-center">
-            <input
-              className="hidden peer" // Skjul standard checkboks
-              type="checkbox"
-              id="greenCamping"
-              {...register("greenCamping")}
-              //   {...register("greenCamping")}
-            />
-            <span className="">Grøn camping (+249,-) </span>
-            <label
-              htmlFor="greenCamping"
-              className="w-6 h-6 border-2 border-black   place-items-center place-content-center  cursor-pointer  peer-checked:border-pink-500 peer-checked:bg-green  transition-all duration-200"
-            >
-              {/* <IoCheckmark className="self-center w-4 h-4 text-customPink/0 text-center  peer-checked:text-customPink" /> */}
-            </label>
-          </div>
-          {errors.greenCamping && (
-            <p className="text-red-500 text-sm">
-              {errors.greenCamping.message}
-            </p> // Fejlmeddelelse for grøn camping
-          )}
-        </div>
         {/* Telte */}
-
+        <h3 className="text-2xl font-medium">Telt opsætning</h3>
         <div className="flex justify-between">
-          <label className="text-lg font-Inter" htmlFor="addTentSetup">
+          <label className="" htmlFor="addTentSetup">
             Få telte at op af et crew
           </label>
           <input
@@ -183,24 +167,24 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
             {errors.tent2p && (
               <p className="text-red-500 text-sm">{errors.tent2p.message}</p>
             )}
-            <div className="flex flex-row ">
+            <div className="grid grid-cols-2 ">
               <label htmlFor="tent2p" name="tent2p">
-                2-personers telt (+299,-):
+                2-personers telt <span className="font-medium">+299,-</span>
               </label>
-              <div className="flex flex-row gap-3">
+              <div className="flex flex-row gap-3 justify-center">
                 <button
                   type="button"
                   onClick={() => handleTentChange("tent2p", "decrement")}
-                  className=" bg-slate-300 "
                 >
-                  <CiSquareMinus className="h-18 w-18 text-center self-center  " />
+                  <HiOutlineMinus className="w-6 h-6 " />
                 </button>
                 <input
-                  className="w-8"
+                  className="w-10 text-center"
                   type="number"
                   id="tent2p"
                   name="tent2p"
                   min="0"
+                  readOnly
                   {...register("tent2p", { valueAsNumber: true })}
                 />
 
@@ -208,7 +192,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
                   type="button"
                   onClick={() => handleTentChange("tent2p", "increment")}
                 >
-                  <CiSquarePlus className="h-18 w-18 text-center self-center" />
+                  <HiOutlinePlus className="w-6 h-6 " />
                 </button>
               </div>
             </div>
@@ -216,28 +200,29 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
               <p className="text-red-500 text-sm">{errors.tent2p.message}</p>
             )}
 
-            <div className="flex flex-row">
-              <label htmlFor="tent3p">3-personers telt (+399,-):</label>
-              <div className="flex flex-row gap-3">
+            <div className="grid grid-cols-2">
+              <label htmlFor="tent3p">3-personers telt +399,-</label>
+              <div className="flex flex-row items-center justify-center gap-3">
                 <button
                   type="button"
                   onClick={() => handleTentChange("tent3p", "decrement")}
                 >
-                  <CiSquareMinus className="h-18 w-18 text-center self-center" />
+                  <HiOutlineMinus className="w-6 h-6 " />
                 </button>
                 <input
-                  className="w-8"
+                  className="w-10 text-center"
                   type="number"
                   id="tent3p"
                   min="0"
+                  readOnly
                   {...register("tent3p", { valueAsNumber: true })}
                 />
                 <button
                   type="button"
                   onClick={() => handleTentChange("tent3p", "increment")}
-                  className=" bg-slate-300"
+                  className="  active:text-customPink transition duration-75"
                 >
-                  <CiSquarePlus className="h-18 w-18 text-center self-center" />
+                  <HiOutlinePlus className="w-6 h-6 " />
                 </button>
               </div>
               {errors.tent3p && (
@@ -249,6 +234,40 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
           </div>
         )}
 
+        {/* Grøn camping */}
+        <div className="py-4">
+          <div className="flex justify-between items-center ">
+            <input
+              className="hidden peer"
+              type="checkbox"
+              id="greenCamping"
+              {...register("greenCamping")}
+              //   {...register("greenCamping")}
+            />
+            <span className="">Grøn camping (+249,-) </span>
+            {/* <label
+              htmlFor="greenCamping"
+              className="w-6 h-6 border-2 border-black   place-items-center place-content-center  cursor-pointer   peer-checked:bg-green "
+            >
+              <IoCheckmark className="w-4 h-4 opacity-0 peer-checked:opacity-100 transition-opacity duration-200" />
+            </label> */}
+
+            <label
+              htmlFor="greenCamping"
+              className="w-6 h-6 border-2 border-black grid place-items-center cursor-pointer
+                peer-checked:bg-green peer-checked:border-pink-500 transition-all duration-200  "
+            >
+              {/* Check-ikonet bliver usynligt/ synligt */}
+              <IoCheckmark className="w-4 h-4 opacity-0 group-checked:opacity-100 transition-opacity duration-200" />
+            </label>
+          </div>
+          {errors.greenCamping && (
+            <p className="text-red-500 text-sm">
+              {errors.greenCamping.message}
+            </p> // Fejlmeddelelse for grøn camping
+          )}
+        </div>
+
         <div className="flex justify-between ">
           <button type="button" onClick={onBack}>
             Tilbage
@@ -257,6 +276,51 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
           <button type="submit">submit</button>
         </div>
       </form>
+      <div className="bg-[#E7E7E7] px-4 w-72 lg:col-start-2 md:col-start-1 sm:col-start-1 place-self-center py-2 my-10  lg:row-span-2 lg:row-start-1  ">
+        {/* <div className="">
+          <p>Valgte billetter:</p>
+          <ul>
+            <li>VIP Billetter: {formData.vipCount} </li>
+            <li>Regular Billetter: {formData.regularCount}</li>
+          </ul>
+        </div> */}
+        <p className="uppercase leading-[0.7] font-bold text-2xl text-center italic pt-4 pb-2 ">
+          foo <br />
+          fest
+        </p>
+        <div className=" max-w-72 flex flex-col gap-1  font-normal  text-base ">
+          <p className="font-bold text-mid py-2">ticekts</p>
+
+          <div className="flex justify-between">
+            <p>vip({formData.vipCount})</p>
+            <p className="font-semibold">999,-</p>
+          </div>
+
+          <div className="flex  justify-between">
+            <p>Regular({formData.regularCount})</p>
+            <p className="font-semibold">799,-</p>
+          </div>
+
+          <p className="font-bold text-mid py-2">camping</p>
+          <div className=" flex  justify-between">
+            <p className="font-normal">area(area)</p>
+            <p className="font-semibold">0,-</p>
+          </div>
+          <p className="font-bold text-mid py-2">Tent set up</p>
+          <div className="flex justify-between">
+            <p>tent 2p (2)</p>
+            <p className="font-semibold">299,-</p>
+          </div>
+          <div className="flex justify-between">
+            <p>tent 3p()</p>
+            <p className="font-semibold">399,-</p>
+          </div>
+          <div className="flex justify-between">
+            <p>booking fee</p>
+            <p className="font-semibold">99,-</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
