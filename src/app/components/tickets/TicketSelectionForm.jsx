@@ -9,6 +9,18 @@ import { useEffect } from "react";
 import { HiOutlineMinus } from "react-icons/hi";
 import { HiOutlinePlus } from "react-icons/hi";
 import { KviteringContext } from "@/app/lib/KvitteringContext";
+import { z } from "zod";
+
+// Zod schema med total validering
+export const validerAntal = z
+  .object({
+    vipCount: z.number().min(0).max(8),
+    regularCount: z.number().min(0).max(8),
+  })
+  .refine((data) => data.vipCount + data.regularCount <= 8, {
+    message: "Du kan ikke vælge flere end 8 billetter i alt",
+    path: ["vipCount"],
+  });
 
 const TicketSelectionForm = ({ onNext }) => {
   const {
@@ -32,16 +44,25 @@ const TicketSelectionForm = ({ onNext }) => {
 
   const totalTick = vipCount + regularCount;
 
-  // Håndterer plus og minus for telte
   const handleTentChange = (type, operation) => {
     const currentValue = watch(type);
     let newValue =
       operation === "increment" ? currentValue + 1 : currentValue - 1;
     if (newValue < 0) newValue = 0; // Undgå negative værdier
-    setValue(type, newValue);
 
-    // Opdater cartData i contexten
-    updateCartData({ [type]: newValue });
+    // Beregn den samlede mængde billetter (VIP + Regular)
+    const totalTickets = vipCount + regularCount;
+
+    // Kun tillad ændringen, hvis den samlede mængde ikke overstiger 8
+    if (totalTickets < 8 || (operation === "decrement" && newValue >= 0)) {
+      setValue(type, newValue);
+      updateCartData({ [type]: newValue });
+    }
+  };
+
+  const handleNext = (data) => {
+    console.log("Går videre med data:", data);
+    // Naviger til næste trin eller opdater applikationens tilstand
   };
 
   const onSubmit = (data) => {
@@ -82,6 +103,7 @@ const TicketSelectionForm = ({ onNext }) => {
                 type="number"
                 placeholder="0"
                 min="0"
+                max="8"
                 className=" w-7 text-center  text-lg"
                 readOnly
               />
@@ -113,6 +135,7 @@ const TicketSelectionForm = ({ onNext }) => {
                 type="number"
                 placeholder="0"
                 min="0"
+                max="8"
                 readOnly
                 className=" w-7 text-center  text-lg"
                 // value={regularCount} // Bruger den værdi, der er gemt i state
