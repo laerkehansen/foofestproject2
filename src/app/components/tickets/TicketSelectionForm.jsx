@@ -4,11 +4,13 @@ import { validering } from "@/app/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Kvitering from "./Kvitering";
 import StepBar from "./StepBar";
+import { useContext } from "react";
 import { useEffect } from "react";
 import { HiOutlineMinus } from "react-icons/hi";
 import { HiOutlinePlus } from "react-icons/hi";
+import { KviteringContext } from "@/app/lib/KvitteringContext";
 
-const TicketSelectionForm = ({ onNext, onWatchChange }) => {
+const TicketSelectionForm = ({ onNext }) => {
   const {
     register,
     handleSubmit,
@@ -22,26 +24,11 @@ const TicketSelectionForm = ({ onNext, onWatchChange }) => {
       regularCount: 0, // Standardværdi for regularCount
     },
   });
+  const { updateCartData } = useContext(KviteringContext);
 
-  // Definer priserne for billetterne
-  const vipPrice = 1299;
-  const regularPrice = 799;
-  const fee = 99;
-
-  // Få værdien af vipCount og regularCount fra formularen
-
+  // bruges til at opdater total ticket
   const vipCount = watch("vipCount", 0); // Standardværdi 0
   const regularCount = watch("regularCount", 0); // Standardværdi 0
-
-  useEffect(() => {
-    const subscribetion = watch((value) => {
-      console.log("se valu", value);
-    });
-    return () => subscribetion.unsubscribe();
-  }, [watch]);
-
-  // Beregn den samlede pris
-  const totalPrice = vipCount * vipPrice + regularCount * regularPrice + fee;
 
   const totalTick = vipCount + regularCount;
 
@@ -52,6 +39,9 @@ const TicketSelectionForm = ({ onNext, onWatchChange }) => {
       operation === "increment" ? currentValue + 1 : currentValue - 1;
     if (newValue < 0) newValue = 0; // Undgå negative værdier
     setValue(type, newValue);
+
+    // Opdater cartData i contexten
+    updateCartData({ [type]: newValue });
   };
 
   const onSubmit = (data) => {
@@ -59,7 +49,7 @@ const TicketSelectionForm = ({ onNext, onWatchChange }) => {
     console.log("Form submitted:", data);
     onNext({
       ...data,
-      totalPrice,
+      // totalPrice,
     });
     // Du kan sende data videre til backend her
   };
@@ -142,57 +132,14 @@ const TicketSelectionForm = ({ onNext, onWatchChange }) => {
           </div>
 
           {/* Vis den samlede pris */}
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <h3>Samlet pris: {totalPrice} kr.</h3>
-          </div>
+          </div> */}
         </div>
         <button type="submit" className="bg-lime-500 self-end place-self-end">
           Gå videre
         </button>
       </form>
-
-      <div>
-        {totalTick > 0 ? (
-          <div className="bg-[#E7E7E7] w-72 lg:col-start-2 md:col-start-1 sm:col-start-1 place-self-center pt-2 my-10  lg:row-span-2 lg:row-start-1">
-            <p className="uppercase leading-[0.7] font-bold text-2xl text-center italic pt-4 pb-2">
-              foo <br />
-              fest
-            </p>
-            <div className="max-w-72 flex flex-col gap-1 px-4 font-normal text-base">
-              <p className="font-bold text-mid py-2">Billetter</p>
-              {vipCount > 0 && (
-                <div className="flex justify-between">
-                  <p>VIP({vipCount})</p>
-                  <p className="font-semibold">1299,-</p>
-                </div>
-              )}
-              {regularCount > 0 && (
-                <div className="flex justify-between">
-                  <p>Regular({regularCount})</p>
-                  <p className="font-semibold">799,-</p>
-                </div>
-              )}
-              <div className="flex justify-between py-4">
-                <p>Booking fee</p>
-                <p className="font-semibold">99,-</p>
-              </div>
-            </div>
-            <div className="bg-gray-400 px-4 py-5 flex justify-between">
-              <p className="font-bold">Total pris</p>
-              <p className="font-medium">{totalPrice},-</p>
-            </div>
-          </div>
-        ) : (
-          <div className="bg-[#E7E7E7] w-72 text-center p-4 my-10">
-            <p className="uppercase leading-[0.7] font-bold text-2xl text-center italic pt-4 pb-2">
-              foo <br />
-              fest
-            </p>
-            <p className="font-bold text-lg">Din kurv er tom</p>
-            <p>Tilføj billetter for at se kvitteringen.</p>
-          </div>
-        )}
-      </div>
     </div>
   );
 };

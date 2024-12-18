@@ -2,6 +2,7 @@
 import { IoCheckmark } from "react-icons/io5";
 import { CiSquareMinus } from "react-icons/ci";
 import { useState, useEffect } from "react";
+import { useContext } from "react";
 import { getAvailableSpots } from "@/app/lib/api";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,6 +10,7 @@ import { validering } from "@/app/lib/validation";
 import { CiSquarePlus } from "react-icons/ci";
 import { HiOutlineMinus } from "react-icons/hi";
 import { HiOutlinePlus } from "react-icons/hi";
+import { KviteringContext } from "@/app/lib/KvitteringContext";
 
 const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
   const {
@@ -23,10 +25,12 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
       campingSelected: formData.campingSelected || false, //bruges ik
       addTentSetup: formData.addTentSetup || false, // Tilføj standardværdi for addTentSetup
       vipCount: formData.vipCount || 0,
+
       regularCount: formData.regularCount || 0,
+      area: formData.area || "",
       tent2p: 0,
       tent3p: 0,
-      area: "",
+      // area: "",
       greenCamping: false,
     },
   });
@@ -35,6 +39,24 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
   const [selectedArea, setSelectedArea] = useState(null);
   const [loading, setLoading] = useState(true); //slet
   const [formError, setFormError] = useState("");
+
+  const { updateCartData } = useContext(KviteringContext); // Få adgang til updateCartData
+
+  useEffect(() => {
+    const subscription = watch((data) => {
+      const { area, tent2p, tent3p, greenCamping, addTentSetup } = data;
+      updateCartData({
+        area,
+        tent2p,
+        tent3p,
+        greenCamping,
+        addTentSetup,
+      });
+    });
+
+    // Cleanup, for at fjerne eventuelle subscriptioner
+    return () => subscription.unsubscribe();
+  }, [watch, updateCartData]);
 
   const fetchData = async () => {
     const data = await getAvailableSpots();
@@ -54,7 +76,9 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
   const handleAreaSelection = (area) => {
     setSelectedArea(area);
     setValue("area", area);
-    console.log(setSelectedArea);
+    // console.log(setSelectedArea);
+
+    updateCartData({ area });
   };
 
   // Håndterer plus og minus for telte
@@ -64,6 +88,8 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
       operation === "increment" ? currentValue + 1 : currentValue - 1;
     if (newValue < 0) newValue = 0; // Undgå negative værdier
     setValue(type, newValue);
+
+    updateCartData({ [type]: newValue });
   };
 
   // Definér værdier fra formularen
@@ -276,51 +302,6 @@ const CampingOptionsForm = ({ onNext, onBack, formData, onWatchChange }) => {
           <button type="submit">submit</button>
         </div>
       </form>
-      <div className="bg-[#E7E7E7] px-4 w-72 lg:col-start-2 md:col-start-1 sm:col-start-1 place-self-center py-2 my-10  lg:row-span-2 lg:row-start-1  ">
-        {/* <div className="">
-          <p>Valgte billetter:</p>
-          <ul>
-            <li>VIP Billetter: {formData.vipCount} </li>
-            <li>Regular Billetter: {formData.regularCount}</li>
-          </ul>
-        </div> */}
-        <p className="uppercase leading-[0.7] font-bold text-2xl text-center italic pt-4 pb-2 ">
-          foo <br />
-          fest
-        </p>
-        <div className=" max-w-72 flex flex-col gap-1  font-normal  text-base ">
-          <p className="font-bold text-mid py-2">ticekts</p>
-
-          <div className="flex justify-between">
-            <p>vip({formData.vipCount})</p>
-            <p className="font-semibold">999,-</p>
-          </div>
-
-          <div className="flex  justify-between">
-            <p>Regular({formData.regularCount})</p>
-            <p className="font-semibold">799,-</p>
-          </div>
-
-          <p className="font-bold text-mid py-2">camping</p>
-          <div className=" flex  justify-between">
-            <p className="font-normal">area(area)</p>
-            <p className="font-semibold">0,-</p>
-          </div>
-          <p className="font-bold text-mid py-2">Tent set up</p>
-          <div className="flex justify-between">
-            <p>tent 2p (2)</p>
-            <p className="font-semibold">299,-</p>
-          </div>
-          <div className="flex justify-between">
-            <p>tent 3p()</p>
-            <p className="font-semibold">399,-</p>
-          </div>
-          <div className="flex justify-between">
-            <p>booking fee</p>
-            <p className="font-semibold">99,-</p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

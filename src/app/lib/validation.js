@@ -23,7 +23,7 @@ export const validering = z
     area: z.string().optional("Du skal vælge et campingområde"), // Campingområdet skal vælges
   })
   .superRefine((data, ctx) => {
-    console.log("Valgt campingområde:", data.area);
+    // console.log("Valgt campingområde:", data.area);
 
     // Hvis teltopsætning er valgt, skal campingområdet være udfyldt
     if (data.addTentSetup && !data.area) {
