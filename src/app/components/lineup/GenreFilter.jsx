@@ -7,16 +7,31 @@ const GenreFilter = ({ setFilterGenre, bandData, setFilter }) => {
   // Håndter ændringer i checkbox
   const handleCheckboxChange = (e) => {
     const genre = e.target.value;
+    const label = e.target.parentElement; // Reference til label-elementet
+
     setFilterGenre((prevGenres) => {
-      return prevGenres.includes(genre)
-        ? prevGenres.filter((g) => g !== genre) // Fjern genre
-        : [...prevGenres, genre]; // Tilføj genre
+      if (prevGenres.includes(genre)) {
+        // Fjern markering
+        label.classList.remove("bg-black", "text-white");
+        label.classList.add("bg-white", "text-gray-800");
+        return prevGenres.filter((g) => g !== genre);
+      } else {
+        // Tilføj markering
+        label.classList.remove("bg-white", "text-gray-800");
+        label.classList.add("bg-black", "text-white");
+        return [...prevGenres, genre];
+      }
     });
   };
 
   // Nulstil alle valgte genrer
   const resetGenres = () => {
     setFilterGenre([]);
+    // Fjern styling for alle labels
+    document.querySelectorAll(".genre-label").forEach((label) => {
+      label.classList.remove("bg-green", "text-black");
+      label.classList.add("bg-white", "text-gray-800");
+    });
   };
 
   return (
@@ -31,7 +46,7 @@ const GenreFilter = ({ setFilterGenre, bandData, setFilter }) => {
         {genres.map((genre) => (
           <label
             key={genre}
-            className="border-2 text-mid  border-black p-2 text-center w-fit text-black "
+            className="genre-label border-2 text-mid border-black p-2 text-center w-fit text-black cursor-pointer"
           >
             <input
               type="checkbox"
