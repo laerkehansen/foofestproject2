@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Arrow from "@/app/img/arrow.svg";
 
-const Button = ({ text, link, bgColor = "green" }) => {
+const LinkKnap = ({ text, link, bgColor = "green" }) => {
   const bgClass = `bg-${bgColor}`;
   return (
     <Link
@@ -15,4 +15,4 @@ const Button = ({ text, link, bgColor = "green" }) => {
   );
 };
 
-export default Button;
+export default LinkKnap;

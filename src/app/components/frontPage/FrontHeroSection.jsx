@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { getHeroImg } from "@/app/lib/api";
 import { getLogoUrl } from "../../lib/utils";
-import Button from "./LinkKnap";
-import Link from "next/link";
+import LinkKnap from "./LinkKnap";
 
 export default async function FrontHeroImg() {
   // Hent data fra API
@@ -30,9 +29,13 @@ export default async function FrontHeroImg() {
           FOO <br /> FEST
         </h1>
         <div className="flex flex-col gap-6 col-start-4 row-start-3 items-end z-10">
-          <Button text="køb Billetter" link="billetter" bgColor="customPink" />
+          <LinkKnap
+            text="køb Billetter"
+            link="billetter"
+            bgColor="customPink"
+          />
 
-          <Button text="se Program" link="program" />
+          <LinkKnap text="se Program" link="program" />
         </div>
       </div>
     </div>
