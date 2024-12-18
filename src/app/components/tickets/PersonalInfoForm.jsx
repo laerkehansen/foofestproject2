@@ -209,14 +209,6 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
               </div>
             </div>
           ))}
-      </form>
-      <div className="flex gap-6">
-        <button
-          type="submit"
-          className="bg-customPink border-black border-2 text-black text-lg py-2 px-4  hover:bg-green w-fit hover:text-black"
-        >
-          Send
-        </button>
         <button
           type="button"
           onClick={handleSubmit(handleSendToSupabase)}
@@ -224,7 +216,16 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
         >
           Send til Supabase
         </button>
-      </div>
+
+        {/* til form  */}
+        <button
+          type="submit"
+          className="bg-customPink border-black border-2 text-black text-lg py-2 px-4  hover:bg-green w-fit hover:text-black"
+        >
+          Send
+        </button>
+      </form>
+      <div className="flex gap-6"></div>
     </>
   );
 };

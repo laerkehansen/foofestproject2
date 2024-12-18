@@ -109,6 +109,7 @@ const ArtistSingel = ({ band, events }) => {
               </p>
             </div>
           )}
+
           <Link
             href="/program"
             className="bg-background p-2  font-medium border-2 border-black  text-center  place-self-center transition duration-150 ease-in-out hover:underline decoration-solid 
