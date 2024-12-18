@@ -4,11 +4,13 @@ import { validering } from "@/app/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Kvitering from "./Kvitering";
 import StepBar from "./StepBar";
+import { useContext } from "react";
 import { useEffect } from "react";
 import { HiOutlineMinus } from "react-icons/hi";
 import { HiOutlinePlus } from "react-icons/hi";
+import { KviteringContext } from "@/app/lib/KvitteringContext";
 
-const TicketSelectionForm = ({ onNext, onWatchChange }) => {
+const TicketSelectionForm = ({ onNext }) => {
   const {
     register,
     handleSubmit,
@@ -22,25 +24,11 @@ const TicketSelectionForm = ({ onNext, onWatchChange }) => {
       regularCount: 0, // Standardværdi for regularCount
     },
   });
+  const { updateCartData } = useContext(KviteringContext);
 
-  // Definer priserne for billetterne
-  const vipPrice = 1299;
-  const regularPrice = 799;
-
-  // Få værdien af vipCount og regularCount fra formularen
-
+  // bruges til at opdater total ticket
   const vipCount = watch("vipCount", 0); // Standardværdi 0
   const regularCount = watch("regularCount", 0); // Standardværdi 0
-
-  useEffect(() => {
-    const subscribetion = watch((value) => {
-      console.log("se valu", value);
-    });
-    return () => subscribetion.unsubscribe();
-  }, [watch]);
-
-  // Beregn den samlede pris
-  const totalPrice = vipCount * vipPrice + regularCount * regularPrice;
 
   const totalTick = vipCount + regularCount;
 
@@ -51,6 +39,9 @@ const TicketSelectionForm = ({ onNext, onWatchChange }) => {
       operation === "increment" ? currentValue + 1 : currentValue - 1;
     if (newValue < 0) newValue = 0; // Undgå negative værdier
     setValue(type, newValue);
+
+    // Opdater cartData i contexten
+    updateCartData({ [type]: newValue });
   };
 
   const onSubmit = (data) => {
@@ -58,7 +49,7 @@ const TicketSelectionForm = ({ onNext, onWatchChange }) => {
     console.log("Form submitted:", data);
     onNext({
       ...data,
-      totalPrice,
+      // totalPrice,
     });
     // Du kan sende data videre til backend her
   };
@@ -141,9 +132,9 @@ const TicketSelectionForm = ({ onNext, onWatchChange }) => {
           </div>
 
           {/* Vis den samlede pris */}
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <h3>Samlet pris: {totalPrice} kr.</h3>
-          </div>
+          </div> */}
         </div>
         <button type="submit" className="bg-lime-500 self-end place-self-end">
           Gå videre
