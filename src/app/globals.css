@@ -32,22 +32,22 @@ body {
 }
 
 /* test slal mpske bruges  */
-.parallelogram {
+/* .parallelogram {
   width: 100px;
   height: 50px;
   transform: skew(20deg);
   background: #555;
-}
+} */
 
 /* skal nok være mere spesifikt */
 /* input[type="checkbox"] {
   /* appearance: none; */
 /* -webkit-appearance: none; */
 
-label:has(input[type="checkbox"]:checked) {
+/* label:has(input[type="checkbox"]:checked) {
   background: black;
   color: #fff;
-}
+} */
 @media (mix-width: 600px) {
   html {
     font-size: 12px;

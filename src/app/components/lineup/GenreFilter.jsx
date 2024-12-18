@@ -31,7 +31,7 @@ const GenreFilter = ({ setFilterGenre, bandData, setFilter }) => {
         {genres.map((genre) => (
           <label
             key={genre}
-            className="border-2 text-mid  border-black p-2 text-center w-fit text-black"
+            className="border-2 text-mid  border-black p-2 text-center w-fit text-black "
           >
             <input
               type="checkbox"

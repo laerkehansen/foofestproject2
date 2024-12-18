@@ -65,7 +65,7 @@ module.exports = {
         mini: "1.125", //18px
         mid: "1.25rem", //20px
         stor: "1.875rem",
-
+        heroText: "12.5rem",
         // "2xl": "1.563rem",
         // "3xl": "1.953rem",
         // "4xl": "2.441rem",
@@ -78,9 +78,9 @@ module.exports = {
         18: "1.125", //px
       },
 
-      fontSize: {
-        heroText: "12.5rem",
-      },
+      // fontSize: {
+      //   heroText: "12.5rem",
+      // },
       // lineHeight: {
       //   heroLeading: "8.9rem",
       // },
