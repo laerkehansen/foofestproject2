@@ -146,16 +146,19 @@ export async function postSettings() {
   return data;
 }
 
-export async function postFullfillReservation() {
-  const response = await fetch(`${url}/reserve-spot`, {
+export async function postFullfillReservation(reservationId) {
+  const response = await fetch(`${url}/fullfill-reservation`, {
     method: "POST",
     headers: headersList,
-    // body: JSON.stringify(),
+    body: JSON.stringify({ id: reservationId }),
   });
 
   const data = await response.json();
-  //   console.log(data);
-  return data;
+  if (data.success) {
+    alert("Reservation bekræftet!");
+  } else {
+    alert("Der opstod en fejl ved bekræftelsen.");
+  }
 }
 
 export async function putReserveSpot(area, vipCount, regularCount) {
