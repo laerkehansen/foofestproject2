@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { getHeroImg } from "@/app/lib/api";
 import { getLogoUrl } from "../../lib/utils";
-import Button from "./button";
+import Button from "./LinkKnap";
 import Link from "next/link";
 
 export default async function FrontHeroImg() {
@@ -26,13 +26,13 @@ export default async function FrontHeroImg() {
           alt="hero image"
           priority={true}
         />
-        <h1 className="text-green col-start-2 col-end-2 row-start-2 text-heroText  leading-[0.7] font-black  italic h-fit z-10">
-          FOO FEST
+        <h1 className="text-green col-start-2 col-end-2 row-start-2 lg:text-heroText md:text-9xl sm:text-4xl  lg:leading-[0.7] md:leading-[0.7] sm:leading-[0.7] font-black  italic h-fit z-10">
+          FOO <br /> FEST
         </h1>
         <div className="flex flex-col gap-6 col-start-4 row-start-3 items-end z-10">
-          <Button text="Billetter" link="payment" />
+          <Button text="køb Billetter" link="billetter" bgColor="customPink" />
 
-          <Button text="Program" link="program" />
+          <Button text="se Program" link="program" />
         </div>
       </div>
     </div>

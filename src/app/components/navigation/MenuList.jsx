@@ -7,7 +7,7 @@ const MenuList = ({ setIsOpen, isOpen }) => {
   const links = [
     { href: "/lineup", label: "Lineup" },
     { href: "/program", label: "Program" },
-    { href: "/ticket", label: "Billetter" },
+    { href: "/billetter", label: "Billetter" },
     { href: "/", label: "Home" },
   ];
 
