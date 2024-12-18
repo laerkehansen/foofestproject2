@@ -53,17 +53,17 @@ const Payment = () => {
           <div className="col-start-1">
             {step === 1 && <TicketSelectionForm onNext={nextStep} />}
             {step === 2 && (
-              <CampingOptionsForm
-                onBack={prevStep}
-                onNext={nextStep}
-                formData={formData}
-              />
-            )}
-            {step === 3 && (
               <PersonalInfoForm
                 formData={formData}
                 onBack={prevStep}
                 onNext={nextStep}
+              />
+            )}
+            {step === 3 && (
+              <CampingOptionsForm
+                onBack={prevStep}
+                onNext={nextStep}
+                formData={formData}
               />
             )}
             {step === 4 && (

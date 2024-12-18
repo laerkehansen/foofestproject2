@@ -1,57 +1,54 @@
+import { motion } from "motion/react";
+
 const StepBar = ({ step }) => {
+  const steps = [
+    { id: 1, label: "tickets" },
+    { id: 2, label: "personal info" },
+    { id: 3, label: "camping" },
+    { id: 4, label: "bekræft bestilling" },
+    { id: 5, label: "payment" },
+  ];
+
+  const calculateWidth = () => `${(step / steps.length) * 100}%`;
+
   return (
-    <div className="flex justify-between col-start-1   border-b-2 border-black">
-      <div
-        className={`flex gap-2 ${
-          step > 1 ? "text-green" : step === 1 ? "text-blue-500" : "text-black"
-        }`}
-      >
-        <p className="font-semibold">1</p>
-        <p>tickets</p>
-      </div>
-      <div
-        className={`flex gap-2 ${
-          step > 2 ? "text-green" : step === 2 ? "text-blue-500" : "text-black"
-        }`}
-      >
-        <p className="font-semibold">2</p>
-        <p>personal info</p>
-      </div>
-      <div
-        className={`flex gap-2 ${
-          step > 3
-            ? "text-green-500"
-            : step === 3
-            ? "text-blue-500"
-            : "text-black"
-        }`}
-      >
-        <p className="font-semibold">3</p>
-        <p>camping</p>
-      </div>
-      <div
-        className={`flex gap-2 ${
-          step > 4
-            ? "text-green-500"
-            : step === 4
-            ? "text-blue-500"
-            : "text-black"
-        }`}
-      >
-        <p className="font-semibold">4</p>
-        <p className="text-nowrap">bekraft bestilling</p>
-      </div>
-      <div
-        className={`flex gap-2 ${
-          step > 5
-            ? "text-green-500"
-            : step === 5
-            ? "text-blue-500"
-            : "text-black"
-        }`}
-      >
-        <p className="font-semibold">5</p>
-        <p>pay ment</p>
+    <div className="relative w-full">
+      {/* Progress Bar */}
+      <div className="absolute bottom-0 left-0 w-full h-1 bg-gray-200"></div>
+      <motion.div
+        className="absolute bottom-0 left-0 h-1 bg-blue-500"
+        initial={{ width: "0%" }}
+        animate={{ width: calculateWidth() }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+      ></motion.div>
+
+      {/* Steps */}
+      <div className="flex justify-between items-center pt-4">
+        {steps.map(({ id, label }) => (
+          <div key={id} className="flex items-center px-10">
+            {/* Circle Indicator */}
+            <div
+              className={`flex items-center justify-center  ${
+                step >= id ? " text-black text-lg" : "border-gray-300"
+              }`}
+            >
+              <p className="font-semibold">{id}</p>
+
+              {/* Label */}
+              <p
+                className={` text-lg ${
+                  step === id
+                    ? "text-blue-500 font-bold"
+                    : step > id
+                    ? "text-gray-500"
+                    : "text-gray-400"
+                } sm:hidden md:block lg:block`}
+              >
+                {label}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

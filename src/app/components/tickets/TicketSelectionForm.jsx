@@ -82,9 +82,9 @@ const TicketSelectionForm = ({ onNext }) => {
         className=" col-start-1 grid gird-cols-1 row-auto "
       >
         <div className=" w-[400px]  ">
-          <h1 className="text-stor font-medium">Biletter</h1>
+          <h1 className="text-stor font-medium">Billetter</h1>
           <div className="flex justify-between py-2 border-b-2 border-black">
-            <h2>Vælg billetter type og antal</h2>
+            <h2>Vælg antal billetter </h2>
             <p className="font-medium italic"> ticket ({totalTick})</p>
           </div>
 
