@@ -84,6 +84,9 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
   const onSubmit = (data) => {
     console.log("Form data:", data);
     onNext(data); // Kalder onNext med udfyldt data
+
+    // i den hen har funkton ønsker vi at sende vores peroslige infor til suberbase
+    //obs array
   };
 
   // Funktion til at sende data til Supabase

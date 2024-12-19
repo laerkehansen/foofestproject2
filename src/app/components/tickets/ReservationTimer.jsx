@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
-
+"use client";
+import { useContext, useEffect, useState } from "react";
+import { KviteringContext } from "@/app/lib/KvitteringContext";
 const ReservationTimer = ({ reservationId, onTimeout, onConfirm }) => {
   const [timeLeft, setTimeLeft] = useState(300); // 300 sekunder = 5 minutter
 

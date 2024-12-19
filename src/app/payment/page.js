@@ -11,10 +11,23 @@ import StepBar from "../components/tickets/StepBar";
 import Kvitering from "../components/tickets/Kvitering";
 // import { KviteringContext } from "../lib/KvitteringContext";
 import { KviteringProvider } from "../lib/KvitteringContext"; // Korriger stien til din KvitteringContext-fil
+import ReservationTimer from "../components/tickets/ReservationTimer";
 
 const Payment = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
+
+  const handleReservation = (id) => {
+    startReservation(id);
+  };
+
+  const handleTimeout = (id) => {
+    console.log(`Reservation ${id} timed out.`);
+  };
+
+  const handleConfirm = (id) => {
+    console.log(`Reservation ${id} confirmed.`);
+  };
 
   // const [ticketData, setTicketData] = useState({
   //   vipCount: 0,
@@ -68,18 +81,27 @@ const Payment = () => {
               />
             )}
             {step === 4 && (
-              <ReviewStep
-                formData={formData}
-                onBack={prevStep}
-                onNext={nextStep}
-              />
+              <div>
+                <ReviewStep
+                  formData={formData}
+                  onBack={prevStep}
+                  onNext={nextStep}
+                />
+                <ReservationTimer
+                  onTimeout={handleTimeout}
+                  onConfirm={handleConfirm}
+                />
+              </div>
             )}
             {step === 5 && (
-              <PaymentStep
-                formData={formData}
-                onBack={prevStep}
-                onNext={nextStep}
-              />
+              <div>
+                <PaymentStep
+                  formData={formData}
+                  onBack={prevStep}
+                  onNext={nextStep}
+                />
+                <ReservationTimer />
+              </div>
             )}
           </div>
           <Kvitering formData={formData} />

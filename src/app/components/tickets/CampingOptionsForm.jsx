@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import { IoCheckmark } from "react-icons/io5";
 import { CiSquareMinus } from "react-icons/ci";
 import { useState, useEffect } from "react";
@@ -8,50 +8,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { validering } from "@/app/lib/validation";
 import { CiSquarePlus } from "react-icons/ci";
 import ReservationTimer from "@/app/components/tickets/ReservationTimer";
+import { KviteringContext } from "@/app/lib/KvitteringContext";
 
 const CampingOptionsForm = ({ onNext, onBack, formData }) => {
-  const [reservationId, setReservationId] = useState(null);
+  // const [reservationId, setReservationId] = useState(null);
 
-  const onSubmit = async (data) => {
-    const selectedSpot = availableSpots.find((spot) => spot.area === data.area); // Find det valgte område
+  // 1 vi henter daten i en funktion og viser hvor mange spot vi har ledig
 
-    const totalTickets =
-      (formData.vipCount || 0) + (formData.regularCount || 0); //hvor pladser er der af hver, er der ingen gør vi værdien er 0, så den ikke er undefined og giver os problemer
+  //hent data med /available-spots
+  //spot lige med area
 
-    if (!data.area) {
-      setFormError("Du skal vælge et campingområde!"); // Sæt fejlmeddelelse
-      return;
-    }
+  //on subit så sendes en put /reserve-spot
+  //"area":"Alfheim",
+  //	"amount":3
 
-    if (totalTickets > selectedSpot.available) {
-      setFormError(
-        `Der er kun ${selectedSpot.available} billetter tilgængelige i ${selectedSpot.area}.`
-      );
-      return;
-    }
+  //når man reserver spot så for man et id som siger at det er resevert i 5 min
 
-    // API-opkald
-    try {
-      const result = await putReserveSpot(
-        data.area,
-        formData.vipCount || 0,
-        formData.regularCount || 0
-      );
-      // Når vi får reservationId fra PUT-requesten, sætter vi det i state
-      setReservationId(result.reservationId);
-
-      alert("Reservationen er gennemført!");
-      onNext(data);
-    } catch (error) {
-      setFormError("Der opstod en fejl ved reservationen. Prøv igen senere.");
-    }
-
-    // Hvis ingen fejl
-    setFormError(""); // Ryd fejl
-    onNext({
-      ...data,
-    });
-  };
+  //her skal en timer statest på 5 min i ui  vi skal lave timmeren i et andet komponent
 
   const {
     register,
@@ -77,15 +50,25 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
   const [loading, setLoading] = useState(true);
   const [formError, setFormError] = useState("");
 
-  const fetchData = async () => {
-    const data = await getAvailableSpots();
-    setAvailableSpots(data); // Sætter de tilgængelige pladser
-    setLoading(false);
-  };
+  // const fetchData = async () => {
+  //   const data = await getAvailableSpots();
+  //   setAvailableSpots(data); // Sætter de tilgængelige pladser
+  //   setLoading(false);
+  // };
 
   // Henter data, når komponenten er blevet rendere (kører kun én gang)
   useEffect(() => {
     fetchData();
+    // fetch("https://cerulean-abrupt-sunshine.glitch.me/reserve-spot", {
+    // "method": "PUT",
+    // "headers": {
+    //   "Content-Type": "application/json"
+    // },
+    // "body":{
+    //   "area":
+    //   "amount":
+    // }
+    // });
     // const interval = setInterval(fetchData, 2000); // Tjek hver 2. sekund
     // return () => clearInterval(interval);
   }, []);
@@ -128,13 +111,56 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
     setValue(type, newValue); //opdater værdien
   };
 
+  // kan man ik gåre på client er jeg ret sikker på
+  const onSubmit = async (data) => {
+    const selectedSpot = availableSpots.find((spot) => spot.area === data.area); // Find det valgte område
+
+    const totalTickets =
+      (formData.vipCount || 0) + (formData.regularCount || 0); //hvor pladser er der af hver, er der ingen gør vi værdien er 0, så den ikke er undefined og giver os problemer
+
+    if (!data.area) {
+      setFormError("Du skal vælge et campingområde!"); // Sæt fejlmeddelelse
+      return;
+    }
+
+    if (totalTickets > selectedSpot.available) {
+      setFormError(
+        `Der er kun ${selectedSpot.available} billetter tilgængelige i ${selectedSpot.area}.`
+      );
+      return;
+    }
+
+    // API-opkald
+    try {
+      const result = await putReserveSpot(
+        data.area,
+        formData.vipCount || 0,
+        formData.regularCount || 0
+      );
+      // Når vi får reservationId fra PUT-requesten, sætter vi det i state
+      setReservationId(result.reservationId);
+
+      alert("Reservationen er gennemført!");
+      onNext(data);
+    } catch (error) {
+      setFormError("Der opstod en fejl ved reservationen. Prøv igen senere.");
+    }
+
+    // Hvis ingen fejl
+    setFormError(""); // Ryd fejl
+    onNext({
+      ...data,
+      reservationId: result.reservationId, // Send reservationId videre
+    });
+  };
+
   return (
     <>
-      <ReservationTimer
+      {/* <ReservationTimer
         reservationId="1233" //HER GÅR DET GALT
         onTimeout={(id) => console.log("Timeout triggered for:", id)}
         onConfirm={(id) => console.log("Confirmed reservation for:", id)}
-      />
+      /> */}
       <div className="h-svh place-self-center">
         <div className="">
           <p>Valgte billetter:</p>
