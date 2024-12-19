@@ -81,7 +81,7 @@ const TicketSelectionForm = ({ onNext }) => {
         onSubmit={handleSubmit(onSubmit)}
         className=" col-start-1 grid gird-cols-1 row-auto "
       >
-        <div className=" w-[400px]  ">
+        <div className="  ">
           <h1 className="text-stor font-medium">Billetter</h1>
           <div className="flex justify-between py-2 border-b-2 border-black">
             <h2>Vælg antal billetter </h2>

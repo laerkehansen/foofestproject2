@@ -51,7 +51,7 @@ const Kvitering = ({ formData, liveData }) => {
       {totalTick > 0 ? (
         <div>
           <div className=" max-w-72 flex flex-col gap-1  font-normal  text-base ">
-            <p className="font-bold text-mid py-2">ticekts</p>
+            <p className="font-bold text-mid py-2">Billetter</p>
 
             {vipCount > 0 && (
               <div className="flex justify-between">
@@ -94,12 +94,12 @@ const Kvitering = ({ formData, liveData }) => {
             )}
             {greenCamping && (
               <div className="flex justify-between">
-                <p>greenCamping({greenCamping})</p>
+                <p> Grøn Camping({greenCamping})</p>
                 <p className="font-semibold">249,-</p>
               </div>
             )}
             <div className="flex justify-between">
-              <p>booking fee</p>
+              <p>Reservationsgebyr</p>
               <p className="font-semibold">99,-</p>
             </div>
           </div>

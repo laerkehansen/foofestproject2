@@ -48,7 +48,7 @@ const Payment = () => {
   return (
     <div>
       <KviteringProvider>
-        <div className="grid lg:grid-cols-[auto_auto] sm:grid-cols-1 md:grid-cols-1 m-20  p-4 gap-4 text-black border-2 border-black bg-white">
+        <div className="grid grid-cols-[1fr_0.5fr]  m-20  p-4 gap-4 text-black border-2 border-black bg-white">
           <StepBar step={step} />
           <div className="col-start-1">
             {step === 1 && <TicketSelectionForm onNext={nextStep} />}

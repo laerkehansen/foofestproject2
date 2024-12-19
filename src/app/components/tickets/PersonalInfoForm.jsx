@@ -4,36 +4,54 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 //jeg definerer mine værdier til mit skema
+// const formular = z.object({
+//   tickets: z.array(
+//     z.object({
+//       name: z.string().min(1, "navn skal mindst være på 1 bogstav"),
+//       lastname: z.string().min(1, "efternavn skal mindst være på 1 bogstav"),
+//       email: z.string().email("Email skal være gyldig"),
+//       phonenumber: z
+//         .string()
+//         .regex(/^\d{8}$/, "Telefonnummer skal være 8 cifre"), // Dette sikrer præcis 8 cifre
+//     })
+//   ),
+//   // cardNumber: z
+//   //   .string()
+//   //   .regex(/^\d{13,19}$/, "Kortnummeret skal være mellem 13 og 19 cifre"),
+//   // cardName: z.string().min(1, "udfyld venligst navn"),
+//   // expireYear: z.date("skal udfyldes"),
+// });
+
 const formular = z.object({
   tickets: z.array(
     z.object({
       name: z.string().min(1, "navn skal mindst være på 1 bogstav"),
       lastname: z.string().min(1, "efternavn skal mindst være på 1 bogstav"),
-      email: z.string().email("Email skal være gyldig"),
-      phonenumber: z
-        .string()
-        .regex(/^\d{8}$/, "Telefonnummer skal være 8 cifre"),
+      email: z.string().regex(/@/, "Email skal indeholde et '@' tegn"),
+      phonenumber: z.preprocess(
+        // preprocess meget smart gør at mellem fjerens før validerieng helt genialt
+        (value) => String(value).replace(/\s/g, ""), // Fjern mellemrum
+        z.string().regex(/^\d{8}$/, "Telefonnummer skal være 8 cifre")
+      ),
     })
   ),
-  // cardNumber: z
-  //   .string()
-  //   .regex(/^\d{13,19}$/, "Kortnummeret skal være mellem 13 og 19 cifre"),
-  // cardName: z.string().min(1, "udfyld venligst navn"),
-  // expireYear: z.date("skal udfyldes"),
 });
 
 const PersonalInfoForm = ({ onNext, onBack, formData }) => {
   const {
     register,
-    handleSubmit, // Håndterer formularindsendelse
+    handleSubmit,
     formState: { errors, isValid },
-    setValue, // Indeholder fejlmeddelelser
+    setValue,
+    watch,
+    trigger,
+    clearErrors,
   } = useForm({
-    resolver: zodResolver(formular), //vi validerer med zod
+    resolver: zodResolver(formular),
     reValidateMode: "onSubmit",
     defaultValues: {
       tickets: Array.from(
-        { length: formData.vipCount + formData.regularCount }, // Opretter et array af billetter baseret på antal VIP og Regular billetter
+        { length: formData.vipCount + formData.regularCount },
         () => ({
           name: "",
           lastname: "",
@@ -44,10 +62,24 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
     },
   });
 
-  //opretter et array af billetter. Fields er vores array, som indeni har vores billetter.
-  // const { fields } = useFieldArray({
-  //   name: "tickets",
-  // });
+  //før stod det nede hved hver nu er det genanvendelu
+  const handleBlur = async (fieldName) => {
+    const isValid = await trigger(fieldName); // Trigger validering
+    // Før vi sender data, fjern mellemrum fra telefonnummeret for validering og indsendelse
+
+    if (isValid) {
+      clearErrors(fieldName); // Fjern fejlmeddelelsen, hvis validering er korrekt
+    }
+  };
+
+  // Watch for the phonenumber input
+  const phoneNumber = watch("tickets", []);
+
+  const formatPhoneNumber = (value) => {
+    const cleanedValue = value.replace(/\D/g, "");
+    const formatted = cleanedValue.replace(/(\d{2})(?=\d)/g, "$1 "); // Tilføj mellemrum efter hver 2. cifre
+    return formatted;
+  };
 
   const onSubmit = (data) => {
     console.log("Form data:", data);
@@ -104,14 +136,29 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
         onSubmit={handleSubmit(onSubmit)}
         className="gap-6 p-2 flex flex-wrap"
       >
+        <div className="flex flex-wrap gap-4 mb-4">
+          {Array.from({
+            length: formData?.vipCount + formData?.regularCount,
+          }).map((ticket, index) => (
+            <button
+              key={index}
+              className="bg-customPink border-black border-2 text-black text-lg py-2 px-4 hover:bg-green w-fit hover:text-black"
+              onClick={() => alert(`Billet ${index + 1} klikket!`)} // Skift med passende funktionalitet
+            >
+              Billet {index + 1} -{" "}
+              {index < formData?.vipCount ? "VIP" : "Regular"}
+            </button>
+          ))}
+        </div>
+
         {formData?.vipCount + formData?.regularCount &&
           Array.from({
             length: formData?.vipCount + formData?.regularCount,
           }).map((ticket, index) => (
             <div key={index} className="w-96">
-              <h3 className="text-xl font-light mb-2">Billet {index + 1}</h3>
+              <h3 className="text-xl  mb-2">Billet {index + 1}</h3>
               <div className="border-2 bg-white border-black py-8 px-6 mb-4">
-                <span className="text-customPink font-bold text-xl italic">
+                <span className="text-black font-bold text-xl italic">
                   {index < formData.vipCount ? "VIP" : "Regular"}
                 </span>
 
@@ -129,6 +176,9 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
                     })}
                     id={`tickets.${index}.name`}
                     type="text"
+                    placeholder="John"
+                    onFocus={() => clearErrors(`tickets.${index}.name`)}
+                    onBlur={() => handleBlur(`tickets.${index}.name`)}
                     className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
                   />
                   {errors.tickets?.[index]?.name && (
@@ -152,6 +202,9 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
                     })}
                     id={`tickets.${index}.lastname`}
                     type="text"
+                    placeholder="Doe"
+                    onFocus={() => clearErrors(`tickets.${index}.lastname`)}
+                    onBlur={() => handleBlur(`tickets.${index}.lastname`)}
                     className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
                   />
                   {errors.tickets?.[index]?.lastname && (
@@ -175,6 +228,12 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
                     })}
                     id={`tickets.${index}.phonenumber`}
                     type="text"
+                    value={formatPhoneNumber(
+                      phoneNumber[index]?.phonenumber || ""
+                    )} // sørge for det med mellemrum
+                    onFocus={() => clearErrors(`tickets.${index}.phonenumber`)}
+                    onBlur={() => handleBlur(`tickets.${index}.phonenumber`)}
+                    placeholder="12 34 56 78"
                     className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
                   />
                   {errors.tickets?.[index]?.phonenumber && (
@@ -198,7 +257,16 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
                     })}
                     id={`tickets.${index}.email`}
                     type="email"
-                    className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
+                    placeholder="JohnDoe@email.com"
+                    onFocus={() => clearErrors(`tickets.${index}.email`)}
+                    onBlur={() => handleBlur(`tickets.${index}.email`)}
+                    // den her stylign det er det vi ønsker no med andre fraver
+                    className={`border-2 p-2 text-base focus:outline-none focus:ring-2 ${
+                      errors.tickets?.[index]?.email
+                        ? "border-red-500 focus:ring-red-500"
+                        : "border-lime-400 focus:ring-black"
+                    }`}
+                    // className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
                   />
                   {errors.tickets?.[index]?.email && (
                     <p className="text-red-500 text-sm mt-1">
@@ -210,19 +278,17 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
             </div>
           ))}
         <button
+          type="submit"
+          className="bg-customPink border-black border-2 text-black text-lg py-2 px-4  hover:bg-green w-fit hover:text-black"
+        >
+          Send
+        </button>
+        <button
           type="button"
           onClick={handleSubmit(handleSendToSupabase)}
           className="bg-customPink border-black border-2 text-black text-lg py-2 px-4 hover:bg-green hover:text-black w-fit"
         >
           Send til Supabase
-        </button>
-
-        {/* til form  */}
-        <button
-          type="submit"
-          className="bg-customPink border-black border-2 text-black text-lg py-2 px-4  hover:bg-green w-fit hover:text-black"
-        >
-          Send
         </button>
       </form>
       <div className="flex gap-6"></div>
