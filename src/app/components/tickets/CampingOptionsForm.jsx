@@ -14,50 +14,6 @@ import { HiOutlinePlus } from "react-icons/hi";
 import { KviteringContext } from "@/app/lib/KvitteringContext";
 
 const CampingOptionsForm = ({ onNext, onBack, formData }) => {
-  // const [reservationId, setReservationId] = useState(null); // For reservation ID
-  // const [timeExpired, setTimeExpired] = useState(false); // Håndtering af timeout
-
-  // const handleTimeout = (id) => {
-  //   setTimeExpired(true); // Markér at tiden er udløbet
-  //   alert("Tiden for din reservation er udløbet! Du bliver sendt tilbage.");
-  //   onBack(); // Naviger tilbage til den forrige skærm
-  // };
-
-  // const handleConfirm = async (id) => {
-  //   try {
-  //     // Bekræft reservationen
-  //     await postFullfillReservation(id);
-  //     alert("Reservationen er bekræftet!");
-  //     onNext(); // Gå videre i flowet
-  //   } catch (error) {
-  //     alert("Der opstod en fejl under bekræftelsen af reservationen.");
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   // Når komponenten mountes, opret en ny reservation
-  //   const createReservation = async () => {
-  //     try {
-  //       const result = await putReserveSpot(
-  //         formData.area,
-  //         formData.vipCount || 0,
-  //         formData.regularCount || 0
-  //       );
-  //       setReservationId(result.id); // Sæt reservation ID
-  //       console.log("reservationsid", reservationId);
-  //     } catch (error) {
-  //       alert("Kunne ikke oprette reservation. Prøv igen.");
-  //       onBack();
-  //     }
-  //   };
-
-  //   createReservation();
-  // }, []);
-
-  // if (timeExpired) {
-  //   return <p>Tiden er udløbet. Start forfra.</p>;
-  // }
-
   const {
     register,
     handleSubmit,
@@ -82,6 +38,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
 
   const [availableSpots, setAvailableSpots] = useState([]); // Tilgængelige områder
   const [selectedArea, setSelectedArea] = useState(null);
+  // man kan komme vider uden at have valgt et spot
   const [loading, setLoading] = useState(true); //slet
   const [formError, setFormError] = useState("");
 
@@ -105,12 +62,6 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
     return () => subscription.unsubscribe();
   }, [watch, updateCartData]);
 
-  // const fetchData = async () => {
-  //   const data = await getAvailableSpots();
-  //   setAvailableSpots(data); // Sætter de tilgængelige pladser
-  //   setLoading(false);
-  // };
-
   // Henter data, når komponenten er blevet rendere (kører kun én gang)
   useEffect(() => {
     fetch("https://cerulean-abrupt-sunshine.glitch.me/available-spots", {
@@ -131,13 +82,12 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
         setAvailableSpots(areaData);
       })
       .catch((err) => console.error("her kommer fejl ", err));
-    // fetchData();
-
-    // const interval = setInterval(fetchData, 2000); // Tjek hver 2. sekund
-    // return () => clearInterval(interval);
   }, []);
 
   // Håndterer valget af et campingområde
+
+  // er oveercompliseret skla bare sige at man sætter area og hvis area ik er sat så kan man ik gå vidre
+
   const handleAreaSelection = (area) => {
     const selectedSpot = availableSpots.find((spot) => spot.area === area); // Finder det valgte område
 
@@ -155,6 +105,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
       setSelectedArea(area);
       setValue("area", area); // Sæt værdien i formularen
 
+      // skal værwe her!!!
       updateCartData({ area });
       // Opdater de tilgængelige pladser
       const updatedSpots = availableSpots.map((spot) => {
