@@ -55,6 +55,7 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
       tickets: Array.from(
         { length: formData.vipCount + formData.regularCount },
         () => ({
+          id: crypto.randomUUID(), // Generer et unikt ID for hver billet helt genialt higkey
           name: "",
           lastname: "",
           email: "",
@@ -129,12 +130,20 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
   //   //obs array
   // };
 
+  // const unikId = (data) => {
+  //   const tickets = data.tickets.map((ticket) => ({
+  //     ...ticket,
+  //     id: crypto.randomUUID(), // Generér unikt ID
+  //   }));
+  //   console.log(data.id);
+  // };
+
   const unikId = (data) => {
     const tickets = data.tickets.map((ticket) => ({
       ...ticket,
-      id: crypto.randomUUID(), // Generér unikt ID
+      id: crypto.randomUUID(), // Generer et unikt ID for hver billet
     }));
-    console.log(data.id);
+    console.log(tickets); // Log for at sikre, at ID'er bliver genereret
   };
   // Send hver billet individuelt
   //   tickets.forEach((ticket) => {
@@ -210,11 +219,31 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
 
   //   })
   //   .catch((err) => console.error("her kommer fejl ", err));
+  // const onSubmit = (data) => {
+  //   console.log("Form submitted:", data);
+  //   // handleSendToSupabase(data);
+  //   // onNext({
+  //   //   ...data,
+  //   // });
+  //   onNext({
+  //     ...data,
+  //     tickets: data.tickets.map((ticket) => ({
+  //       ...ticket,
+  //       id: ticket.id, // sikre at id'et er med
+  //     })),
+  //   });
+  // };
+
   const onSubmit = (data) => {
     console.log("Form submitted:", data);
-    // handleSendToSupabase(data);
+
+    // Vi gennemgår data.tickets og sikrer, at hvert ticket har et id (det skal være tilstede)
     onNext({
       ...data,
+      tickets: data.tickets.map((ticket, index) => ({
+        ...ticket,
+        id: ticket.id || crypto.randomUUID(), // Hvis id ikke er med, generer et nyt id
+      })),
     });
   };
   return (
