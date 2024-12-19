@@ -138,13 +138,13 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
   //   console.log(data.id);
   // };
 
-  const unikId = (data) => {
-    const tickets = data.tickets.map((ticket) => ({
-      ...ticket,
-      id: crypto.randomUUID(), // Generer et unikt ID for hver billet
-    }));
-    console.log(tickets); // Log for at sikre, at ID'er bliver genereret
-  };
+  // const unikId = (data) => {
+  //   const tickets = data.tickets.map((ticket) => ({
+  //     ...ticket,
+  //     id: crypto.randomUUID(), // Generer et unikt ID for hver billet
+  //   }));
+  //   console.log(tickets); // Log for at sikre, at ID'er bliver genereret
+  // };
   // Send hver billet individuelt
   //   tickets.forEach((ticket) => {
   //     fetch("https://izlwnrcwutxxrclxaqwi.supabase.co/rest/v1/foofest", {
@@ -235,15 +235,62 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
   // };
 
   const onSubmit = (data) => {
-    console.log("Form submitted:", data);
+    if (!data.tickets || !Array.isArray(data.tickets)) {
+      console.error(
+        "Tickets data mangler eller er ikke et array:",
+        data.tickets
+      );
+      return;
+    }
 
-    // Vi gennemgår data.tickets og sikrer, at hvert ticket har et id (det skal være tilstede)
+    const ticketsWithIds = data.tickets.map((ticket) => ({
+      ...ticket,
+      id: ticket.id || crypto.randomUUID(),
+    }));
+
+    ticketsWithIds.forEach((ticket) => {
+      fetch("https://klttbkdhdxrsuyjkwkuj.supabase.co/rest/v1/foofest", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtsdHRia2RoZHhyc3V5amt3a3VqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQwODI4NDgsImV4cCI6MjA0OTY1ODg0OH0.e3FebWALlTqZTxB2vSWb0_xqWf-MxdZrVpKhTM-_dnc",
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtsdHRia2RoZHhyc3V5amt3a3VqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQwODI4NDgsImV4cCI6MjA0OTY1ODg0OH0.e3FebWALlTqZTxB2vSWb0_xqWf-MxdZrVpKhTM-_dnc`,
+        },
+        body: JSON.stringify(ticket),
+      })
+        .then((response) => {
+          // Debugging: Log hele response
+          console.log("Server response:", response);
+
+          // Check for status
+          if (!response.ok) {
+            return response.json().then((error) => {
+              console.error("Fejl fra serveren:", error);
+              throw new Error("Serveren afviste forespørgslen.");
+            });
+          }
+
+          // Hvis alt er OK, parse JSON
+          return response.json();
+        })
+        .then((result) => {
+          console.log("Billet gemt succesfuldt:", result);
+        })
+        .catch((error) => {
+          console.error("Fetch-fejl:", error);
+          alert(
+            `Der opstod en fejl under indsendelsen af billet: ${ticket.name}`
+          );
+        });
+    });
+
+    // console.log("Tickets med unikke ID'er:", ticketsWithIds);
+
+    // Send data videre med onNext
     onNext({
       ...data,
-      tickets: data.tickets.map((ticket, index) => ({
-        ...ticket,
-        id: ticket.id || crypto.randomUUID(), // Hvis id ikke er med, generer et nyt id
-      })),
+      tickets: ticketsWithIds,
     });
   };
   return (
