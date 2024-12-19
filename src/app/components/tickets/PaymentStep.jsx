@@ -144,7 +144,6 @@ const PaymentStep = ({ onNext, onBack, formData }) => {
             name="cvv"
             placeholder="123"
             required
-            maxlength="3"
             pattern="\d{3}"
           />
         </div>
