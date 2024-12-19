@@ -3,9 +3,10 @@ import { getLogoUrl } from "../../lib/utils";
 import Link from "next/link";
 const ArtistCard = ({ band, events }) => {
   const { name, logo, slug, genre } = band;
-
+  const { day, location, start, end, act } = events;
+  // const { day } = events;
   // Hvis der er events, vis første event (kan ændres til at vise flere events)
-  const firstEvent = events && events.length > 0 ? events[0] : null;
+  // const firstEvent = events && events.length > 0 ? events[0] : null;
   return (
     <li
       key={band.slug}
@@ -34,6 +35,9 @@ const ArtistCard = ({ band, events }) => {
         </h2>
         <h3 className=" row-start-1 col-start-1  z-10 m-2 p-1  text-black bg-customPink self-start justify-self-end ">
           {genre}
+          {location}
+          {/* {day} */}
+          {/* {events[0] ? events[0].day : "Ingen events for denne artist"} */}
         </h3>
 
         {/* Check if there is an event and display its information */}
@@ -45,7 +49,7 @@ const ArtistCard = ({ band, events }) => {
             <div>
               <p className="text-lg">Date: {firstEvent.day}</p>
               <p className="text-lg">
-                Time: {firstEvent.start} - {firstEvent.end}
+                Time: {firstEvent.start} - {.end}
               </p>
               <p>hey</p>
             </div>

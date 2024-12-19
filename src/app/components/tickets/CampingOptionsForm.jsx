@@ -218,81 +218,31 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
     // Du kan sende data videre til backend her
   };
 
-  // const onSubmit = async (data) => {
-  //   // const selectedSpot = availableSpots.find((spot) => spot.area === data.area); // Find det valgte område
-
-  //   // const totalTickets =
-  //   //   (formData.vipCount || 0) + (formData.regularCount || 0); //hvor pladser er der af hver, er der ingen gør vi værdien er 0, så den ikke er undefined og giver os problemer
-
-  //   // if (!data.area) {
-  //   //   setFormError("Du skal vælge et campingområde!"); // Sæt fejlmeddelelse
-  //   //   return;
-  //   // }
-
-  //   // if (totalTickets > selectedSpot.available) {
-  //   //   setFormError(
-  //   //     `Der er kun ${selectedSpot.available} billetter tilgængelige i ${selectedSpot.area}.`
-  //   //   );
-  //   //   return;
-  //   // }
-
-  //   // // API-opkald
-  //   // try {
-  //   //   const result = await putReserveSpot(
-  //   //     data.area,
-  //   //     formData.vipCount || 0,
-  //   //     formData.regularCount || 0
-  //   //   );
-  //   //   const reservationId = result.id;
-  //   //   console.log("dette er mit reservationsid", result);
-
-  //   //   // alert("Reservationen er gennemført!");
-
-  //   //   // Bekræft reservationen (POST request)
-  //   //   await postFullfillReservation(reservationId);
-
-  //   //   onNext(data);
-  //   // } catch (error) {
-  //   //   setFormError("Der opstod en fejl ved reservationen. Prøv igen senere.");
-  //   // }
-
-  //   // Hvis ingen fejl
-  //   setFormError(""); // Ryd fejl
-  //   onNext({
-  //     ...data,
-  //   });
-  // };
-
   return (
-    <div className="h-svh">
-      {/* {reservationId && (
-        <ReservationTimer
-          reservationId={reservationId}
-          onTimeout={handleTimeout}
-          onConfirm={handleConfirm}
-        />
-      )} */}
-
-      <div className="">
+    <div className="bg-white">
+      {/* <div className="">
         <p>Valgte billetter:</p>
         <ul>
           <li>VIP Billetter: {formData.vipCount}</li>
           <li>Regular Billetter: {formData.regularCount}</li>
         </ul>
-      </div>
+      </div> */}
 
       <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 ">
-        <div className="grid grid-rows-2 gap-4">
-          <h2 className="font-Inter text-lg pb-2">vælg camping område</h2>
-
-          <div className="flex flex-row gap-4  ">
+        <div className=" ">
+          <h1 className="text-4xl  p-2 font-semibold">Camping</h1>
+          <div className="border-b-2 border-black p-2">
+            <h2 className="text-2xl font-medium">camping område</h2>
+            <p className="font-Inter text-lg pb-2">vælg camping område</p>
+          </div>
+          <div className="flex flex-wrap gap-4 pt-4 px-4  ">
             {availableSpots.map((spot, index) => {
               const totalTickets =
                 (formData.vipCount || 0) + (formData.regularCount || 0); //udskriv totalen af billetter, de har begge en fallback værdi på 0, så vi ikke kan få undefinde
               const isDisabled = totalTickets > spot.available; // Check for for mange billetter
 
               return (
-                <div key={index}>
+                <div key={index} className="border-2 border-red-300 py-2 ">
                   <input
                     className="hidden peer"
                     type="radio"
@@ -304,19 +254,13 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
                   />
                   <label
                     htmlFor={spot.area}
-                    className={`rounded-md cursor-pointer bg-slate-400 p-2 text-center font-Inter uppercase text-lg
-            peer-checked:bg-customPink-700 peer-checked:text-white
+                    className={`border-2 border-black cursor-pointer  p-2 text-center  uppercase text-lg
+            peer-checked:bg-customPink peer-checked:text-black
             hover:bg-gray-200 transition-all duration-200
             ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
-                    {spot.area}
+                    {spot.area} {spot.available}/{spot.spots}
                   </label>
-                  <div className="flex">
-                    <p>Tilgængelige pladser:</p>{" "}
-                    <p>
-                      {spot.available}/{spot.spots}
-                    </p>
-                  </div>
                 </div>
               );
             })}
@@ -328,36 +272,13 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
         {formError && <p className="text-red-500 text-sm mb-4">{formError}</p>}
         {selectedArea && <p>Du har valgt campingområde: {selectedArea}</p>}
 
-        {/* Grøn camping */}
-        <div className="py-4">
-          <div className="flex justify-between items-center">
-            <input
-              className="hidden peer" // Skjul standard checkboks
-              type="checkbox"
-              id="greenCamping"
-              {...register("greenCamping")}
-              //   {...register("greenCamping")}
-            />
-            <span className="">Grøn camping (+249,-) </span>
-            <label
-              htmlFor="greenCamping"
-              className="w-6 h-6 border-2 border-black   place-items-center place-content-center  cursor-pointer  peer-checked:border-pink-500 peer-checked:bg-green  transition-all duration-200"
-            >
-              {/* <IoCheckmark className="self-center w-4 h-4 text-customPink/0 text-center  peer-checked:text-customPink" /> */}
-            </label>
-          </div>
-          {errors.greenCamping && (
-            <p className="text-red-500 text-sm">
-              {errors.greenCamping.message}
-            </p> // Fejlmeddelelse for grøn camping
-          )}
-        </div>
         {/* Telte */}
-        <h3 className="text-2xl font-medium">Telt opsætning</h3>
-        <div className="flex justify-between">
-          <label className="" htmlFor="addTentSetup">
+        <h3 className="text-2xl font-medium pt-4">Telt opsætning</h3>
+        <div className="border-b-2 border-black flex justify-between p-2">
+          <label className="text-lg" htmlFor="addTentSetup">
             Få telte at op af et crew
           </label>
+
           <input
             type="checkbox"
             id="addTentSetup"
@@ -418,7 +339,6 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
                 <button
                   type="button"
                   onClick={() => handleTentChange("tent3p", "decrement")}
-                  className="bg-slate-400 focus:bg-slate-500"
                 >
                   <HiOutlineMinus className="w-6 h-6 " />
                 </button>
@@ -447,6 +367,30 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
           </div>
         )}
 
+        {/* Grøn camping */}
+        <div className="py-4">
+          <div className="flex justify-between items-center">
+            <input
+              className="hidden peer" // Skjul standard checkboks
+              type="checkbox"
+              id="greenCamping"
+              {...register("greenCamping")}
+              //   {...register("greenCamping")}
+            />
+            <span className="">Grøn camping +249,- </span>
+            <label
+              htmlFor="greenCamping"
+              className="w-6 h-6 border-2 border-black   place-items-center place-content-center  cursor-pointer  peer-checked:border-pink-500 peer-checked:bg-green  transition-all duration-200"
+            >
+              {/* <IoCheckmark className="self-center w-4 h-4 text-customPink/0 text-center  peer-checked:text-customPink" /> */}
+            </label>
+          </div>
+          {errors.greenCamping && (
+            <p className="text-red-500 text-sm">
+              {errors.greenCamping.message}
+            </p> // Fejlmeddelelse for grøn camping
+          )}
+        </div>
         <div className="flex justify-between ">
           <button type="button" onClick={onBack}>
             Tilbage

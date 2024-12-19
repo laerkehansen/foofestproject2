@@ -230,7 +230,7 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
         onSubmit={handleSubmit(onSubmit)}
         className="gap-6 p-2 flex flex-wrap justify-center"
       >
-        <div className="flex flex-wrap gap-4 mb-4">
+        {/* <div className="flex flex-wrap gap-4 mb-4">
           {Array.from({
             length: formData?.vipCount + formData?.regularCount,
           }).map((ticket, index) => (
@@ -243,7 +243,7 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
               {index < formData?.vipCount ? "VIP" : "Regular"}
             </button>
           ))}
-        </div>
+        </div> */}
 
         {formData?.vipCount + formData?.regularCount &&
           Array.from({

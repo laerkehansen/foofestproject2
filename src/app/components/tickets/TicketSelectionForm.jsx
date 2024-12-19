@@ -102,7 +102,7 @@ const TicketSelectionForm = ({ onNext }) => {
                 placeholder="0"
                 min="0"
                 max="8"
-                className=" w-6 text-center  text-lg"
+                className=" w-10 text-center  text-lg"
                 readOnly
               />
               <button
@@ -135,7 +135,7 @@ const TicketSelectionForm = ({ onNext }) => {
                 min="0"
                 max="8"
                 readOnly
-                className=" w-6 text-center text-lg"
+                className=" w-10 text-center text-lg"
                 // value={regularCount} // Bruger den værdi, der er gemt i state
               />
               <button

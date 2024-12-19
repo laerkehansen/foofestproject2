@@ -60,59 +60,61 @@ const Payment = () => {
 
   const prevStep = () => setStep((prev) => prev - 1);
   return (
-    <div className="grid lg:grid-cols-[1fr] justify-between py-20">
-      <KviteringProvider>
-        <StepBar step={step} />
-        <div className=" grid md:grid-cols-[1fr_0.4fr] sm:grid-cols-1 sm:justify-center py-16 col-span-full gap-4 max-sm:justify-items-center">
-          <div className="">
-            {step === 1 && <TicketSelectionForm onNext={nextStep} />}
-            {step === 2 && (
-              <PersonalInfoForm
-                formData={formData}
-                onBack={prevStep}
-                onNext={nextStep}
-              />
-            )}
-            {step === 3 && (
-              <CampingOptionsForm
-                onBack={prevStep}
-                onNext={nextStep}
-                formData={formData}
-              />
-            )}
-            {step === 4 && (
-              <div>
-                {/* <ReviewStep
+    <div className="grid lg:grid-cols-[1fr] justify-between py-20 px-20 bg-white">
+      <div className=" bg-white ">
+        <KviteringProvider>
+          <StepBar step={step} />
+          <div className=" grid md:grid-cols-[1fr_0.4fr] sm:grid-cols-1 sm:justify-center py-16 col-span-full gap-4 max-sm:justify-items-center">
+            <div className="">
+              {step === 1 && <TicketSelectionForm onNext={nextStep} />}
+              {step === 2 && (
+                <PersonalInfoForm
+                  formData={formData}
+                  onBack={prevStep}
+                  onNext={nextStep}
+                />
+              )}
+              {step === 3 && (
+                <CampingOptionsForm
+                  onBack={prevStep}
+                  onNext={nextStep}
+                  formData={formData}
+                />
+              )}
+              {step === 4 && (
+                <div>
+                  {/* <ReviewStep
                   formData={formData}
                   onBack={prevStep}
                   onNext={nextStep}
                 /> */}
-                <PaymentStep
-                  formData={formData}
-                  onBack={prevStep}
-                  onNext={nextStep}
-                />
-                <ReservationTimer
-                // onTimeout={handleTimeout}
-                // onConfirm={handleConfirm}
-                />
-              </div>
-            )}
-            {step === 5 && (
-              <div>
-                {/* <PaymentStep
+                  <PaymentStep
+                    formData={formData}
+                    onBack={prevStep}
+                    onNext={nextStep}
+                  />
+                  <ReservationTimer
+                  // onTimeout={handleTimeout}
+                  // onConfirm={handleConfirm}
+                  />
+                </div>
+              )}
+              {step === 5 && (
+                <div>
+                  {/* <PaymentStep
                   formData={formData}
                   onBack={prevStep}
                   onNext={nextStep}
                 />
                 <ReservationTimer /> */}
-                <h1>du har fuldført din ordre</h1>
-              </div>
-            )}
+                  <h1>du har fuldført din ordre</h1>
+                </div>
+              )}
+            </div>
+            <Kvitering formData={formData} />
           </div>
-          <Kvitering formData={formData} />
-        </div>
-      </KviteringProvider>
+        </KviteringProvider>
+      </div>
     </div>
   );
 };
