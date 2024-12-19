@@ -130,6 +130,10 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
   };
 
   const onSubmit = (data) => {
+    if (!data.area) {
+      setFormError("Du skal vælge et campingområde, før du kan fortsætte.");
+      return;
+    }
     const totalTickets = // Beregn total billetter (VIP + Regular)
       (formData.vipCount || 0) + (formData.regularCount || 0);
     console.log("resevation", data);

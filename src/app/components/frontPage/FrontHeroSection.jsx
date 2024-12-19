@@ -3,6 +3,7 @@ import { getHeroImg } from "@/app/lib/api";
 import { getLogoUrl } from "../../lib/utils";
 import LinkKnap from "./LinkKnap";
 import { FaArrowDown } from "react-icons/fa";
+import HeroImg from "@/app/img/concert-3084876_1280.jpg";
 
 export default async function FrontHeroImg() {
   // Hent data fra API
@@ -16,11 +17,11 @@ export default async function FrontHeroImg() {
   const logoUrl = getLogoUrl(refused.logo);
 
   return (
-    <div className="grid grid-cols-[0.2fr_1fr_0.5fr_0.5fr_0.1fr] grid-rows-[0.1fr_0.6fr_0.2fr_0.1fr]">
+    <div className="grid grid-cols-[0.2fr_1fr_0.5fr_0.5fr_0.1fr] grid-rows-[0.1fr_0.5fr_0.2fr_0.1fr]">
       <div className="grid grid-cols-subgrid grid-rows-subgrid col-span-full row-span-full items-end">
         <Image
           className="col-span-full row-span-full grayscale z-0"
-          src={logoUrl}
+          src={HeroImg}
           width={1512}
           height={868}
           alt="hero image"
