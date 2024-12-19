@@ -8,13 +8,17 @@ import { z } from "zod";
 
 const PaymentStep = ({ onNext, onBack, formData }) => {
   const { reservationId, timeRemaining } = useContext(KviteringContext);
+
   const formular = z.object({
     cardNumber: z.preprocess(
-      // Fjern mellemrum før validering
-      (value) => String(value).replace(/\s/g, ""),
-      z.string().regex(/^\d{16}$/, "Kortnummeret skal være præcis 16 cifre") // Validering af kortnummeret
+      (value) => String(value).replace(/\s/g, ""), // Fjern mellemrum
+      z.string().regex(/^\d{16}$/, "Kortnummeret skal være præcis 16 cifre")
     ),
-    // Andre felter kan komme her
+    cardHolder: z.string().min(1, "Kortindehaverens navn skal udfyldes"),
+    expireDate: z
+      .string()
+      .regex(/^(0[1-9]|1[0-2])\/\d{2}$/, "Udløbsdato skal være i format MM/YY"),
+    cvv: z.string().regex(/^\d{3}$/, "CVV skal være præcis 3 cifre"),
   });
 
   const {
@@ -26,34 +30,32 @@ const PaymentStep = ({ onNext, onBack, formData }) => {
     setValue, // bruges til at sætte værdier dynamisk, f.eks. når vi ændrer område på vores knapper
     watch,
   } = useForm({
-    resolver: zodResolver(validering),
-    defaultValues: {
-      campingSelected: formData.campingSelected || false, //bruges ik
-      addTentSetup: formData.addTentSetup || false, // Tilføj standardværdi for addTentSetup
-      vipCount: formData.vipCount || 0,
-      regularCount: formData.regularCount || 0,
-      area: formData.area || "",
-      tent2p: 0,
-      tent3p: 0,
-      // area: "",
+    resolver: zodResolver(formular),
 
-      greenCamping: false,
+    defaultValues: {
+      cardNumber: "",
+      cardHolder: "",
+      expireDate: "",
+      cvv: "",
     },
   });
 
+  // Watch for the phonenumber input
+  const cardInfo = watch("cardNumber", 0);
+  // const regularCount = watch("regularCount", 0); // Standardværdi 0
   const formatCardNumber = (value) => {
-    const cleanedValue = value.replace(/\D/g, ""); // Fjern alle ikke-numeriske tegn
-    const formatted = cleanedValue.replace(/(\d{4})(?=\d)/g, "$1 "); // Tilføj mellemrum efter hver 4. cifre
+    const cleanedValue = value.replace(/\D/g, "");
+    const formatted = cleanedValue.replace(/(\d{4})(?=\d)/g, "$1 "); // Tilføj mellemrum efter hver 2. cifre
     return formatted;
   };
+
+  const handleBlur = (fieldName) => {
+    trigger(fieldName); // Udfør validering ved tab af fokus
+  };
+
   const onSubmit = (data) => {
     if (!timeRemaining || timeRemaining <= 0) return false;
 
-    // const totalTickets = // Beregn total billetter (VIP + Regular)
-    //   (formData.vipCount || 0) + (formData.regularCount || 0);
-    // console.log("resevation", data);
-    // snedeer resvation starter timer
-    // useEffect(() => {
     fetch("https://cerulean-abrupt-sunshine.glitch.me/fullfill-reservation", {
       method: "POST",
       headers: {
@@ -106,16 +108,20 @@ const PaymentStep = ({ onNext, onBack, formData }) => {
             Kortnummer
           </label>
           <input
-            type="number"
+            // type="number"
             {...register("cardNumber")}
+            // tror fjel er her på hvordan jeg bruger den
+            // value={formatCardNumber(cardInfo)}
+            onBlur={() => handleBlur("cardNumber")}
             className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
             id="cardnumber"
             name="cardnumber"
+            value={formatCardNumber(cardInfo || "")}
             // value={formatCardNumber(cardNumber || "")}
             placeholder="1234 5678 9012 3456"
             required
             // maxlength="19"
-            pattern="\d{4} \d{4} \d{4} \d{4}"
+            // pattern="\d{4} \d{4} \d{4} \d{4}"
           />
         </div>
         <div className="flex flex-col">

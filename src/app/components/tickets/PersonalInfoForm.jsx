@@ -230,21 +230,6 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
         onSubmit={handleSubmit(onSubmit)}
         className="gap-6 p-2 flex flex-wrap justify-center"
       >
-        {/* <div className="flex flex-wrap gap-4 mb-4">
-          {Array.from({
-            length: formData?.vipCount + formData?.regularCount,
-          }).map((ticket, index) => (
-            <button
-              key={index}
-              className="bg-customPink border-black border-2 text-black text-lg py-2 px-4 hover:bg-green w-fit hover:text-black"
-              onClick={() => alert(`Billet ${index + 1} klikket!`)} // Skift med passende funktionalitet
-            >
-              Billet {index + 1} -{" "}
-              {index < formData?.vipCount ? "VIP" : "Regular"}
-            </button>
-          ))}
-        </div> */}
-
         {formData?.vipCount + formData?.regularCount &&
           Array.from({
             length: formData?.vipCount + formData?.regularCount,
