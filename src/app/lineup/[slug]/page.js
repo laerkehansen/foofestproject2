@@ -13,13 +13,13 @@ async function Single({ params }) {
   const scheduleBand = await getScheduleWithBands();
   console.log(scheduleBand);
 
-  const events = scheduleBand.filter((event) => event.band?.slug === slug);
+  // const events = scheduleBand.filter((event) => event.band?.slug === slug);
 
-  console.log(events);
+  // console.log(events);
 
   return (
     <div>
-      <ArtistSingel band={band} events={events} />
+      <ArtistSingel band={band} />
       {/* Passer band-data til ArtistSingel komponenten */}
     </div>
   );

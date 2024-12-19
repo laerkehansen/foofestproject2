@@ -2,6 +2,7 @@ import Image from "next/image";
 import { getHeroImg } from "@/app/lib/api";
 import { getLogoUrl } from "../../lib/utils";
 import LinkKnap from "./LinkKnap";
+import { FaArrowDown } from "react-icons/fa";
 
 export default async function FrontHeroImg() {
   // Hent data fra API
@@ -25,10 +26,10 @@ export default async function FrontHeroImg() {
           alt="hero image"
           priority={true}
         />
-        <h1 className="text-green col-start-2 col-end-2 row-start-2 lg:text-heroText md:text-9xl sm:text-4xl  lg:leading-[0.7] md:leading-[0.7] sm:leading-[0.7] font-black  italic h-fit z-10">
+        <h1 className="text-green col-start-2 col-end-2 row-start-2 lg:text-heroText md:text-9xl sm:text-4xl pb-4 lg:leading-[0.7] md:leading-[0.7] sm:leading-[0.7] font-black  italic h-fit z-10">
           FOO <br /> FEST
         </h1>
-        <div className="flex flex-col gap-6 col-start-4 row-start-3 items-end z-10">
+        <div className="flex flex-row gap-2 col-start-4 row-start-3 items-end z-10">
           <LinkKnap
             text="køb Billetter"
             link="billetter"
