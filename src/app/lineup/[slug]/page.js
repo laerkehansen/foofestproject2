@@ -10,8 +10,8 @@ async function Single({ params }) {
   // console.log(band); // Debug, for at se de hentede data
 
   // Hent schedule-data og filtrer for at finde events for det specifikke band
-  const scheduleBand = await getScheduleWithBands();
-  console.log(scheduleBand);
+  // const scheduleBand = await getScheduleWithBands();
+  // console.log(scheduleBand);
 
   // const events = scheduleBand.filter((event) => event.band?.slug === slug);
 

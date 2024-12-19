@@ -18,7 +18,7 @@ const Tickets = ({}) => {
         køb billetter
       </Link> */}
 
-      <LinkKnap text="køb billetter" link="billetter" />
+      <LinkKnap text="køb billetter" link="payment" />
     </div>
   );
 };

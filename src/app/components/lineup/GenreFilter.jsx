@@ -12,13 +12,13 @@ const GenreFilter = ({ setFilterGenre, bandData, setFilter }) => {
     setFilterGenre((prevGenres) => {
       if (prevGenres.includes(genre)) {
         // Fjern markering
-        label.classList.remove("bg-black", "text-white");
-        label.classList.add("bg-white", "text-gray-800");
+        label.classList.remove("bg-black", "text-background");
+        label.classList.add("bg-background", "text-black");
         return prevGenres.filter((g) => g !== genre);
       } else {
         // Tilføj markering
-        label.classList.remove("bg-white", "text-gray-800");
-        label.classList.add("bg-black", "text-white");
+        label.classList.remove("bg-background", "text-black");
+        label.classList.add("bg-black", "text-background");
         return [...prevGenres, genre];
       }
     });
@@ -30,7 +30,7 @@ const GenreFilter = ({ setFilterGenre, bandData, setFilter }) => {
     // Fjern styling for alle labels
     document.querySelectorAll(".genre-label").forEach((label) => {
       label.classList.remove("bg-green", "text-black");
-      label.classList.add("bg-white", "text-gray-800");
+      label.classList.add("bg-white", "text-black");
     });
   };
 
@@ -59,7 +59,7 @@ const GenreFilter = ({ setFilterGenre, bandData, setFilter }) => {
         ))}
         <button
           onClick={resetGenres}
-          className="p-2 bg-green border-black border-2  font-semibold text-black text-xl "
+          className="p-2 bg-green  border-black border-2  font-semibold text-black text-xl "
         >
           Nulstil genrer
         </button>

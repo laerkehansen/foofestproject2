@@ -59,7 +59,7 @@ const ArtistSingel = ({ band }) => {
             </p>
           )}
           <Link
-            href="/ticket"
+            href="/billetter"
             className="p-2 border-2 border-black uppercase mt-6  hover:underline decoration-solid  bg-green font-medium text-center  place-self-center "
           >
             køb biletter

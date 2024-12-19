@@ -7,6 +7,16 @@ const ArtistCard = ({ band, events }) => {
   // const { day } = events;
   // Hvis der er events, vis første event (kan ændres til at vise flere events)
   // const firstEvent = events && events.length > 0 ? events[0] : null;
+
+  const dayNames = {
+    mon: "Mandag",
+    tue: "Tirsdag",
+    wed: "Onsdag",
+    thu: "Torsdag",
+    fri: "Fredag",
+    sat: "Lørdag",
+    sun: "Søndag",
+  };
   return (
     <li
       key={band.slug}
@@ -28,10 +38,11 @@ const ArtistCard = ({ band, events }) => {
               sizes="(min-width: 808px) 50vw, 100vw"
               quality={100}
               // fill={true}
+              priority
               className="grayscale object-cover z-0"
             />
           </div>
-          <h2 className="text-customPink absolute row-start-1 col-start-1 z-20 m-3  italic font-bold text-4xl self-end justify-self-start top-60">
+          <h2 className="text-customPink absolute row-start-1 col-start-1 pb-4  z-20 m-3  italic font-bold text-4xl self-end justify-self-start top-56">
             {name}
           </h2>
           <h3 className=" row-start-1 col-start-1 absolute z-20 m-2 p-1  text-black bg-customPink self-start justify-self-end top-0 right-0">
@@ -43,18 +54,25 @@ const ArtistCard = ({ band, events }) => {
           {/* Event-info kun synlig på hover */}
           <div className="absolute h-96 w-full bg-green/90 flex items-center justify-center bottom-10 group-hover:bottom-0 group-hover:opacity-100 opacity-0 transition-all duration-300 z-20">
             {/* {firstEvent && ( */}
-            <div className=" flex flex-col-reverse self-end pl-2 pb-2">
+            <div className=" flex flex-col-reverse justify-between self-end pl-2 pb-2">
               <h2 className="font-extrabold italic text-5xl">
                 Playing at {location}
               </h2>
-              <div className="flex gap-4">
-                <p className="text-lg text-black">
-                  <strong>Day:</strong> {day}
-                </p>
-                <p className="text-lg">
-                  <strong>Time: </strong>
-                  {start} - {end}
-                </p>
+
+              <div className="self-start">
+                <div className=" pl-2">
+                  <p className="text-lg text-black">
+                    <strong>dag:</strong> {dayNames[day]}
+                  </p>
+                </div>
+                <div className="p-2 ">
+                  <p className="text-lg">
+                    <strong>Tidspunkt: </strong>
+                    <span className="text-nowrap">
+                      {start} - {end}
+                    </span>
+                  </p>
+                </div>
               </div>
             </div>
             {/* // )} */}

@@ -13,7 +13,7 @@ const ProgramList = ({ schedule }) => {
     <div className="pt-10 text-black">
       {Object.entries(groupedByLocation).map(([location, events]) => (
         <div
-          className="grid md:grid-cols-[0.5fr_1fr] gap-4 sm:grid-cols-1"
+          className="grid lg:grid-cols-[0.5fr_1fr] gap-4  md:grid-cols-1 sm:grid-cols-1"
           key={location}
         >
           <h3 className="md:text-6xl sm:text-4xl text-black font-Inter font-extrabold italic uppercase">
