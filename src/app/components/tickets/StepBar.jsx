@@ -23,7 +23,7 @@ const StepBar = ({ step }) => {
       ></motion.div>
 
       {/* Steps */}
-      <div className="flex pt-4 flex-wrap justify-center">
+      <div className="flex md:pt-4 flex-wrap md:justify-center">
         {steps.map(({ id, label }) => (
           <div key={id} className="flex items-center px-8 py-4">
             {/* Circle Indicator */}
@@ -44,7 +44,7 @@ const StepBar = ({ step }) => {
                     : step > id
                     ? "text-gray-500"
                     : "text-gray-400"
-                } sm:hidden md:block lg:block`}
+                } max-sm:hidden sm:hidden md:block lg:block`}
               >
                 {label}
               </p>

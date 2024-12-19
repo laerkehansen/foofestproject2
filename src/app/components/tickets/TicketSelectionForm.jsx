@@ -76,12 +76,9 @@ const TicketSelectionForm = ({ onNext }) => {
   };
 
   return (
-    <div className=" grid grid-cols-[1fr_auto] gap-4  w-full h-full bg-white px-20 py-10">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className=" col-start-1 grid gird-cols-1 row-auto "
-      >
-        <div className="  ">
+    <div className=" grid md:grid-cols-1 bg-white max-md:px-10 m-4 md:px-20 py-10 w-fit sm:place-self-center border-black border-2">
+      <form onSubmit={handleSubmit(onSubmit)} className="">
+        <div className=" w-fit  ">
           <h1 className="text-stor font-medium">Billetter</h1>
           <div className="flex justify-between">
             <h2>Vælg antal billetter </h2>
@@ -90,7 +87,7 @@ const TicketSelectionForm = ({ onNext }) => {
 
           <div className="grid grid-cols-2 py-2">
             <label>Antal VIP 1299,-</label>
-            <div className="grid grid-cols-3  gap-2 place-items-center">
+            <div className="grid grid-cols-[auto_auto_auto]  place-items-center">
               <button
                 type="button"
                 onClick={() => handleTentChange("vipCount", "decrement")}
@@ -104,7 +101,7 @@ const TicketSelectionForm = ({ onNext }) => {
                 placeholder="0"
                 min="0"
                 max="8"
-                className=" w-7 text-center  text-lg"
+                className=" w-6 text-center  text-lg"
                 readOnly
               />
               <button
@@ -123,7 +120,7 @@ const TicketSelectionForm = ({ onNext }) => {
 
           <div className="grid grid-cols-2">
             <label>Antal normal 799,-</label>
-            <div className="grid grid-cols-3 gap-2 justify-center place-items-center">
+            <div className="grid grid-cols-3 justify-center place-items-center">
               <button
                 type="button"
                 onClick={() => handleTentChange("regularCount", "decrement")}
@@ -137,7 +134,7 @@ const TicketSelectionForm = ({ onNext }) => {
                 min="0"
                 max="8"
                 readOnly
-                className=" w-7 text-center  text-lg"
+                className=" w-6 text-center text-lg"
                 // value={regularCount} // Bruger den værdi, der er gemt i state
               />
               <button

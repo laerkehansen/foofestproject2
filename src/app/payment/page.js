@@ -5,7 +5,8 @@ import { useState } from "react";
 import TicketSelectionForm from "../components/tickets/TicketSelectionForm";
 import CampingOptionsForm from "../components/tickets/CampingOptionsForm";
 import PersonalInfoForm from "../components/tickets/PersonalInfoForm";
-import ReviewStep from "../components/tickets/ReviewStep";
+import ReviewStep from "../components/tickets/PaymentStep";
+import PaymentStep from "../components/tickets/PaymentStep";
 import StepBar from "../components/tickets/StepBar";
 import Kvitering from "../components/tickets/Kvitering";
 // import { KviteringContext } from "../lib/KvitteringContext";
@@ -48,9 +49,9 @@ const Payment = () => {
   return (
     <div className="grid lg:grid-cols-[1fr] justify-between py-20">
       <KviteringProvider>
-        <div className="grid grid-cols-[1fr_0.5fr]  m-20  p-4 gap-4 text-black border-2 border-black bg-white">
-          <StepBar step={step} />
-          <div className="col-start-1">
+        <StepBar step={step} />
+        <div className=" grid md:grid-cols-[1fr_0.4fr] sm:grid-cols-1 sm:justify-center py-16 col-span-full gap-4 max-sm:justify-items-center">
+          <div className="">
             {step === 1 && <TicketSelectionForm onNext={nextStep} />}
             {step === 2 && (
               <PersonalInfoForm
@@ -68,6 +69,13 @@ const Payment = () => {
             )}
             {step === 4 && (
               <ReviewStep
+                formData={formData}
+                onBack={prevStep}
+                onNext={nextStep}
+              />
+            )}
+            {step === 5 && (
+              <PaymentStep
                 formData={formData}
                 onBack={prevStep}
                 onNext={nextStep}
