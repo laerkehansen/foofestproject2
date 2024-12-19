@@ -70,6 +70,7 @@ const TicketSelectionForm = ({ onNext }) => {
     console.log("Form submitted:", data);
     onNext({
       ...data,
+      // totalTick,
       // totalPrice,
     });
     // Du kan sende data videre til backend her

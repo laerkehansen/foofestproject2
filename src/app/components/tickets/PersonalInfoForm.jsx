@@ -1,3 +1,4 @@
+"use client";
 import { useForm, useFieldArray } from "react-hook-form";
 import { postTicket } from "@/app/lib/supabase";
 import { z } from "zod";
@@ -41,6 +42,7 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
   const {
     register,
     handleSubmit,
+
     formState: { errors, isValid },
     setValue,
     watch,
@@ -63,8 +65,8 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
   });
 
   //før stod det nede hved hver nu er det genanvendelu
-  const handleBlur = async (fieldName) => {
-    const isValid = await trigger(fieldName); // Trigger validering
+  const handleBlur = (fieldName) => {
+    const isValid = trigger(fieldName); // Trigger validering
     // Før vi sender data, fjern mellemrum fra telefonnummeret for validering og indsendelse
 
     if (isValid) {
@@ -81,51 +83,140 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
     return formatted;
   };
 
-  const onSubmit = (data) => {
-    console.log("Form data:", data);
-    onNext(data); // Kalder onNext med udfyldt data
-
-    // i den hen har funkton ønsker vi at sende vores peroslige infor til suberbase
-    //obs array
-  };
-
   // Funktion til at sende data til Supabase
-  const sendToSupabase = async (data) => {
-    try {
-      const response = await postTicket(data); // Dette er vores Supabase post funktion
-      console.log(response);
-      if (response?.success) {
-        console.log("Data sendt til Supabase:", response);
-      } else {
-        console.error("Fejl ved afsendelse til Supabase");
-      }
-    } catch (error) {
-      console.error("Fejl ved afsendelse:", error);
-    }
-  };
+  // const sendToSupabase = async (data) => {
+  //   try {
+  //     const response = await postTicket(data); // Dette er vores Supabase post funktion
+  //     console.log(response);
+  //     if (response?.success) {
+  //       console.log("Data sendt til Supabase:", response);
+  //     } else {
+  //       console.error("Fejl ved afsendelse til Supabase");
+  //     }
+  //   } catch (error) {
+  //     console.error("Fejl ved afsendelse:", error);
+  //   }
+  // };
 
-  // Funktion der håndterer send knappen, der kun aktiveres når data er valideret
-  const handleSendToSupabase = (data) => {
+  // // Funktion der håndterer send knappen, der kun aktiveres når data er valideret
+  // const handleSendToSupabase = (data) => {
+  //   const tickets = data.tickets.map((ticket) => ({
+  //     ...ticket,
+  //     id: crypto.randomUUID(), // Generér et unikt ID for hver billet
+  //   }));
+
+  //   // Send billetter til Supabase
+  //   tickets.forEach(async (ticket) => {
+  //     try {
+  //       const response = await postTicket(ticket);
+  //       if (response?.success) {
+  //         console.log("Billet sendt til Supabase:", response);
+  //       } else {
+  //         console.error("Fejl ved afsendelse af billet:", response);
+  //       }
+  //     } catch (error) {
+  //       console.error("Fejl ved afsendelse:", error);
+  //     }
+  //   });
+  // };
+
+  // const onSubmit = (data) => {
+
+  //   console.log("Form data:", data);
+  //   onNext(data); // Kalder onNext med udfyldt data
+
+  //   // i den hen har funkton ønsker vi at sende vores peroslige infor til suberbase
+  //   //obs array
+  // };
+
+  const unikId = (data) => {
     const tickets = data.tickets.map((ticket) => ({
       ...ticket,
-      id: crypto.randomUUID(), // Generér et unikt ID for hver billet
+      id: crypto.randomUUID(), // Generér unikt ID
     }));
+    console.log(data.id);
+  };
+  // Send hver billet individuelt
+  //   tickets.forEach((ticket) => {
+  //     fetch("https://izlwnrcwutxxrclxaqwi.supabase.co/rest/v1/foofest", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         prefer: "return=representation",
+  //         apikey:
+  //           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtsdHRia2RoZHhyc3V5amt3a3VqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQwODI4NDgsImV4cCI6MjA0OTY1ODg0OH0.e3FebWALlTqZTxB2vSWb0_xqWf-MxdZrVpKhTM-_dnc",
 
-    // Send billetter til Supabase
-    tickets.forEach(async (ticket) => {
-      try {
-        const response = await postTicket(ticket);
-        if (response?.success) {
-          console.log("Billet sendt til Supabase:", response);
-        } else {
-          console.error("Fejl ved afsendelse af billet:", response);
-        }
-      } catch (error) {
-        console.error("Fejl ved afsendelse:", error);
-      }
+  //         // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtsdHRia2RoZHhyc3V5amt3a3VqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQwODI4NDgsImV4cCI6MjA0OTY1ODg0OH0.e3FebWALlTqZTxB2vSWb0_xqWf-MxdZrVpKhTM-_dnc`,
+  //       },
+  //       body: JSON.stringify(ticket),
+  //     })
+  //       .then((response) => {
+  //         if (!response.ok) {
+  //           throw new Error(
+  //             `Fejl ved afsendelse af billet: ${response.statusText}`
+  //           );
+  //           // throw new Error(`HTTP fejl! Status: ${response.status}`);
+  //         }
+  //         return response.json();
+  //       })
+  //       .then((data) => {
+  //         console.log("Billet sendt succesfuldt data:", data);
+  //       });
+  //     // .catch((error) => {
+  //     //   console.error("Fejl ved afsendelse af billet:", error);
+  //     // });
+  //   });
+  // };
+
+  //   const onSubmit = (data) => {
+  //     console.log("Form submitted:", data);
+  //     handleSendToSupabase(data); // Sender data til Supabase
+  //     onNext({
+  //         ...data,
+  //     });
+  // };
+
+  // const totalTickets = // Beregn total billetter (VIP + Regular)
+  // (formData.vipCount || 0) + (formData.regularCount || 0);
+
+  // const tickets = data.tickets.map((ticket) => ({
+  //   ...ticket,
+  //   id: crypto.randomUUID(), // Generér et unikt ID for hver billet
+  // }));
+  // console.log("billetter", ticket);
+  // // snedeer resvation starter timer
+  // // useEffect(() => {
+  // tickets.forEach;
+
+  // fetch("https://izlwnrcwutxxrclxaqwi.supabase.co/rest/v1/foofest", {
+  //   method: "POST",
+
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     apikey:
+  //       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtsdHRia2RoZHhyc3V5amt3a3VqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQwODI4NDgsImV4cCI6MjA0OTY1ODg0OH0.e3FebWALlTqZTxB2vSWb0_xqWf-MxdZrVpKhTM-_dnc",
+  //   },
+
+  //   // body: JSON.stringify({
+  //   //   area: data.area,
+  //   //   amount: totalTickets,
+  //   // }),
+  // })
+  //   // .then((data) => response.json())
+  //   .then((ticket) => {
+  //     console.log("sin bilet er sent", ticket);
+  //     // (submitData);
+  //     // startReservation(submitData.id, submitData.timeout / 1000);
+
+  //   })
+  //   .catch((err) => console.error("her kommer fejl ", err));
+  const onSubmit = (data) => {
+    console.log("Form submitted:", data);
+    // handleSendToSupabase(data);
+    onNext({
+      ...data,
     });
   };
-
   return (
     <>
       <div className=" pl-8 pb-8">
@@ -286,95 +377,9 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
         >
           Send
         </button>
-        <button
-          type="button"
-          onClick={handleSubmit(handleSendToSupabase)}
-          className="bg-customPink border-black border-2 text-black text-lg py-2 px-4 hover:bg-green hover:text-black h-fit w-fit"
-        >
-          Send til Supabase
-        </button>
       </form>
     </>
   );
 };
 
 export default PersonalInfoForm;
-{
-  /* Udløbsdato */
-}
-{
-  /* <div className="flex flex-col">
-        <label htmlFor="expireYear" className="text-lg font-medium mb-1">
-          Udløbsdato:
-        </label>
-        <Controller
-          control={control}
-          name="expireYear"
-          render={({ field }) => (
-            <input
-              {...field}
-              id="expireYear"
-              placeholder="MM/ÅÅ"
-              className="border border-gray-300 rounded-md p-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          )}
-        />
-        {errors.expireYear && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.expireYear.message}
-          </p>
-        )}
-      </div> */
-}
-
-{
-  /* CVV */
-}
-{
-  /* <div className="flex flex-col">
-        <label htmlFor="cvv" className="text-lg font-medium mb-1">
-          CVV:
-        </label>
-        <Controller
-          control={control}
-          name="cvv"
-          render={({ field }) => (
-            <input
-              {...field}
-              id="cvv"
-              className="border border-gray-300 rounded-md p-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          )}
-        />
-        {errors.cvv && (
-          <p className="text-red-500 text-sm mt-1">{errors.cvv.message}</p>
-        )}
-      </div> */
-}
-
-{
-  /* Kortnummer */
-}
-{
-  /* <div className="flex flex-col">
-<label htmlFor="cardnumber" className="text-lg font-medium mb-1">
-  Kortnummer:
-</label>
-<Controller
-  control={control}
-  name="cardnumber"
-  render={({ field }) => (
-    <input
-      {...field}
-      id="cardnumber"
-      className="border border-gray-300 rounded-md p-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
-    />
-  )}
-/>
-{errors.cardnumber && (
-  <p className="text-red-500 text-sm mt-1">
-    {errors.cardnumber.message}
-  </p>
-)}
-</div> */
-}

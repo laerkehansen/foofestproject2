@@ -14,15 +14,15 @@ export async function getBands() {
     headers: headersList,
   });
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch data. Status code: ${response.status}`);
-  }
+  // if (!response.ok) {
+  //   throw new Error(`Failed to fetch data. Status code: ${response.status}`);
+  // }
 
   const data = await response.json();
 
-  if (!data) {
-    throw new Error("No data received from the API");
-  }
+  // if (!data) {
+  //   throw new Error("No data received from the API");
+  // }
   return data;
 }
 

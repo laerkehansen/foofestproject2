@@ -13,6 +13,7 @@ const ArtistCard = ({ band, events }) => {
     >
       <Link
         href={`/lineup/${slug}`}
+        // data-band={JSON.stringify(band)}
         className="grid h-full w-full grid-rows-[1fr] group grid-cols-[1fr]"
       >
         <div className="h-full w-full row-start-1 col-start-1 relative">

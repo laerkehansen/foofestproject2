@@ -17,17 +17,17 @@ const Payment = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
 
-  const handleReservation = (id) => {
-    startReservation(id);
-  };
+  // const handleReservation = (id) => {
+  //   startReservation(id);
+  // };
 
-  const handleTimeout = (id) => {
-    console.log(`Reservation ${id} timed out.`);
-  };
+  // const handleTimeout = (id) => {
+  //   console.log(`Reservation ${id} timed out.`);
+  // };
 
-  const handleConfirm = (id) => {
-    console.log(`Reservation ${id} confirmed.`);
-  };
+  // const handleConfirm = (id) => {
+  //   console.log(`Reservation ${id} confirmed.`);
+  // };
 
   // const [ticketData, setTicketData] = useState({
   //   vipCount: 0,
@@ -82,25 +82,31 @@ const Payment = () => {
             )}
             {step === 4 && (
               <div>
-                <ReviewStep
+                {/* <ReviewStep
                   formData={formData}
                   onBack={prevStep}
                   onNext={nextStep}
-                />
-                <ReservationTimer
-                  onTimeout={handleTimeout}
-                  onConfirm={handleConfirm}
-                />
-              </div>
-            )}
-            {step === 5 && (
-              <div>
+                /> */}
                 <PaymentStep
                   formData={formData}
                   onBack={prevStep}
                   onNext={nextStep}
                 />
-                <ReservationTimer />
+                <ReservationTimer
+                // onTimeout={handleTimeout}
+                // onConfirm={handleConfirm}
+                />
+              </div>
+            )}
+            {step === 5 && (
+              <div>
+                {/* <PaymentStep
+                  formData={formData}
+                  onBack={prevStep}
+                  onNext={nextStep}
+                />
+                <ReservationTimer /> */}
+                <h1>du har fuldført din ordre</h1>
               </div>
             )}
           </div>

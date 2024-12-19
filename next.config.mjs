@@ -15,6 +15,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "cerulean-abrupt-sunshine.glitch.me",
       },
+      {
+        protocol: "https",
+        hostname: "https://izlwnrcwutxxrclxaqwi.supabase.co/rest/v1/foofest",
+      },
     ],
   },
 
