@@ -175,14 +175,6 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
 
   return (
     <div className="bg-white">
-      {/* <div className="">
-        <p>Valgte billetter:</p>
-        <ul>
-          <li>VIP Billetter: {formData.vipCount}</li>
-          <li>Regular Billetter: {formData.regularCount}</li>
-        </ul>
-      </div> */}
-
       <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 ">
         <div className=" ">
           <h1 className="text-4xl  p-2 font-semibold">Camping</h1>
