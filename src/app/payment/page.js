@@ -48,9 +48,9 @@ const Payment = () => {
   return (
     <div className="grid lg:grid-cols-[1fr] justify-between py-20">
       <KviteringProvider>
-        <StepBar step={step} />
-        <div className=" grid grid-cols-[1fr_0.4fr] py-16 col-span-full gap-4">
-          <div className="">
+        <div className="grid grid-cols-[1fr_0.5fr]  m-20  p-4 gap-4 text-black border-2 border-black bg-white">
+          <StepBar step={step} />
+          <div className="col-start-1">
             {step === 1 && <TicketSelectionForm onNext={nextStep} />}
             {step === 2 && (
               <PersonalInfoForm
