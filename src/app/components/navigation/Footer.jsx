@@ -1,10 +1,10 @@
 const Footer = () => {
   return (
-    <section className="bg-black p-8 text-background grid gap-10 grid-cols-[0.1fr_1fr_1fr_1fr_0.1fr] grid-rows-[auto_1fr] py-14">
+    <section className="bg-black p-8 text-background md:grid gap-10 md:grid-cols-[0.1fr_1fr_1fr_1fr_0.1fr] md:grid-rows-[auto_1fr] max-sm:flex max-sm:flex-col py-14">
       <h1 className="uppercase text-green italic font-Inter font-bold sm:text-xl text-4xl sm:leading-[0.7] lg:leading-[0.7] lg:text-3xl col-start-2">
         foo <br /> fest
       </h1>
-      <div className="flex row-start-2 col-start-2 col-end-5 justify-between">
+      <div className="flex md:row-start-2 sm:col-start-2 sm:col-end-5 justify-between max-sm:flex-col max-sm:gap-8">
         <div>
           <ul>
             <li>Guldbergsgade 5, 2300</li>

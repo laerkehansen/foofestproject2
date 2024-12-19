@@ -34,7 +34,7 @@ const Kvitering = ({ formData, liveData }) => {
   const totalTick = vipCount + regularCount;
 
   return (
-    <div className="bg-white border-black border-2 px-12 w-72 min-h-[17rem] lg:col-start-2 md:col-start-1 sm:col-start-1 place-self-start">
+    <div className="bg-white border-black border-2 px-8 py-8 w-72 min-h-[17rem] lg:col-start-2 md:col-start-1  md:place-self-start sm:place-self-center">
       {/* <div className="">
         <p>Valgte billetter:</p>
         <ul>
@@ -43,7 +43,7 @@ const Kvitering = ({ formData, liveData }) => {
         </ul>
       </div> */}
 
-      <p className="uppercase leading-[0.7] font-bold text-4xl text-center italic pt-4 pb-4  border-black border-b-2  border-">
+      <p className="uppercase leading-[0.7] font-bold text-4xl text-center italic pt-4 pb-4  border-black border-b-2">
         foo <br />
         fest
       </p>

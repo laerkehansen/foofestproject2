@@ -93,7 +93,7 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
 
   return (
     <>
-      <div className="flex gap-4 place-self-center">
+      <div className=" pl-8 pb-8">
         <p>Valgte billetter:</p>
         <ul>
           <li>VIP Billetter: {formData.vipCount}</li>
@@ -225,7 +225,6 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
           Send
         </button>
       </form>
-      <div className="flex gap-6"></div>
     </>
   );
 };
