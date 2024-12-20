@@ -162,9 +162,11 @@ const PaymentStep = ({ onNext, onBack, formData }) => {
             Udløbsdato
           </label>
           <input
-            type="number"
+            type="text"
+            onChange={setValue("")}
             {...register("expireDate")}
             id="expireDate"
+            max="5"
             className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
             name="expireDate"
             required
@@ -187,6 +189,7 @@ const PaymentStep = ({ onNext, onBack, formData }) => {
             placeholder="123"
             required
             pattern="\d{3}"
+            max={3}
           />
           {errors.cvv && (
             <span className="text-red-500">{errors.cvv.message}</span>
