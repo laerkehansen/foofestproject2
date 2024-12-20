@@ -47,30 +47,16 @@ const Payment = () => {
               )}
               {step === 4 && (
                 <div>
-                  {/* <ReviewStep
-                  formData={formData}
-                  onBack={prevStep}
-                  onNext={nextStep}
-                /> */}
                   <PaymentStep
                     formData={formData}
                     onBack={prevStep}
                     onNext={nextStep}
                   />
-                  <ReservationTimer
-                  // onTimeout={handleTimeout}
-                  // onConfirm={handleConfirm}
-                  />
+                  <ReservationTimer />
                 </div>
               )}
               {step === 5 && (
                 <div>
-                  {/* <PaymentStep
-                  formData={formData}
-                  onBack={prevStep}
-                  onNext={nextStep}
-                />
-                <ReservationTimer /> */}
                   <h1>du har fuldført din ordre</h1>
                 </div>
               )}

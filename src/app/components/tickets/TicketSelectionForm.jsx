@@ -2,25 +2,13 @@
 import { useForm } from "react-hook-form";
 import { validering } from "@/app/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Kvitering from "./Kvitering";
-import StepBar from "./StepBar";
+
 import { useContext } from "react";
 import { useEffect } from "react";
 import { HiOutlineMinus } from "react-icons/hi";
 import { HiOutlinePlus } from "react-icons/hi";
 import { KviteringContext } from "@/app/lib/KvitteringContext";
 import { z } from "zod";
-
-// Zod schema med total validering
-export const validerAntal = z
-  .object({
-    vipCount: z.number().min(0).max(8),
-    regularCount: z.number().min(0).max(8),
-  })
-  .refine((data) => data.vipCount + data.regularCount <= 8, {
-    message: "Du kan ikke vælge flere end 8 billetter i alt",
-    path: ["vipCount"],
-  });
 
 const TicketSelectionForm = ({ onNext }) => {
   const {
@@ -36,9 +24,10 @@ const TicketSelectionForm = ({ onNext }) => {
       regularCount: 0, // Standardværdi for regularCount
     },
   });
+  // bruges til kvitriengen
   const { updateCartData } = useContext(KviteringContext);
 
-  // bruges til at opdater total ticket
+  // bruges til at opdater total ticket nok
   const vipCount = watch("vipCount", 0); // Standardværdi 0
   const regularCount = watch("regularCount", 0); // Standardværdi 0
 
@@ -148,11 +137,6 @@ const TicketSelectionForm = ({ onNext }) => {
               </span>
             )}
           </div>
-
-          {/* Vis den samlede pris */}
-          {/* <div className="mt-4">
-            <h3>Samlet pris: {totalPrice} kr.</h3>
-          </div> */}
         </div>
         <button
           type="submit"

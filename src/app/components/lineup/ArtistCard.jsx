@@ -4,9 +4,6 @@ import Link from "next/link";
 const ArtistCard = ({ band, events }) => {
   const { name, logo, slug, genre } = band;
   const { day, location, start, end, act } = events;
-  // const { day } = events;
-  // Hvis der er events, vis første event (kan ændres til at vise flere events)
-  // const firstEvent = events && events.length > 0 ? events[0] : null;
 
   const dayNames = {
     mon: "Mandag",
@@ -32,12 +29,9 @@ const ArtistCard = ({ band, events }) => {
             <Image
               src={getLogoUrl(logo)}
               alt={`Billede af ${name}`}
-              // width={504}
-              // height={304}
               fill
               sizes="(min-width: 808px) 50vw, 100vw"
               quality={100}
-              // fill={true}
               priority
               className="grayscale object-cover z-0"
             />
@@ -49,9 +43,6 @@ const ArtistCard = ({ band, events }) => {
             {genre}
           </h3>
 
-          {/* Check if there is an event and display its information */}
-          {/* man kan ik se det men msåke er det noget med styilg  */}
-          {/* Event-info kun synlig på hover */}
           <div className="absolute h-96 w-full bg-green/90 flex items-center justify-center bottom-10 group-hover:bottom-0 group-hover:opacity-100 opacity-0 transition-all duration-300 z-20">
             {/* {firstEvent && ( */}
             <div className=" flex flex-col-reverse justify-between self-end pl-2 pb-2">

@@ -2,10 +2,7 @@
   height: 100svh;
   width: 100svw;
   /* background: oklch(67% 0.2901 354.71); */
-  /* background-color: oklch(75% 0.3 350); */
   background-color: #ff009f;
-  /* background-color: hsl(350, 30%, 75%); */
-  /* background-color: #3374f2; */
   border-radius: 50%;
   position: relative;
 }

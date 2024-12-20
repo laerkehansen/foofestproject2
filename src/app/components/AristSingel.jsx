@@ -8,16 +8,7 @@ import { getLogoUrl } from "../lib/utils";
 
 const ArtistSingel = ({ band }) => {
   const { name, logo, members, genre, logoCredits, bio } = band;
-  const dayNames = {
-    mon: "Mandag",
-    tue: "Tirsdag",
-    wed: "Onsdag",
-    thu: "Torsdag",
-    fri: "Fredag",
-    sat: "Lørdag",
-    sun: "Søndag",
-  };
-  // const eventDay = dayNames[events.day];
+
   const router = useRouter();
 
   // Funktion til at navigere tilbage

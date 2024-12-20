@@ -39,7 +39,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
   const [availableSpots, setAvailableSpots] = useState([]); // Tilgængelige områder
   const [selectedArea, setSelectedArea] = useState(null);
   // man kan komme vider uden at have valgt et spot
-  const [loading, setLoading] = useState(true); //slet
+  // fore
   const [formError, setFormError] = useState("");
 
   const { updateCartData } = useContext(KviteringContext); // Få adgang til updateCartData
@@ -70,11 +70,6 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
       headers: {
         "Content-Type": "application/json",
       },
-
-      // body: JSON.stringify({
-      //   area: "Svartheim",
-      //   amount: "",
-      // }),
     })
       .then((response) => response.json())
       .then((areaData) => {
@@ -85,8 +80,6 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
   }, []);
 
   // Håndterer valget af et campingområde
-
-  // er oveercompliseret skla bare sige at man sætter area og hvis area ik er sat så kan man ik gå vidre
 
   const handleAreaSelection = (area) => {
     const selectedSpot = availableSpots.find((spot) => spot.area === area); // Finder det valgte område
@@ -137,8 +130,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
     const totalTickets = // Beregn total billetter (VIP + Regular)
       (formData.vipCount || 0) + (formData.regularCount || 0);
     console.log("resevation", data);
-    // snedeer resvation starter timer
-    // useEffect(() => {
+
     fetch("https://cerulean-abrupt-sunshine.glitch.me/reserve-spot", {
       method: "PUT",
       headers: {
@@ -152,25 +144,17 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
     })
       .then((response) => response.json())
       .then((submitData) => {
-        console.log("her får vi data", submitData);
+        // console.log("her får vi data", submitData);
         // (submitData);
         startReservation(submitData.id, submitData.timeout / 1000);
 
         onNext({
           ...data,
-          // totalPrice,
         });
       })
       .catch((err) => console.error("her kommer fejl ", err));
-    // fetchData();
 
-    // const interval = setInterval(fetchData, 2000); // Tjek hver 2. sekund
-    // return () => clearInterval(interval);
-    // }, []);
-    // Send både de eksisterende data og den samlede pris
     console.log("Form submitted:", data);
-
-    // Du kan sende data videre til backend her
   };
 
   return (

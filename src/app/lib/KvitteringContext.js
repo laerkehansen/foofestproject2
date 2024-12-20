@@ -16,7 +16,7 @@ export const KviteringProvider = ({ children }) => {
     setTimeRemaining(timeout);
     setTimeoutMessage("");
 
-    console.log(`Reservation startet. ID: ${id}, Timeout: ${timeout}s`);
+    // console.log(`Reservation startet. ID: ${id}, Timeout: ${timeout}s`);
   };
   // Funktion til at håndtere timeout
   const handleTimeout = () => {
@@ -64,7 +64,9 @@ export const KviteringProvider = ({ children }) => {
       {timeoutMessage && (
         <div>
           {timeoutMessage}
-          <Link href="/" className="bg-green"></Link>
+          <Link href="/" className="border-black border-2 font-medium p-2">
+            <p>naviger til forsiden</p>
+          </Link>
         </div>
       )}
     </KviteringContext.Provider>

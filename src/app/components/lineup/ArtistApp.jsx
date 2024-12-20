@@ -4,10 +4,7 @@ import FilterMenuLineup from "./FilterMenuLineup";
 import { useState, useContext } from "react";
 // import { ApiContextP } from "@/app/lib/ApiContext.js";
 
-const ArtistApp = ({ bands, scheduleBand }) => {
-  // const { setScheduleBands } = useContext(ApiContextP);
-  // setScheduleBands(scheduleBand);
-
+const ArtistApp = ({ scheduleBand }) => {
   const [searchFilter, setSearchFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState([]);
 

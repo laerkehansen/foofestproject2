@@ -38,17 +38,29 @@ const TodaysActs = ({ schedule }) => {
           {todaysActs.map((act, index) => (
             <li
               key={index}
-              className=" border-black border-2 lg:p-2 sm:p-1 w-fit text-black items-center gap-2 flex transition duration-150 ease-in-out
+              className=" border-black border-2 lg:p-2 sm:p-1 w-fit text-black  items-center gap-2 flex transition duration-150 ease-in-out
               hover:scale-110 bg-background"
             >
-              <p className="uppercase">{act.act}</p>
-              {/* - {dayNames[act.day]}: {act.start} -{" "}
+              <Link
+                className="flex flex-nowrap gap-3"
+                href={`/lineup/${
+                  act.act
+                    .toLowerCase()
+                    .replace(/,\s*/g, "-") // Fjern kommaer og mellemrum efter kommaer
+                    .replace(/\s+-\s+/g, "-") // Fjern mellemrum omkring bindestreger
+                    .replace(/\s+/g, "-") // Erstat resterende mellemrum med bindestreger
+                    .replace(/-+/g, "-") // Saml flere bindestreger til én
+                }`}
+              >
+                <p className="uppercase">{act.act}</p>
+                {/* - {dayNames[act.day]}: {act.start} -{" "}
               {act.end} */}
-              {act.cancelled && (
-                <span className=" bg-customPink p-1 text-sm italic">
-                  (Aflyst)
-                </span>
-              )}
+                {act.cancelled && (
+                  <span className=" bg-customPink p-1 text-sm italic">
+                    (Aflyst)
+                  </span>
+                )}
+              </Link>
             </li>
           ))}
         </ul>

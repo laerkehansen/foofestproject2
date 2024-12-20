@@ -4,15 +4,13 @@ import { KviteringContext } from "@/app/lib/KvitteringContext";
 const ReservationTimer = ({}) => {
   const { reservationId, timeRemaining } = useContext(KviteringContext);
 
-  // const { setReservationId, timeRemaining } = useContext(KviteringContext);
-  // const [timeLeft, setTimeLeft] = useState(300); // 300 sekunder = 5 minutter
-  // const [timeLeft, setTimeLeft] = useState(timeRemaining);
-  console.log("reservationId:", reservationId);
+  // console.log("reservationId:", reservationId);
+
   // Formattering af tiden
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`; //gøre mere læsveblig alitd 2 cifre
   };
 
   // Skjul komponenten, hvis der ikke er en aktiv reservation

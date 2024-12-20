@@ -389,7 +389,11 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
                     onFocus={() => clearErrors(`tickets.${index}.phonenumber`)}
                     onBlur={() => handleBlur(`tickets.${index}.phonenumber`)}
                     placeholder="12 34 56 78"
-                    className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
+                    className={`border-2 p-2 text-base focus:outline-none focus:ring-2 ${
+                      errors.tickets?.[index]?.email
+                        ? "border-red-500 focus:ring-red-500"
+                        : "border-lime-400 focus:ring-black"
+                    }`}
                   />
                   {errors.tickets?.[index]?.phonenumber && (
                     <p className="text-red-500 text-sm mt-1">
