@@ -5,8 +5,8 @@ const StepBar = ({ step }) => {
     { id: 1, label: "Billetter" },
     { id: 2, label: "Informationer" },
     { id: 3, label: "Camping" },
-    { id: 4, label: "Bekræft " },
-    { id: 5, label: "Betaling" },
+    { id: 4, label: "Betaling " },
+    { id: 5, label: "Fuldført" },
   ];
 
   const calculateWidth = () => `${(step / steps.length) * 100}%`;

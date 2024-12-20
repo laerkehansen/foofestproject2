@@ -145,150 +145,151 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
   };
   return (
     <>
-      <div className=" pl-8 pb-8">
+      {/* <div className=" pl-8 pb-8">
         <p>Valgte billetter:</p>
         <ul>
           <li>VIP Billetter: {formData.vipCount}</li>
           <li>Regular Billetter: {formData.regularCount}</li>
         </ul>
-      </div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="gap-6 p-2 flex flex-wrap justify-center"
-      >
-        {formData?.vipCount + formData?.regularCount &&
-          Array.from({
-            length: formData?.vipCount + formData?.regularCount,
-          }).map((ticket, index) => (
-            <div key={index} className="w-96">
-              <h3 className="text-xl  mb-2">Billet {index + 1}</h3>
-              <div className="border-2 bg-white border-black py-8 px-6 mb-4">
-                <span className="text-black font-bold text-xl italic">
-                  {index < formData.vipCount ? "VIP" : "Regular"}
-                </span>
+      </div> */}
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full grid">
+        <div className="flex gap-4 px-10">
+          {formData?.vipCount + formData?.regularCount &&
+            Array.from({
+              length: formData?.vipCount + formData?.regularCount,
+            }).map((ticket, index) => (
+              <div key={index} className="w-96">
+                <h3 className="text-xl  mb-2">Billet {index + 1}</h3>
+                <div className="border-2 bg-white border-black py-8 px-6 mb-4">
+                  <span className="text-black font-bold text-xl italic">
+                    {index < formData.vipCount ? "VIP" : "Regular"}
+                  </span>
 
-                {/* Navn */}
-                <div className="flex flex-col">
-                  <label
-                    htmlFor={`tickets.${index}.name`}
-                    className="text-lg font-regular mb-1 pt-3"
-                  >
-                    Navn:
-                  </label>
-                  <input
-                    {...register(`tickets.${index}.name`, {
-                      required: "Navn er påkrævet",
-                    })}
-                    id={`tickets.${index}.name`}
-                    type="text"
-                    placeholder="John"
-                    onFocus={() => clearErrors(`tickets.${index}.name`)}
-                    onBlur={() => handleBlur(`tickets.${index}.name`)}
-                    className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
-                  />
-                  {errors.tickets?.[index]?.name && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.tickets[index].name?.message}
-                    </p>
-                  )}
-                </div>
+                  {/* Navn */}
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor={`tickets.${index}.name`}
+                      className="text-lg font-regular mb-1 pt-3"
+                    >
+                      Navn:
+                    </label>
+                    <input
+                      {...register(`tickets.${index}.name`, {
+                        required: "Navn er påkrævet",
+                      })}
+                      id={`tickets.${index}.name`}
+                      type="text"
+                      placeholder="John"
+                      onFocus={() => clearErrors(`tickets.${index}.name`)}
+                      onBlur={() => handleBlur(`tickets.${index}.name`)}
+                      className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
+                    />
+                    {errors.tickets?.[index]?.name && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.tickets[index].name?.message}
+                      </p>
+                    )}
+                  </div>
 
-                {/* Efternavn */}
-                <div className="flex flex-col">
-                  <label
-                    htmlFor={`tickets.${index}.lastname`}
-                    className="text-lg font-regular mb-1 pt-3"
-                  >
-                    Efternavn:
-                  </label>
-                  <input
-                    {...register(`tickets.${index}.lastname`, {
-                      required: "Efternavn er påkrævet",
-                    })}
-                    id={`tickets.${index}.lastname`}
-                    type="text"
-                    placeholder="Doe"
-                    onFocus={() => clearErrors(`tickets.${index}.lastname`)}
-                    onBlur={() => handleBlur(`tickets.${index}.lastname`)}
-                    className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
-                  />
-                  {errors.tickets?.[index]?.lastname && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.tickets[index].lastname?.message}
-                    </p>
-                  )}
-                </div>
+                  {/* Efternavn */}
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor={`tickets.${index}.lastname`}
+                      className="text-lg font-regular mb-1 pt-3"
+                    >
+                      Efternavn:
+                    </label>
+                    <input
+                      {...register(`tickets.${index}.lastname`, {
+                        required: "Efternavn er påkrævet",
+                      })}
+                      id={`tickets.${index}.lastname`}
+                      type="text"
+                      placeholder="Doe"
+                      onFocus={() => clearErrors(`tickets.${index}.lastname`)}
+                      onBlur={() => handleBlur(`tickets.${index}.lastname`)}
+                      className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
+                    />
+                    {errors.tickets?.[index]?.lastname && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.tickets[index].lastname?.message}
+                      </p>
+                    )}
+                  </div>
 
-                {/* Telefonnummer */}
-                <div className="flex flex-col">
-                  <label
-                    htmlFor={`tickets.${index}.phonenumber`}
-                    className="text-lg font-regular mb-1 pt-3"
-                  >
-                    Telefonnummer:
-                  </label>
-                  <input
-                    {...register(`tickets.${index}.phonenumber`, {
-                      required: "Telefonnummer er påkrævet",
-                    })}
-                    id={`tickets.${index}.phonenumber`}
-                    type="text"
-                    value={formatPhoneNumber(
-                      phoneNumber[index]?.phonenumber || ""
-                    )} // sørge for det med mellemrum
-                    onFocus={() => clearErrors(`tickets.${index}.phonenumber`)}
-                    onBlur={() => handleBlur(`tickets.${index}.phonenumber`)}
-                    placeholder="12 34 56 78"
-                    className={`border-2 p-2 text-base focus:outline-none focus:ring-2 ${
-                      errors.tickets?.[index]?.email
-                        ? "border-red-500 focus:ring-red-500"
-                        : "border-lime-400 focus:ring-black"
-                    }`}
-                  />
-                  {errors.tickets?.[index]?.phonenumber && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.tickets[index].phonenumber?.message}
-                    </p>
-                  )}
-                </div>
+                  {/* Telefonnummer */}
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor={`tickets.${index}.phonenumber`}
+                      className="text-lg font-regular mb-1 pt-3"
+                    >
+                      Telefonnummer:
+                    </label>
+                    <input
+                      {...register(`tickets.${index}.phonenumber`, {
+                        required: "Telefonnummer er påkrævet",
+                      })}
+                      id={`tickets.${index}.phonenumber`}
+                      type="text"
+                      value={formatPhoneNumber(
+                        phoneNumber[index]?.phonenumber || ""
+                      )} // sørge for det med mellemrum
+                      onFocus={() =>
+                        clearErrors(`tickets.${index}.phonenumber`)
+                      }
+                      onBlur={() => handleBlur(`tickets.${index}.phonenumber`)}
+                      placeholder="12 34 56 78"
+                      className={`border-2 p-2 text-base focus:outline-none focus:ring-2 ${
+                        errors.tickets?.[index]?.email
+                          ? "border-red-500 focus:ring-red-500"
+                          : "border-lime-400 focus:ring-black"
+                      }`}
+                    />
+                    {errors.tickets?.[index]?.phonenumber && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.tickets[index].phonenumber?.message}
+                      </p>
+                    )}
+                  </div>
 
-                {/* Email */}
-                <div className="flex flex-col">
-                  <label
-                    htmlFor={`tickets.${index}.email`}
-                    className="text-lg font-regular mb-1 pt-3"
-                  >
-                    Email:
-                  </label>
-                  <input
-                    {...register(`tickets.${index}.email`, {
-                      required: "Email er påkrævet",
-                    })}
-                    id={`tickets.${index}.email`}
-                    type="email"
-                    placeholder="JohnDoe@email.com"
-                    onFocus={() => clearErrors(`tickets.${index}.email`)}
-                    onBlur={() => handleBlur(`tickets.${index}.email`)}
-                    // den her stylign det er det vi ønsker no med andre fraver
-                    className={`border-2 p-2 text-base focus:outline-none focus:ring-2 ${
-                      errors.tickets?.[index]?.email
-                        ? "border-red-500 focus:ring-red-500"
-                        : "border-lime-400 focus:ring-black"
-                    }`}
-                    // className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
-                  />
-                  {errors.tickets?.[index]?.email && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.tickets[index].email?.message}
-                    </p>
-                  )}
+                  {/* Email */}
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor={`tickets.${index}.email`}
+                      className="text-lg font-regular mb-1 pt-3"
+                    >
+                      Email:
+                    </label>
+                    <input
+                      {...register(`tickets.${index}.email`, {
+                        required: "Email er påkrævet",
+                      })}
+                      id={`tickets.${index}.email`}
+                      type="email"
+                      placeholder="JohnDoe@email.com"
+                      onFocus={() => clearErrors(`tickets.${index}.email`)}
+                      onBlur={() => handleBlur(`tickets.${index}.email`)}
+                      // den her stylign det er det vi ønsker no med andre fraver
+                      className={`border-2 p-2 text-base focus:outline-none focus:ring-2 ${
+                        errors.tickets?.[index]?.email
+                          ? "border-red-500 focus:ring-red-500"
+                          : "border-lime-400 focus:ring-black"
+                      }`}
+                      // className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
+                    />
+                    {errors.tickets?.[index]?.email && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.tickets[index].email?.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+        </div>
         <button
           type="submit"
-          className="bg-customPink border-black border-2 text-black text-lg py-2 px-4  hover:bg-green w-fit hover:text-black"
+          className="bg-customPink border-black border-2 text-black text-lg py-2 px-4 place-self-center  hover:bg-green w-fit hover:text-black"
         >
           Send
         </button>
