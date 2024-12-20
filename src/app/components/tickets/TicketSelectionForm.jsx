@@ -11,6 +11,22 @@ import { KviteringContext } from "@/app/lib/KvitteringContext";
 import { z } from "zod";
 
 const TicketSelectionForm = ({ onNext }) => {
+  const validering = z
+    .object({
+      vipCount: z
+        .number()
+        .min(0, "Antal VIP billetter skal være et positivt tal"),
+      regularCount: z
+        .number()
+        .min(0, "Antal Regular billetter skal være et positivt tal"),
+    })
+
+    // Tjekker om enten vip eller regular billetter er valgt
+    .refine((data) => data.vipCount > 0 || data.regularCount > 0, {
+      message: "Du skal vælge mindst én billet",
+      path: ["vipCount"], // Eller "regularCount" hvis du vil vise fejlen på det ene felt
+    });
+
   const {
     register,
     handleSubmit,
@@ -59,8 +75,6 @@ const TicketSelectionForm = ({ onNext }) => {
     console.log("Form submitted:", data);
     onNext({
       ...data,
-      // totalTick,
-      // totalPrice,
     });
   };
 
@@ -100,9 +114,6 @@ const TicketSelectionForm = ({ onNext }) => {
                 <HiOutlinePlus className="w-6 h-6 " />
               </button>
             </div>
-            {errors.vipCount && (
-              <span className="text-red-500">{errors.vipCount.message}</span>
-            )}
           </div>
 
           <div className="flex justify-between py-2 gap-7 ">
@@ -131,12 +142,10 @@ const TicketSelectionForm = ({ onNext }) => {
                 <HiOutlinePlus className="w-6 h-6 " />
               </button>
             </div>
-            {errors.regularCount && (
-              <span className="text-red-500">
-                {errors.regularCount.message}
-              </span>
-            )}
           </div>
+          {errors.vipCount && (
+            <span className="text-red-500">{errors.vipCount.message}</span>
+          )}
         </div>
         <button
           type="submit"

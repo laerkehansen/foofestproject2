@@ -111,6 +111,7 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
       }
 
       //fortsætter kun hvis validereing går igennem
+      // burdte nok være tildstes så de førsk om op når man fuldførte resevatioen
       fetch("https://klttbkdhdxrsuyjkwkuj.supabase.co/rest/v1/foofest", {
         method: "POST",
         headers: {
@@ -158,13 +159,6 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
   };
   return (
     <>
-      {/* <div className=" pl-8 pb-8">
-        <p>Valgte billetter:</p>
-        <ul>
-          <li>VIP Billetter: {formData.vipCount}</li>
-          <li>Regular Billetter: {formData.regularCount}</li>
-        </ul>
-      </div> */}
       <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full grid">
         <div className="flex gap-4 px-10">
           {formData?.vipCount + formData?.regularCount &&
@@ -260,11 +254,12 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
                       }
                       onBlur={() => handleBlur(`tickets.${index}.phonenumber`)}
                       placeholder="12 34 56 78"
-                      className={`border-2 p-2 text-base focus:outline-none focus:ring-2 ${
-                        errors.tickets?.[index]?.email
-                          ? "border-red-500 focus:ring-red-500"
-                          : "border-lime-400 focus:ring-black"
-                      }`}
+                      className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
+                      // className={`border-2 p-2 text-base focus:outline-none focus:ring-2 ${
+                      //   errors.tickets?.[index]?.phonenumber
+                      //     ? "border-red-500 focus:ring-red-500"
+                      //     : "border-lime-400 focus:ring-black"
+                      // }`}
                     />
                     {errors.tickets?.[index]?.phonenumber && (
                       <p className="text-red-500 text-sm mt-1">
@@ -291,11 +286,12 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
                       onFocus={() => clearErrors(`tickets.${index}.email`)}
                       onBlur={() => handleBlur(`tickets.${index}.email`)}
                       // den her stylign det er det vi ønsker no med andre fraver
-                      className={`border-2 p-2 text-base focus:outline-none focus:ring-2 ${
-                        errors.tickets?.[index]?.email
-                          ? "border-red-500 focus:ring-red-500"
-                          : "border-lime-400 focus:ring-black"
-                      }`}
+                      className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
+                      // className={`border-2 p-2 text-base focus:outline-none focus:ring-2 ${
+                      //   errors.tickets?.[index]?.email
+                      //     ? "border-red-500 focus:border-r-indigo-800"
+                      //     : "border-lime-400 focus:ring-black"
+                      // }`}
                       // className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
                     />
                     {errors.tickets?.[index]?.email && (
