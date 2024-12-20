@@ -73,11 +73,10 @@ const TicketSelectionForm = ({ onNext }) => {
       // totalTick,
       // totalPrice,
     });
-    // Du kan sende data videre til backend her
   };
 
   return (
-    <div className=" grid md:grid-cols-1 bg-white max-md:px-10 m-4 md:px-20 py-10 w-fit sm:place-self-center border-black border-2">
+    <div className=" grid md:grid-cols-1 bg-white sm:px-10 m-4 lg:px-20 py-10 w-fit sm:place-self-center border-black border-2">
       <form onSubmit={handleSubmit(onSubmit)} className="">
         <div className=" w-fit  ">
           <h1 className="text-stor font-medium">Billetter</h1>
@@ -86,9 +85,9 @@ const TicketSelectionForm = ({ onNext }) => {
             <p className="font-medium italic"> ticket ({totalTick})</p>
           </div>
 
-          <div className="grid grid-cols-2 py-2">
+          <div className="flex justify-between py-2  ">
             <label>Antal VIP 1299,-</label>
-            <div className="grid grid-cols-[auto_auto_auto]  place-items-center">
+            <div className="grid grid-cols-3 gap-3 justify-center place-items-center">
               <button
                 type="button"
                 onClick={() => handleTentChange("vipCount", "decrement")}
@@ -108,8 +107,6 @@ const TicketSelectionForm = ({ onNext }) => {
               <button
                 type="button"
                 onClick={() => handleTentChange("vipCount", "increment")}
-                // onClick={() => plusKnap("vipCount")}
-                // className="bg-slate-300"
               >
                 <HiOutlinePlus className="w-6 h-6 " />
               </button>
@@ -119,9 +116,9 @@ const TicketSelectionForm = ({ onNext }) => {
             )}
           </div>
 
-          <div className="grid grid-cols-2">
+          <div className="flex justify-between py-2 gap-7 ">
             <label>Antal normal 799,-</label>
-            <div className="grid grid-cols-3 justify-center place-items-center">
+            <div className="grid grid-cols-3 gap-3 justify-center place-items-center">
               <button
                 type="button"
                 onClick={() => handleTentChange("regularCount", "decrement")}

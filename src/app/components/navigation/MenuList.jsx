@@ -31,7 +31,7 @@ const MenuList = ({ setIsOpen, isOpen }) => {
         variants={ulVariants}
         initial="closed"
         animate={isOpen ? "open" : "closed"}
-        className=" left-1/3 top-64 absolute  flex flex-col  justify-self-center align-middle gap-7 "
+        className=" lg:left-1/3 sm:left-32 top-64 absolute  flex flex-col  justify-self-center align-middle gap-7 "
         exit="closed"
       >
         {links.map((link, index) => (
