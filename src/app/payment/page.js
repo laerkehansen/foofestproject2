@@ -56,8 +56,8 @@ const Payment = () => {
                 </div>
               )}
               {step === 5 && (
-                <div>
-                  <h1>du har fuldført din ordre</h1>
+                <div className="bg-customPink">
+                  <h1 className="text-black">du har fuldført din ordre</h1>
                 </div>
               )}
             </div>
