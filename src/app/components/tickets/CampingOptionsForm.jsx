@@ -173,7 +173,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
               const isDisabled = totalTickets > spot.available; // Check for for mange billetter
 
               return (
-                <div key={index} className="border-2 border-red-300 py-2 ">
+                <div key={index} className=" py-2 ">
                   <input
                     className="hidden peer"
                     type="radio"
