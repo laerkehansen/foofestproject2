@@ -17,14 +17,6 @@ import { z } from "zod";
 const CampingOptionsForm = ({ onNext, onBack, formData }) => {
   const validering = z
     .object({
-      vipCount: z
-        .number()
-        .min(0, "Antal VIP billetter skal være et positivt tal")
-        .default(0),
-      regularCount: z
-        .number()
-        .min(0, "Antal Regular billetter skal være et positivt tal")
-        .default(0),
       addTentSetup: z.boolean().default(false), // Tilkøb af teltopsætning
       greenCamping: z.boolean().default(false), // Grøn camping
       tent2p: z
@@ -35,7 +27,7 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
         .number()
         .min(0, "Antallet af 3-personers telte skal være et positivt tal")
         .default(0),
-      area: z.string().optional("Du skal vælge et campingområde"), // Campingområdet skal vælges
+      area: z.string().min(1, "Du skal vælge et campingområde"), // Campingområdet skal vælges
     })
     .refine(
       (data) => {
