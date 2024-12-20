@@ -24,9 +24,13 @@ const PaymentStep = ({ onNext, onBack, formData }) => {
       z.string().regex(/^\d{16}$/, "Kortnummeret skal være præcis 16 cifre")
     ),
     cardHolder: z.string().min(1, "Kortindehaverens navn skal udfyldes"),
-    expireDate: z
-      .string()
-      .regex(/^(0[1-9]|1[0-2])\/\d{2}$/, "Udløbsdato skal være i format MM/YY"),
+    // expireDate: z
+    //   .string()
+    //   .regex(
+    //     /^(0[1-9]|1[0-2])\/([0-9]{2})$/,
+    //     "Udløbsdato skal være i format MM/YY"
+    //   ),
+    expireDate: z.string().min(1, "efternavn skal mindst være på 1 bogstav"),
     cvv: z.string().regex(/^\d{3}$/, "CVV skal være præcis 3 cifre"),
   });
 
@@ -102,18 +106,23 @@ const PaymentStep = ({ onNext, onBack, formData }) => {
         <div className="flex flex-col">
           <label
             className="text-lg font-regular mb-1 pt-3"
-            htmlFor="cardholder-name"
+            htmlFor="cardHolder"
           >
             Navn på kortholder
           </label>
           <input
             type="text"
-            id="cardholder-name"
+            id="cardHolder"
+            {...register("cardHolder")}
             className="border-2 border-black p-2  text-base focus:outline-none focus:ring-2 focus:ring-customPink"
-            name="cardholder-name"
+            name="cardHolder"
             placeholder="Indtast dit navn"
             required
           />
+
+          {errors.cardHolder && (
+            <span className="text-red-500">{errors.cardHolder.message}</span>
+          )}
         </div>
         <div className="flex flex-col">
           <label
@@ -142,35 +151,48 @@ const PaymentStep = ({ onNext, onBack, formData }) => {
             // pattern="\d{4} \d{4} \d{4} \d{4}"
           />
         </div>
+        {errors.cardNumber && (
+          <span className="text-red-500">{errors.cardNumber.message}</span>
+        )}
         <div className="flex flex-col">
           <label
             className="text-lg font-regular mb-1 pt-3"
-            htmlFor="expiry-date"
+            htmlFor="expireDate"
           >
             Udløbsdato
           </label>
           <input
             type="number"
-            id="expiry-date"
+            {...register("expireDate")}
+            id="expireDate"
             className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
-            name="expiry-date"
+            name="expireDate"
             required
           />
         </div>
+
+        {errors.expireDate && (
+          <span className="text-red-500">{errors.expireDate.message}</span>
+        )}
         <div className="flex flex-col">
           <label className="text-lg font-regular mb-1 pt-3" htmlFor="cvv">
             CVV
           </label>
           <input
             className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
-            type="password"
+            // type="password"
+            {...register("cvv")}
             id="cvv"
             name="cvv"
             placeholder="123"
             required
             pattern="\d{3}"
           />
+          {errors.cvv && (
+            <span className="text-red-500">{errors.cvv.message}</span>
+          )}
         </div>
+
         <button type="submit" className="bg-slate-800 p-2">
           Betal
         </button>

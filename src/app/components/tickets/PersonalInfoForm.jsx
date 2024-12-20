@@ -84,156 +84,6 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
     return formatted;
   };
 
-  // Funktion til at sende data til Supabase
-  // const sendToSupabase = async (data) => {
-  //   try {
-  //     const response = await postTicket(data); // Dette er vores Supabase post funktion
-  //     console.log(response);
-  //     if (response?.success) {
-  //       console.log("Data sendt til Supabase:", response);
-  //     } else {
-  //       console.error("Fejl ved afsendelse til Supabase");
-  //     }
-  //   } catch (error) {
-  //     console.error("Fejl ved afsendelse:", error);
-  //   }
-  // };
-
-  // // Funktion der håndterer send knappen, der kun aktiveres når data er valideret
-  // const handleSendToSupabase = (data) => {
-  //   const tickets = data.tickets.map((ticket) => ({
-  //     ...ticket,
-  //     id: crypto.randomUUID(), // Generér et unikt ID for hver billet
-  //   }));
-
-  //   // Send billetter til Supabase
-  //   tickets.forEach(async (ticket) => {
-  //     try {
-  //       const response = await postTicket(ticket);
-  //       if (response?.success) {
-  //         console.log("Billet sendt til Supabase:", response);
-  //       } else {
-  //         console.error("Fejl ved afsendelse af billet:", response);
-  //       }
-  //     } catch (error) {
-  //       console.error("Fejl ved afsendelse:", error);
-  //     }
-  //   });
-  // };
-
-  // const onSubmit = (data) => {
-
-  //   console.log("Form data:", data);
-  //   onNext(data); // Kalder onNext med udfyldt data
-
-  //   // i den hen har funkton ønsker vi at sende vores peroslige infor til suberbase
-  //   //obs array
-  // };
-
-  // const unikId = (data) => {
-  //   const tickets = data.tickets.map((ticket) => ({
-  //     ...ticket,
-  //     id: crypto.randomUUID(), // Generér unikt ID
-  //   }));
-  //   console.log(data.id);
-  // };
-
-  // const unikId = (data) => {
-  //   const tickets = data.tickets.map((ticket) => ({
-  //     ...ticket,
-  //     id: crypto.randomUUID(), // Generer et unikt ID for hver billet
-  //   }));
-  //   console.log(tickets); // Log for at sikre, at ID'er bliver genereret
-  // };
-  // Send hver billet individuelt
-  //   tickets.forEach((ticket) => {
-  //     fetch("https://izlwnrcwutxxrclxaqwi.supabase.co/rest/v1/foofest", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         prefer: "return=representation",
-  //         apikey:
-  //           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtsdHRia2RoZHhyc3V5amt3a3VqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQwODI4NDgsImV4cCI6MjA0OTY1ODg0OH0.e3FebWALlTqZTxB2vSWb0_xqWf-MxdZrVpKhTM-_dnc",
-
-  //         // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtsdHRia2RoZHhyc3V5amt3a3VqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQwODI4NDgsImV4cCI6MjA0OTY1ODg0OH0.e3FebWALlTqZTxB2vSWb0_xqWf-MxdZrVpKhTM-_dnc`,
-  //       },
-  //       body: JSON.stringify(ticket),
-  //     })
-  //       .then((response) => {
-  //         if (!response.ok) {
-  //           throw new Error(
-  //             `Fejl ved afsendelse af billet: ${response.statusText}`
-  //           );
-  //           // throw new Error(`HTTP fejl! Status: ${response.status}`);
-  //         }
-  //         return response.json();
-  //       })
-  //       .then((data) => {
-  //         console.log("Billet sendt succesfuldt data:", data);
-  //       });
-  //     // .catch((error) => {
-  //     //   console.error("Fejl ved afsendelse af billet:", error);
-  //     // });
-  //   });
-  // };
-
-  //   const onSubmit = (data) => {
-  //     console.log("Form submitted:", data);
-  //     handleSendToSupabase(data); // Sender data til Supabase
-  //     onNext({
-  //         ...data,
-  //     });
-  // };
-
-  // const totalTickets = // Beregn total billetter (VIP + Regular)
-  // (formData.vipCount || 0) + (formData.regularCount || 0);
-
-  // const tickets = data.tickets.map((ticket) => ({
-  //   ...ticket,
-  //   id: crypto.randomUUID(), // Generér et unikt ID for hver billet
-  // }));
-  // console.log("billetter", ticket);
-  // // snedeer resvation starter timer
-  // // useEffect(() => {
-  // tickets.forEach;
-
-  // fetch("https://izlwnrcwutxxrclxaqwi.supabase.co/rest/v1/foofest", {
-  //   method: "POST",
-
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //     apikey:
-  //       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtsdHRia2RoZHhyc3V5amt3a3VqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQwODI4NDgsImV4cCI6MjA0OTY1ODg0OH0.e3FebWALlTqZTxB2vSWb0_xqWf-MxdZrVpKhTM-_dnc",
-  //   },
-
-  //   // body: JSON.stringify({
-  //   //   area: data.area,
-  //   //   amount: totalTickets,
-  //   // }),
-  // })
-  //   // .then((data) => response.json())
-  //   .then((ticket) => {
-  //     console.log("sin bilet er sent", ticket);
-  //     // (submitData);
-  //     // startReservation(submitData.id, submitData.timeout / 1000);
-
-  //   })
-  //   .catch((err) => console.error("her kommer fejl ", err));
-  // const onSubmit = (data) => {
-  //   console.log("Form submitted:", data);
-  //   // handleSendToSupabase(data);
-  //   // onNext({
-  //   //   ...data,
-  //   // });
-  //   onNext({
-  //     ...data,
-  //     tickets: data.tickets.map((ticket) => ({
-  //       ...ticket,
-  //       id: ticket.id, // sikre at id'et er med
-  //     })),
-  //   });
-  // };
-
   const onSubmit = (data) => {
     if (!data.tickets || !Array.isArray(data.tickets)) {
       console.error(
@@ -276,13 +126,13 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
         })
         .then((result) => {
           console.log("Billet gemt succesfuldt:", result);
-        })
-        .catch((error) => {
-          console.error("Fetch-fejl:", error);
-          alert(
-            `Der opstod en fejl under indsendelsen af billet: ${ticket.name}`
-          );
         });
+      // .catch((error) => {
+      //   console.error("Fetch-fejl:", error);
+      //   alert(
+      //     `Der opstod en fejl under indsendelsen af billet: ${ticket.name}`
+      //   );
+      // });
     });
 
     // console.log("Tickets med unikke ID'er:", ticketsWithIds);
