@@ -32,6 +32,7 @@ const TicketSelectionForm = ({ onNext }) => {
     handleSubmit,
     setValue, // bruges til knapper
     formState: { errors },
+
     watch, // Brug watch til at få værdierne af formularfelterne
   } = useForm({
     resolver: zodResolver(validering), // Brug Zod-validering

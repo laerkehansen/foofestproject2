@@ -4,25 +4,6 @@ import { postTicket } from "@/app/lib/supabase";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-//jeg definerer mine værdier til mit skema
-// const formular = z.object({
-//   tickets: z.array(
-//     z.object({
-//       name: z.string().min(1, "navn skal mindst være på 1 bogstav"),
-//       lastname: z.string().min(1, "efternavn skal mindst være på 1 bogstav"),
-//       email: z.string().email("Email skal være gyldig"),
-//       phonenumber: z
-//         .string()
-//         .regex(/^\d{8}$/, "Telefonnummer skal være 8 cifre"), // Dette sikrer præcis 8 cifre
-//     })
-//   ),
-//   // cardNumber: z
-//   //   .string()
-//   //   .regex(/^\d{13,19}$/, "Kortnummeret skal være mellem 13 og 19 cifre"),
-//   // cardName: z.string().min(1, "udfyld venligst navn"),
-//   // expireYear: z.date("skal udfyldes"),
-// });
-
 const formular = z.object({
   tickets: z.array(
     z.object({
@@ -85,12 +66,12 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
   };
 
   const onSubmit = (data) => {
-    console.log("Indkommende data i onSubmit:", data);
-    if (!data.name || !data.email || !data.phonenumber) {
-      console.error("Data mangler vigtige felter:", data);
-      return;
-    }
-    console.log("Data klar til at sende:", data);
+    // console.log("Indkommende data i onSubmit:", data);
+    // if (!data.name || !data.email || !data.phonenumber) {
+    //   console.error("Data mangler vigtige felter:", data);
+    //   return;
+    // }
+    // console.log("Data klar til at sende:", data);
 
     const ticketsWithIds = data.tickets.map((ticket) => ({
       ...ticket,
@@ -103,11 +84,11 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
     ticketsWithIds.forEach((ticket) => {
       // Valider at ticket-data er korrekt
       if (!ticket.name || typeof ticket.name !== "string") {
-        console.error(
-          "Billet mangler et navn eller har en forkert datatype:",
-          ticket
-        );
-        return;
+        // console.error(
+        //   "Billet mangler et navn eller har en forkert datatype:",
+        //   ticket
+        // );
+        // return;
       }
 
       //fortsætter kun hvis validereing går igennem
@@ -128,12 +109,12 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
           console.log("Server response:", response);
 
           // Check for status
-          if (!response.ok) {
-            return response.json().then((error) => {
-              console.error("Fejl fra serveren:", error);
-              throw new Error("Serveren afviste forespørgslen.");
-            });
-          }
+          // if (!response.ok) {
+          //   return response.json().then((error) => {
+          //     console.error("Fejl fra serveren:", error);
+          //     throw new Error("Serveren afviste forespørgslen.");
+          //   });
+          // }
 
           // Hvis alt er OK, parse JSON
           return response.json();
@@ -189,11 +170,12 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
                       placeholder="John"
                       onFocus={() => clearErrors(`tickets.${index}.name`)}
                       onBlur={() => handleBlur(`tickets.${index}.name`)}
-                      className={`border-2 p-2 text-base focus:outline-none focus:ring-2 ${
-                        errors.tickets?.[index]?.email
-                          ? "border-red-500 focus:ring-red-500"
-                          : "border-lime-400 focus:ring-black"
-                      }`}
+                      className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
+                      // className={`border-2 p-2 text-base focus:outline-none focus:ring-2 ${
+                      //   errors.tickets?.[index]?.email
+                      //     ? "border-red-500 focus:ring-red-500"
+                      //     : "border-lime-400 focus:ring-black"
+                      // }`}
                     />
                     {errors.tickets?.[index]?.name && (
                       <p className="text-red-500 text-sm mt-1">
@@ -219,11 +201,12 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
                       placeholder="Doe"
                       onFocus={() => clearErrors(`tickets.${index}.lastname`)}
                       onBlur={() => handleBlur(`tickets.${index}.lastname`)}
-                      className={`border-2 p-2 text-base focus:outline-none focus:ring-2 ${
-                        errors.tickets?.[index]?.email
-                          ? "border-red-500 focus:ring-red-500"
-                          : "border-lime-400 focus:ring-black"
-                      }`}
+                      className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
+                      // className={`border-2 p-2 text-base focus:outline-none focus:ring-2 ${
+                      //   errors.tickets?.[index]?.email
+                      //     ? "border-red-500 focus:ring-red-500"
+                      //     : "border-lime-400 focus:ring-black"
+                      // }`}
                     />
                     {errors.tickets?.[index]?.lastname && (
                       <p className="text-red-500 text-sm mt-1">

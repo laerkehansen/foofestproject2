@@ -102,11 +102,10 @@ const CampingOptionsForm = ({ onNext, onBack, formData }) => {
 
   useEffect(() => {
     const subscription = watch((data) => {
-      const { area, tent2p, tent3p, greenCamping, addTentSetup } = data;
+      const { area, greenCamping, addTentSetup } = data;
       updateCartData({
         area,
-        tent2p,
-        tent3p,
+
         greenCamping,
         addTentSetup,
       });

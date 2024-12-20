@@ -39,7 +39,7 @@ const PaymentStep = ({ onNext, onBack, formData }) => {
     handleSubmit,
     formState: { errors },
     trigger,
-    clearErrors,
+    // clearErrors,
     setValue, // bruges til at sætte værdier dynamisk, f.eks. når vi ændrer område på vores knapper
     watch,
   } = useForm({
@@ -53,14 +53,7 @@ const PaymentStep = ({ onNext, onBack, formData }) => {
     },
   });
 
-  // Watch for the phonenumber input
   const cardInfo = watch("cardNumber");
-  // const regularCount = watch("regularCount", 0); // Standardværdi 0
-  // const formatCardNumber = (value) => {
-  //   const cleanedValue = value.replace(/\D/g, "");
-  //   const formatted = cleanedValue.replace(/(\d{4})(?=\d)/g, "$1 "); // Tilføj mellemrum efter hver 4. cifre
-  //   return formatted;
-  // };
 
   const formatCardNumber = (value) => {
     const cleanedValue = value.replace(/\D/g, ""); // Remove non-digits
@@ -88,9 +81,6 @@ const PaymentStep = ({ onNext, onBack, formData }) => {
       .then((response) => response.json())
       .then((submitData) => {
         console.log("her får vi data", submitData);
-        // (submitData);
-
-        // startReservation(submitData.id, submitData.timeout / 1000);
 
         onNext({
           ...data,
@@ -132,10 +122,7 @@ const PaymentStep = ({ onNext, onBack, formData }) => {
             Kortnummer
           </label>
           <input
-            // type="number"
             {...register("cardNumber")}
-            // tror fjel er her på hvordan jeg bruger den
-            // value={formatCardNumber(cardInfo)}
             value={formatCardNumber(cardInfo || "")} // This dynamically updates the value
             onChange={(e) => setValue("cardNumber", e.target.value)}
             onBlur={() => handleBlur("cardNumber")}
@@ -143,12 +130,7 @@ const PaymentStep = ({ onNext, onBack, formData }) => {
             id="cardnumber"
             type="text"
             name="cardnumber"
-            // value={formatCardNumber(cardInfo || "")}
-            // value={formatCardNumber(cardNumber || "")}
             placeholder="1234 5678 9012 3456"
-
-            // maxlength="19"
-            // pattern="\d{4} \d{4} \d{4} \d{4}"
           />
         </div>
         {errors.cardNumber && (
@@ -182,7 +164,6 @@ const PaymentStep = ({ onNext, onBack, formData }) => {
           </label>
           <input
             className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
-            // type="password"
             {...register("cvv")}
             id="cvv"
             name="cvv"
