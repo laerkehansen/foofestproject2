@@ -17,7 +17,7 @@ export default async function FrontHeroImg() {
   const logoUrl = getLogoUrl(refused.logo);
 
   return (
-    <div className="grid grid-cols-[0.2fr_1fr_0.5fr_0.5fr_0.1fr] grid-rows-[0.1fr_0.5fr_0.2fr_0.1fr]">
+    <div className="grid lg:grid-cols-[0.2fr_1fr_0.5fr_0.5fr_0.1fr]  lg:grid-rows-[0.1fr_0.5fr_0.2fr_0.1fr] sm:grid-cols-1 sm:grid-rows-1">
       <div className="grid grid-cols-subgrid grid-rows-subgrid col-span-full row-span-full items-end">
         <Image
           className="col-span-full row-span-full grayscale z-0"
@@ -25,11 +25,12 @@ export default async function FrontHeroImg() {
           width={1512}
           height={868}
           alt="hero image"
-          priority={true}
+          priority
         />
         <h1 className="text-green col-start-2 col-end-2 row-start-2 lg:text-heroText md:text-9xl sm:text-4xl pb-4 lg:leading-[0.7] md:leading-[0.7] sm:leading-[0.7] font-black  italic h-fit z-10">
           FOO <br /> FEST
         </h1>
+
         <div className="flex flex-row gap-2 col-start-4 row-start-3 items-end z-10">
           <LinkKnap
             text="køb Billetter"

@@ -4,7 +4,7 @@ import LinkKnap from "../components/frontPage/LinkKnap";
 const Tickets = ({}) => {
   return (
     <div className="min-h-svh flex flex-col gap-16 lg:m-24 sm:m-8">
-      <h1 className="lg:text-7xl md:text-7xl sm:text-2xl font-bold text-center italic uppercase">
+      <h1 className="lg:text-6xl sm:text-5xl pt-20 font-bold text-center italic uppercase">
         billettyper
       </h1>
       <div className="flex justify-center lg:flex-row md:flex-row sm:flex-col  lg:gap-32 sm:gap-10 items-center ">

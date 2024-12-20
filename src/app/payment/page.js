@@ -17,50 +17,14 @@ const Payment = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
 
-  // const handleReservation = (id) => {
-  //   startReservation(id);
-  // };
-
-  // const handleTimeout = (id) => {
-  //   console.log(`Reservation ${id} timed out.`);
-  // };
-
-  // const handleConfirm = (id) => {
-  //   console.log(`Reservation ${id} confirmed.`);
-  // };
-
-  // const [ticketData, setTicketData] = useState({
-  //   vipCount: 0,
-  //   regularCount: 0,
-  // });
-
-  // const [liveData, setLiveData] = useState({});
-
-  // Denne funktion modtager data fra formularen og opdaterer liveData
-  // const handleWatchChange = (data) => {
-  //   setLiveData((prev) => ({
-  //     ...prev,
-  //     ...data, // Opdaterer liveData med de nye værdier
-  //   }));
-  // };
-
   const nextStep = (data) => {
     setFormData((prev) => ({ ...prev, ...data }));
     setStep((prev) => prev + 1);
   };
 
-  // const handleWatchChange = (data) => {
-  //   setLiveData((prev) => ({ ...prev, ...data }));
-  // };
-
-  // Håndter overvågningsdata fra TicketSelectionForm
-  // const handleWatchChange = (data) => {
-  //   setTicketData(data);
-  // };
-
   const prevStep = () => setStep((prev) => prev - 1);
   return (
-    <div className="grid lg:grid-cols-[1fr] justify-between py-20 px-20 bg-white">
+    <div className="grid grid-cols-[1fr]  justify-between py-20 lg:px-20 sm:px:10 bg-white">
       <div className=" bg-white ">
         <KviteringProvider>
           <StepBar step={step} />

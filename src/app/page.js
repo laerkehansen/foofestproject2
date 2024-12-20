@@ -14,7 +14,7 @@ export default async function Home() {
   const schedule = await getSchedule(); // Hent programdata fra API
   // console.log(schedule);
   return (
-    <div>
+    <div className="">
       <FrontHeroSection />
       {/* <NowPlaying /> */}
       <TodaysActs schedule={schedule} />
