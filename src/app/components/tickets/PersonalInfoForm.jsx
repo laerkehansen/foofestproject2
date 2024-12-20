@@ -85,20 +85,32 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
   };
 
   const onSubmit = (data) => {
-    if (!data.tickets || !Array.isArray(data.tickets)) {
-      console.error(
-        "Tickets data mangler eller er ikke et array:",
-        data.tickets
-      );
+    console.log("Indkommende data i onSubmit:", data);
+    if (!data.name || !data.email || !data.phonenumber) {
+      console.error("Data mangler vigtige felter:", data);
       return;
     }
+    console.log("Data klar til at sende:", data);
 
     const ticketsWithIds = data.tickets.map((ticket) => ({
       ...ticket,
       id: ticket.id || crypto.randomUUID(),
+      price: ticket.price || 0,
     }));
 
+    console.log("Alle billetter efter mapping:", ticketsWithIds);
+
     ticketsWithIds.forEach((ticket) => {
+      // Valider at ticket-data er korrekt
+      if (!ticket.name || typeof ticket.name !== "string") {
+        console.error(
+          "Billet mangler et navn eller har en forkert datatype:",
+          ticket
+        );
+        return;
+      }
+
+      //fortsætter kun hvis validereing går igennem
       fetch("https://klttbkdhdxrsuyjkwkuj.supabase.co/rest/v1/foofest", {
         method: "POST",
         headers: {
@@ -110,6 +122,7 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
         body: JSON.stringify(ticket),
       })
         .then((response) => {
+          //her mangler vi at få det rigtige response, må laves om senere
           // Debugging: Log hele response
           console.log("Server response:", response);
 
@@ -182,7 +195,11 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
                       placeholder="John"
                       onFocus={() => clearErrors(`tickets.${index}.name`)}
                       onBlur={() => handleBlur(`tickets.${index}.name`)}
-                      className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
+                      className={`border-2 p-2 text-base focus:outline-none focus:ring-2 ${
+                        errors.tickets?.[index]?.email
+                          ? "border-red-500 focus:ring-red-500"
+                          : "border-lime-400 focus:ring-black"
+                      }`}
                     />
                     {errors.tickets?.[index]?.name && (
                       <p className="text-red-500 text-sm mt-1">
@@ -208,7 +225,11 @@ const PersonalInfoForm = ({ onNext, onBack, formData }) => {
                       placeholder="Doe"
                       onFocus={() => clearErrors(`tickets.${index}.lastname`)}
                       onBlur={() => handleBlur(`tickets.${index}.lastname`)}
-                      className="border-2 border-black p-2 text-base focus:outline-none focus:ring-2 focus:ring-customPink"
+                      className={`border-2 p-2 text-base focus:outline-none focus:ring-2 ${
+                        errors.tickets?.[index]?.email
+                          ? "border-red-500 focus:ring-red-500"
+                          : "border-lime-400 focus:ring-black"
+                      }`}
                     />
                     {errors.tickets?.[index]?.lastname && (
                       <p className="text-red-500 text-sm mt-1">
